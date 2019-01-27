@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+    <id>lucahome</id>
+    <name>LucaHome</name>
+    <summary>App to control sockets, switches and to measure and monitor temperature, humidity and light conditions</summary>
+    <description><![CDATA[App to control sockets, switches and to measure and monitor temperature, humidity and light conditions]]></description>
+    <version>0.0.1</version>
+    <licence>MIT</licence>
+    <author mail="guepardoapps@gmail.com" >GuepardoApps (Jonas Schubert)</author>
+    <namespace>LucaHome</namespace>
+    <category>tools</category>
+    <bugs>https://github.com/GuepardoApps/LucaHome-Nextcloud/issues</bugs>
+    <dependencies>
+        <nextcloud min-version="14" max-version="14"/>
+    </dependencies>
+    <navigations>
+        <navigation>
+            <name>LucaHome</name>
+            <route>lucahome.page.index</route>
+        </navigation>
+    </navigations>
+</info>

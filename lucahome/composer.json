@@ -1,0 +1,15 @@
+{
+    "name": "LucaHome",
+    "description": "App to control sockets, switches and to measure and monitor temperature, humidity and light conditions",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "GuepardoApps (Jonas Schubert)"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.4"
+    }
+}
