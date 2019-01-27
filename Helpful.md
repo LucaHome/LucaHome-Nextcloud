@@ -1,0 +1,2 @@
+- [x] https://docs.nextcloud.com/server/15/developer_manual/app/tutorial.html
+- [x] https://docs.nextcloud.com/server/15/developer_manual/general/devenv.html
