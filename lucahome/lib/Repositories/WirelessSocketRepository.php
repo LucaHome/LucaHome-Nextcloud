@@ -11,7 +11,7 @@ use \OCA\LucaHome\Entities\WirelessSocket;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
-class WirelessSocketRepository {
+class WirelessSocketRepository implements IWirelessSocketRepository {
 
     /** @var IDBConnection */
     private $db;
@@ -40,10 +40,10 @@ class WirelessSocketRepository {
 
 	/**
 	 * @brief returns all wireless sockets for a userId and the public
-     * @param int UserId
+     * @param string userId
 	 * @return array WirelessSocket
 	 */
-    public function getForUser(int $userId) {
+    public function getForUser($userId) {
         $qb = $this->db->getQueryBuilder();
         $qb
             ->select('*')
@@ -65,9 +65,30 @@ class WirelessSocketRepository {
     }
 
 	/**
+	 * @brief returns single wireless socket for a userId and the id
+     * @param string userId
+     * @param int id
+	 * @return array WirelessSocket
+	 */
+    public function getForId($userId, int $id) {
+        $qb = $this->db->getQueryBuilder();
+        $qb
+            ->select('*')
+            ->from('wirelesssockets')
+            ->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
+            ->andWhere($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+
+        $cursor = $qb->execute();
+        $result = $cursor->fetch();
+        $cursor->closeCursor();
+
+        return $result;
+    }
+
+	/**
 	 * Add a WirelessSocket
-	 * @param string $userId
-	 * @param WirelessSocket $wirelessSocket
+	 * @param string userId
+	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function addWirelessSocket(string $userId, WirelessSocket $wirelessSocket) {
@@ -124,8 +145,8 @@ class WirelessSocketRepository {
 
 	/**
 	 * Update a WirelessSocket
-	 * @param string $userId
-	 * @param WirelessSocket $wirelessSocket
+	 * @param string userId
+	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function updateWirelessSocket(string $userId, WirelessSocket $wirelessSocket) {
@@ -167,8 +188,8 @@ class WirelessSocketRepository {
 	
 	/**
 	 * @brief Delete WirelessSocket with specific id
-	 * @param string $userId UserId
-	 * @param int $id WirelessSocket ID to delete
+	 * @param string userId UserId
+	 * @param int id WirelessSocket ID to delete
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function deleteWirelessSocket(string $userId, int $id) {
