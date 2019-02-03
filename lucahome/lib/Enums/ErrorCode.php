@@ -18,4 +18,8 @@ abstract class ErrorCode {
     const WirelessSocketDbCreateError = -106;
     const WirelessSocketDbUpdateError = -107;
     const WirelessSocketDoesNotExist = -108;
+
+    const InvalidUser = -200;
+    const InvalidUserNull = -201;
+    const UserDoesNotExist = -202;
 }
