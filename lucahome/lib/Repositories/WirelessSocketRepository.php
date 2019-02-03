@@ -124,10 +124,11 @@ class WirelessSocketRepository {
 
 	/**
 	 * Update a WirelessSocket
+	 * @param string $userId
 	 * @param WirelessSocket $wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function updateWirelessSocket(WirelessSocket $wirelessSocket) {
+	public function updateWirelessSocket(string $userId, WirelessSocket $wirelessSocket) {
         $errorCode = validateWirelessSocket($wirelessSocket);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
