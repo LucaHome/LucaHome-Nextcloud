@@ -9,16 +9,14 @@ use \OCA\LucaHome\Services\WirelessSocketService;
 interface IWirelessSocketController {
 
 	/**
-     * @param string userId
 	 * @return JSONResponse
 	 */
-	public function get($userId = null);
+	public function get();
 
 	/**
-     * @param string userId
 	 * @return JSONResponse
 	 */
-	public function getForUser($userId = null);
+	public function getForUser();
 
 	/**
 	 * @param string name
@@ -26,10 +24,9 @@ interface IWirelessSocketController {
 	 * @param string area
 	 * @param string description
 	 * @param int public
-	 * @param string userId
 	 * @return JSONResponse
 	 */
-	public function addWirelessSocket($name, $code, $area, $description, int $public, $userId = null);
+	public function addWirelessSocket($name, $code, $area, $description, int $public);
     
     /**
 	 * @param int id
@@ -38,23 +35,20 @@ interface IWirelessSocketController {
 	 * @param string area
 	 * @param string description
 	 * @param int public
-	 * @param string userId
 	 * @return JSONResponse
 	 */
-    public function updateWirelessSocket(int $id, $name, $code, $area, $description, int $public, $userId = null);
+    public function updateWirelessSocket(int $id, $name, $code, $area, $description, int $public);
     
     /**
 	 * @param int id
 	 * @param int newState
-	 * @param string userId
 	 * @return JSONResponse
 	 */
-    public function setWirelessSocketState(int $id, int $newState, $userId = null);
+    public function setWirelessSocketState(int $id, int $newState);
     
 	/**
 	 * @param int id
-	 * @param string userId
 	 * @return JSONResponse
 	 */
-	public function deleteWirelessSocket(int $id, $userId = null);
+	public function deleteWirelessSocket(int $id);
 }
