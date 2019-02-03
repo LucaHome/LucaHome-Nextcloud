@@ -25,7 +25,7 @@ use \OCP\AppFramework\Http;
 use \OCP\IConfig;
 use \OCP\IRequest;
 
-class SettingsController extends ApiController {
+class SettingsController extends ApiController implements ISettingsController {
 
 	/** @var IConfig */
     private $config;
@@ -34,10 +34,10 @@ class SettingsController extends ApiController {
     private $userId;
     
 	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param string $userId
-	 * @param IConfig $config
+	 * @param string appName
+	 * @param IRequest request
+	 * @param string userId
+	 * @param IConfig config
 	 */
 	public function __construct(
 		$appName,
@@ -53,7 +53,7 @@ class SettingsController extends ApiController {
 	/**
 	 * get sorting option config value
 	 *
-	 * @param string $entity
+	 * @param string entity
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
@@ -76,17 +76,18 @@ class SettingsController extends ApiController {
 	/**
 	 * set sorting option config value
 	 *
-	 * @param string $entity
-	 * @param string $sorting
+	 * @param string entity
+	 * @param string sorting
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
 	public function setSorting($entity = "", $sorting = "") {
-		$legalArguments = ['title','added','clickcount','lastmodified'];
+		$legalArguments = ['id','name','area','code','added','clickcount','lastmodified'];
 		if (!in_array($sorting, $legalArguments)) {
 			return new JSONResponse(['status' => 'error'], Http::STATUS_BAD_REQUEST);
 		}
+		
 		try {
 			$this->config->setUserValue(
 				$this->userId,
@@ -104,7 +105,7 @@ class SettingsController extends ApiController {
 	/**
 	 * get view mode option config value
 	 *
-	 * @param string $entity
+	 * @param string entity
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
@@ -127,8 +128,8 @@ class SettingsController extends ApiController {
 	/**
 	 * set sorting option config value
 	 *
-	 * @param string $entity
-	 * @param string $sorting
+	 * @param string entity
+	 * @param string sorting
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
@@ -138,6 +139,7 @@ class SettingsController extends ApiController {
 		if (!in_array($viewMode, $legalArguments)) {
 			return new JSONResponse(['status' => 'error'], Http::STATUS_BAD_REQUEST);
 		}
+
 		try {
 			$this->config->setUserValue(
 				$this->userId,
