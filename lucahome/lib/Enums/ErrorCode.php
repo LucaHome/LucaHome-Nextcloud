@@ -7,5 +7,6 @@
 namespace OCA\LucaHome\Enums;
 
 abstract class ErrorCode {
+    const NoError = 0;
     const WirelessSocketCodeAlreadyInUse = -100;
 }
