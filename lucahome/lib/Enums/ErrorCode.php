@@ -14,4 +14,8 @@ abstract class ErrorCode {
     const WirelessSocketCodeLengthInvalid = -102;
     const WirelessSocketAreaTooLong = -103;
     const WirelessSocketDescriptionTooLong = -104;
+    const WirelessSocketNameAlreadyInUse = -105;
+    const WirelessSocketDbCreateError = -106;
+    const WirelessSocketDbUpdateError = -107;
+    const WirelessSocketDoesNotExist = -108;
 }
