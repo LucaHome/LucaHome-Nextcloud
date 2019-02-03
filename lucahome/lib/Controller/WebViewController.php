@@ -10,10 +10,10 @@
 
 namespace OCA\LucaHome\Controller;
 
+use \OCA\LucaHome\LucaHome;
 use \OCP\AppFramework\Http\TemplateResponse;
 use \OCP\AppFramework\Controller;
 use \OCP\IRequest;
-use \OCA\LucaHome\LucaHome;
 use OCP\IURLGenerator;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
