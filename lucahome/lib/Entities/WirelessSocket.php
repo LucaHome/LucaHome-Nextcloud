@@ -4,7 +4,7 @@
  * Helpful: https://docs.nextcloud.com/server/stable/developer_manual/app/storage/database.html
  */
 
-namespace OCA\LucaHome\Db;
+namespace OCA\LucaHome\Entities;
 
 use OCP\AppFramework\Db\Entity;
 
