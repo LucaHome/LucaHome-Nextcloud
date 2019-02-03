@@ -55,7 +55,7 @@ class WirelessSocketService implements IWirelessSocketService {
 
 	/**
 	 * Add a WirelessSocket
-	 * @param WirelessSocket $wirelessSocket
+	 * @param WirelessSocket wirelessSocket
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
@@ -70,7 +70,7 @@ class WirelessSocketService implements IWirelessSocketService {
     
     /**
 	 * Update a WirelessSocket
-	 * @param WirelessSocket $wirelessSocket
+	 * @param WirelessSocket wirelessSocket
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
@@ -85,17 +85,18 @@ class WirelessSocketService implements IWirelessSocketService {
     
     /**
 	 * Sets a new WirelessSocket state
-	 * @param WirelessSocket $wirelessSocket
-     * @param int NewState
+	 * @param int id
+     * @param int newState
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function setWirelessSocketState(WirelessSocket $wirelessSocket, int $newState, $userId = null) {
+    public function setWirelessSocketState(int $id, int $newState, $userId = null) {
         $errorCode = validateUserId($userId);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
         }
 
+        $wirelessSocket = $this->respository->getForId($userId, $id);
         $wirelessSocket->setState($newState);
         // TODO: Send real code over 433MHz
         // http://www.robertprice.co.uk/robblog/controlling-a-led-on-a-raspberry-pi-with-php/
