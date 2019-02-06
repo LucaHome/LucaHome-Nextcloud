@@ -8,6 +8,8 @@ namespace OCA\LucaHome\Enums;
 
 abstract class ErrorCode {
     const NoError = 0;
+    
+    const NoDefintion = -1;
 
     const WirelessSocketCodeAlreadyInUse = -100;
     const WirelessSocketNameTooLong = -101;
