@@ -19,6 +19,12 @@ interface IWirelessSocketController {
 	public function getForUser();
 
 	/**
+     * @param int id
+	 * @return JSONResponse
+	 */
+	public function getForId(int $id);
+
+	/**
 	 * @param string name
 	 * @param string code
 	 * @param string area
