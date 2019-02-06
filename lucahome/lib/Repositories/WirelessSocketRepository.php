@@ -91,8 +91,8 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function addWirelessSocket(string $userId, WirelessSocket $wirelessSocket) {
-        $errorCode = validateWirelessSocket($wirelessSocket);
+	public function add(string $userId, WirelessSocket $wirelessSocket) {
+        $errorCode = validate($wirelessSocket);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
         }
@@ -149,8 +149,8 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function updateWirelessSocket(string $userId, WirelessSocket $wirelessSocket) {
-        $errorCode = validateWirelessSocket($wirelessSocket);
+	public function update(string $userId, WirelessSocket $wirelessSocket) {
+        $errorCode = validate($wirelessSocket);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
         }
@@ -192,7 +192,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @param int id WirelessSocket ID to delete
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function deleteWirelessSocket(string $userId, int $id) {
+	public function delete(string $userId, int $id) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('id')
@@ -218,13 +218,46 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 
 		return ErrorCode::NoError;
     }
+    
+	/**
+	 * @brief Validates WirelessSocket
+	 * @param WirelessSocket $wirelessSocket
+	 * @return ErrorCode WirelessSocket is valid or not
+	 */
+    private function validate(WirelessSocket $wirelessSocket) {
+        if(nameInUse($wirelessSocket->getCode()) !== true) {
+            return ErrorCode::WirelessSocketNameAlreadyInUse;
+        }
+
+        if(codeInUse($wirelessSocket->getCode()) !== true) {
+            return ErrorCode::WirelessSocketCodeAlreadyInUse;
+        }
+
+        if(strlen($wirelessSocket->getName()) > 4096) {
+            return ErrorCode::WirelessSocketNameTooLong;
+        }
+
+        if(strlen($wirelessSocket->getCode()) !== 6) {
+            return ErrorCode::WirelessSocketCodeLengthInvalid;
+        }
+
+        if(strlen($wirelessSocket->getArea()) > 4096) {
+            return ErrorCode::WirelessSocketAreaTooLong;
+        }
+
+        if(strlen($wirelessSocket->getDescription()) > 4096) {
+            return ErrorCode::WirelessSocketDescriptionTooLong;
+        }
+
+        return ErrorCode::NoError;
+    }
 
 	/**
 	 * @brief check if an wireless socket name is already in use
 	 * @param string $code WirelessSocket name possible in use
 	 * @return bool|int the wireless socket id if existing, false otherwise
 	 */
-	private function wirelessSocketNameInUse($code) {
+	private function nameInUse($code) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('id')
@@ -247,7 +280,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @param string $code WirelessSocket code possible in use
 	 * @return bool|int the wireless socket id if existing, false otherwise
 	 */
-	private function wirelessSocketCodeInUse($code) {
+	private function codeInUse($code) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('id')
@@ -264,37 +297,4 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         
         return false;
 	}
-    
-	/**
-	 * @brief Validates WirelessSocket
-	 * @param WirelessSocket $wirelessSocket
-	 * @return ErrorCode WirelessSocket is valid or not
-	 */
-    private function validateWirelessSocket(WirelessSocket $wirelessSocket) {
-        if(wirelessSocketNameInUse($wirelessSocket->getCode()) !== true) {
-            return ErrorCode::WirelessSocketNameAlreadyInUse;
-        }
-
-        if(wirelessSocketCodeInUse($wirelessSocket->getCode()) !== true) {
-            return ErrorCode::WirelessSocketCodeAlreadyInUse;
-        }
-
-        if(strlen($wirelessSocket->getName()) > 4096) {
-            return ErrorCode::WirelessSocketNameTooLong;
-        }
-
-        if(strlen($wirelessSocket->getCode()) !== 6) {
-            return ErrorCode::WirelessSocketCodeLengthInvalid;
-        }
-
-        if(strlen($wirelessSocket->getArea()) > 4096) {
-            return ErrorCode::WirelessSocketAreaTooLong;
-        }
-
-        if(strlen($wirelessSocket->getDescription()) > 4096) {
-            return ErrorCode::WirelessSocketDescriptionTooLong;
-        }
-
-        return ErrorCode::NoError;
-    }
 }

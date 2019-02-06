@@ -30,19 +30,19 @@ interface IWirelessSocketRepository {
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function addWirelessSocket($userId, WirelessSocket $wirelessSocket);
+	public function add($userId, WirelessSocket $wirelessSocket);
     
     /**
 	 * @param string userId
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function updateWirelessSocket($userId, WirelessSocket $wirelessSocket);
+    public function update($userId, WirelessSocket $wirelessSocket);
     
 	/**
 	 * @param string userId UserId
 	 * @param int id WirelessSocket ID to delete
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function deleteWirelessSocket($userId, int $id);
+	public function delete($userId, int $id);
 }
