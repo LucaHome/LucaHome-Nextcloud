@@ -103,6 +103,32 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
     }
     
 	/**
+	 * @brief returns a single wireless socket based on its' id for a user
+     * @param int id
+	 * @return JSONResponse
+	 *
+	 * @NoAdminRequired
+	 */
+	public function getForId(int $id) {
+		try {
+			$serviceResponse = $this->service->getForId($id, $this->userId);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
+        }
+        
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $serviceResponse,
+			'status' => 'success'
+		], Http::STATUS_OK);
+    }
+    
+	/**
 	 * @brief Add a WirelessSocket
 	 * @param string name
 	 * @param string code
