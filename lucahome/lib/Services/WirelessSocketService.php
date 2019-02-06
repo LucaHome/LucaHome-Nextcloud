@@ -54,18 +54,33 @@ class WirelessSocketService implements IWirelessSocketService {
     }
 
 	/**
-	 * Add a WirelessSocket
-	 * @param WirelessSocket wirelessSocket
+     * @brief returns single wireless sockets for the id and userId
+     * @param int id
      * @param string userId
-	 * @return ErrorCode Success or failure of action
+	 * @return array WirelessSocket
 	 */
-	public function addWirelessSocket(WirelessSocket $wirelessSocket, $userId = null) {
+	public function getForId(int $id, $userId = null) {
         $errorCode = validateUserId($userId);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
         }
 
-        return $this->repository->addWirelessSocket($userId, $wirelessSocket);
+        return $this->respository->getForId($userId, $id);
+    }
+
+	/**
+	 * Add a WirelessSocket
+	 * @param WirelessSocket wirelessSocket
+     * @param string userId
+	 * @return ErrorCode Success or failure of action
+	 */
+	public function add(WirelessSocket $wirelessSocket, $userId = null) {
+        $errorCode = validateUserId($userId);
+        if($errorCode !== ErrorCode::NoError){
+            return $errorCode;
+        }
+
+        return $this->repository->add($userId, $wirelessSocket);
     }
     
     /**
@@ -74,13 +89,13 @@ class WirelessSocketService implements IWirelessSocketService {
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function updateWirelessSocket(WirelessSocket $wirelessSocket, $userId = null) {
+    public function update(WirelessSocket $wirelessSocket, $userId = null) {
         $errorCode = validateUserId($userId);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
         }
 
-        return $this->repository->updateWirelessSocket($userId, $wirelessSocket);
+        return $this->repository->update($userId, $wirelessSocket);
     }
     
     /**
@@ -90,7 +105,7 @@ class WirelessSocketService implements IWirelessSocketService {
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function setWirelessSocketState(int $id, int $newState, $userId = null) {
+    public function setState(int $id, int $newState, $userId = null) {
         $errorCode = validateUserId($userId);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
@@ -102,7 +117,7 @@ class WirelessSocketService implements IWirelessSocketService {
         // http://www.robertprice.co.uk/robblog/controlling-a-led-on-a-raspberry-pi-with-php/
         // https://pi-buch.info/gpio-steuerung-in-php-scripts/
 
-        return $this->repository->updateWirelessSocket($userId, $wirelessSocket);
+        return $this->repository->update($userId, $wirelessSocket);
     }
     
 	/**
@@ -111,13 +126,13 @@ class WirelessSocketService implements IWirelessSocketService {
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function deleteWirelessSocket(int $id, $userId = null) {
+	public function delete(int $id, $userId = null) {
         $errorCode = validateUserId($userId);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
         }
 
-        return $this->repository->deleteWirelessSocket($userId, $wirelessSocket->getId());
+        return $this->repository->delete($userId, $wirelessSocket->getId());
     }
 
 	/**

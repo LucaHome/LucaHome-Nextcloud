@@ -21,18 +21,25 @@ interface IWirelessSocketService {
 	public function getForUser($userId = null);
 
 	/**
+     * @param int id
+     * @param string userId
+	 * @return array WirelessSocket
+	 */
+	public function getForId(int $id, $userId = null);
+
+	/**
 	 * @param WirelessSocket wirelessSocket
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function addWirelessSocket(WirelessSocket $wirelessSocket, $userId = null);
+	public function add(WirelessSocket $wirelessSocket, $userId = null);
     
     /**
 	 * @param WirelessSocket wirelessSocket
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function updateWirelessSocket(WirelessSocket $wirelessSocket, $userId = null);
+    public function update(WirelessSocket $wirelessSocket, $userId = null);
     
     /**
 	 * @param int id
@@ -40,12 +47,12 @@ interface IWirelessSocketService {
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function setWirelessSocketState(int $id, int $newState, $userId = null);
+    public function setState(int $id, int $newState, $userId = null);
     
 	/**
 	 * @param int id WirelessSocket ID to delete
      * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function deleteWirelessSocket(int $id, $userId = null);
+	public function delete(int $id, $userId = null);
 }
