@@ -60,13 +60,21 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 	 */
 	public function get() {
 		try {
-			$wirelessSocketList = $this->service->get($this->userId);
+			$serviceResponse = $this->service->get($this->userId);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'lucahome']);
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
-        }
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
         
-		return new JSONResponse(['wirelessSocketList' => $wirelessSocketList], Http::STATUS_OK);
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $serviceResponse,
+			'status' => 'success'
+		], Http::STATUS_OK);
     }
     
 	/**
@@ -77,12 +85,257 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 	 */
 	public function getForUser() {
 		try {
-			$wirelessSocketList = $this->service->getForUser($this->userId);
+			$serviceResponse = $this->service->getForUser($this->userId);
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'lucahome']);
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
         }
         
-		return new JSONResponse(['wirelessSocketList' => $wirelessSocketList], Http::STATUS_OK);
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $serviceResponse,
+			'status' => 'success'
+		], Http::STATUS_OK);
+    }
+    
+	/**
+	 * @brief Add a WirelessSocket
+	 * @param string name
+	 * @param string code
+	 * @param string area
+	 * @param string description
+	 * @param int public
+	 * @return JSONResponse
+	 *
+	 * @NoAdminRequired
+	 */
+	public function add($name, $code, $area, $description, int $public) {
+		if (isset($name)) {
+			$name = trim($name);
+		} else {
+			$this->logger->logException('Invalid empty parameter name in WirelessSocketController::add', ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => 'Invalid empty parameter name in WirelessSocketController::add',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST );
+		}
+
+		if (isset($code)) {
+			$code = trim($code);
+		} else {
+			$this->logger->logException('Invalid empty parameter code in WirelessSocketController::add', ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => 'Invalid empty parameter code in WirelessSocketController::add',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST );
+		}
+
+		if (isset($area)) {
+			$area = trim($area);
+		} else {
+			$area = "";
+		}
+
+		if (isset($description)) {
+			$description = trim($description);
+		} else {
+			$description = "";
+		}
+		
+		$wirelessSocket = new WirelessSocket();
+		$wirelessSocket->name =  $name;
+		$wirelessSocket->code =  $code;
+		$wirelessSocket->area =  $area;
+		$wirelessSocket->state =  0;
+
+		$wirelessSocket->userId =  $this->userId;
+		$wirelessSocket->description =  $description;
+		$wirelessSocket->public =  $public;
+		$wirelessSocket->clickcount =  0;
+
+		try {
+			$serviceResponse = $this->service->add($wirelessSocket, $this->userId);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
+        }
+        
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $serviceResponse,
+			'status' => 'success'
+		], Http::STATUS_OK);
+    }
+    
+	/**
+	 * @brief Update a WirelessSocket
+	 * @param int id
+	 * @param string name
+	 * @param string code
+	 * @param string area
+	 * @param string description
+	 * @param int public
+	 * @return JSONResponse
+	 *
+	 * @NoAdminRequired
+	 */
+	public function update(int $id, $name, $code, $area, $description, int $public) {
+		if($id < 0)  {
+			$this->logger->logException('Invalid parameter id in WirelessSocketController::update', ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => 'Invalid parameter id in WirelessSocketController::update',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST );
+		}
+		
+		if (isset($name)) {
+			$name = trim($name);
+		} else {
+			$this->logger->logException('Invalid empty parameter name in WirelessSocketController::update', ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => 'Invalid empty parameter name in WirelessSocketController::update',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST );
+		}
+
+		if (isset($code)) {
+			$code = trim($code);
+		} else {
+			$this->logger->logException('Invalid empty parameter code in WirelessSocketController::update', ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => 'Invalid empty parameter code in WirelessSocketController::update',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST );
+		}
+
+		if (isset($area)) {
+			$area = trim($area);
+		} else {
+			$area = "";
+		}
+
+		if (isset($description)) {
+			$description = trim($description);
+		} else {
+			$description = "";
+		}
+		
+		$wirelessSocket = $this->service->getForId($id, $this->userId);
+		$wirelessSocket->name =  $name;
+		$wirelessSocket->code =  $code;
+		$wirelessSocket->area =  $area;
+		$wirelessSocket->description =  $description;
+		$wirelessSocket->public =  $public;
+
+		try {
+			$serviceResponse = $this->service->update($wirelessSocket, $this->userId);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
+        }
+		
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $serviceResponse,
+			'status' => 'success'
+		], Http::STATUS_OK);
+    }
+    
+	/**
+	 * @brief Set state of a WirelessSocket
+	 * @param int id
+	 * @param int newState
+	 * @return JSONResponse
+	 *
+	 * @NoAdminRequired
+	 */
+	public function setState(int $id, int $newState) {
+		if($id < 0)  {
+			$this->logger->logException('Invalid parameter id in WirelessSocketController::setState', ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => 'Invalid parameter id in WirelessSocketController::setState',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST );
+		}
+		
+		$legalArguments = [0, 1];
+		if (!in_array($newState, $legalArguments)) {
+			return new JSONResponse([
+				'error' => 'Invalid parameter newState in WirelessSocketController::setState',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		try {
+			$serviceResponse = $this->service->setState($id, $newState, $this->userId);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
+        }
+		
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $serviceResponse,
+			'status' => 'success'
+		], Http::STATUS_OK);
+    }
+    
+	/**
+	 * @brief Delete a WirelessSocket
+	 * @param int id
+	 * @param int newState
+	 * @return JSONResponse
+	 *
+	 * @NoAdminRequired
+	 */
+	public function delete(int $id) {
+		if($id < 0)  {
+			$this->logger->logException('Invalid parameter id in WirelessSocketController::delete', ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => 'Invalid parameter id in WirelessSocketController::delete',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST );
+		}
+
+		try {
+			$serviceResponse = $this->service->delete($id, $this->userId);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'lucahome']);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
+        }
+		
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $serviceResponse,
+			'status' => 'success'
+		], Http::STATUS_OK);
     }
 }
