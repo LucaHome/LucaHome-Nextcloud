@@ -1,4 +1,5 @@
-# My Example
+# LucaHome
+
 Place this app in **nextcloud/apps/**
 
 ## Building the app
