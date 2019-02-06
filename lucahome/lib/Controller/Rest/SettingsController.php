@@ -67,10 +67,18 @@ class SettingsController extends ApiController implements ISettingsController {
 				'lastmodified' //default value
 			);
 		} catch (\Exception $e) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
         }
         
-		return new JSONResponse([$entity . 'sorting' => $sorting], Http::STATUS_OK);
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $sorting,
+			'status' => 'success'
+		], Http::STATUS_OK);
     }
     
 	/**
@@ -85,7 +93,11 @@ class SettingsController extends ApiController implements ISettingsController {
 	public function setSorting($entity = "", $sorting = "") {
 		$legalArguments = ['id','name','area','code','added','clickcount','lastmodified'];
 		if (!in_array($sorting, $legalArguments)) {
-			return new JSONResponse(['status' => 'error'], Http::STATUS_BAD_REQUEST);
+			return new JSONResponse([
+				'error' => 'Invalid parameter sorting in SettingsController::setSorting',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST);
 		}
 		
 		try {
@@ -96,10 +108,18 @@ class SettingsController extends ApiController implements ISettingsController {
 				$sorting
 			);
 		} catch (\Exception $e) {
-			return new JSONResponse(['status' => 'error'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
         }
         
-		return new JSONResponse(['status' => 'success'], Http::STATUS_OK);
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $sorting,
+			'status' => 'success'
+		], Http::STATUS_OK);
     }
     
 	/**
@@ -119,10 +139,18 @@ class SettingsController extends ApiController implements ISettingsController {
 				'grid' //default value
 			);
 		} catch (\Exception $e) {
-			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
         }
         
-		return new JSONResponse([$entity . 'viewMode' => $viewMode], Http::STATUS_OK);
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $viewMode,
+			'status' => 'success'
+		], Http::STATUS_OK);
     }
     
 	/**
@@ -137,7 +165,11 @@ class SettingsController extends ApiController implements ISettingsController {
 	public function setViewMode($entity = "", $viewMode = "") {
 		$legalArguments = ['grid', 'list'];
 		if (!in_array($viewMode, $legalArguments)) {
-			return new JSONResponse(['status' => 'error'], Http::STATUS_BAD_REQUEST);
+			return new JSONResponse([
+				'error' => 'Invalid parameter viewMode in SettingsController::setViewMode',
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST);
 		}
 
 		try {
@@ -148,9 +180,17 @@ class SettingsController extends ApiController implements ISettingsController {
 				$viewMode
 			);
 		} catch (\Exception $e) {
-			return new JSONResponse(['status' => 'error'], Http::STATUS_INTERNAL_SERVER_ERROR);
+			return new JSONResponse([
+				'error' => $e,
+				'response' => NULL,
+				'status' => 'error'
+			], Http::STATUS_INTERNAL_SERVER_ERROR);
         }
         
-		return new JSONResponse(['status' => 'success'], Http::STATUS_OK);
+		return new JSONResponse([
+			'error' => NULL,
+			'response' => $viewMode,
+			'status' => 'success'
+		], Http::STATUS_OK);
 	}
 }
