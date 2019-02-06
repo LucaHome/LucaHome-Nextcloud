@@ -5,19 +5,23 @@
     <name>LucaHome</name>
     <summary>App to control sockets, switches and to measure and monitor temperature, humidity and light conditions</summary>
     <description><![CDATA[App to control sockets, switches and to measure and monitor temperature, humidity and light conditions]]></description>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
     <licence>MIT</licence>
     <author mail="guepardoapps@gmail.com" >GuepardoApps (Jonas Schubert)</author>
     <namespace>LucaHome</namespace>
     <category>tools</category>
+    <website>https://github.com/GuepardoApps/LucaHome-Nextcloud/</website>
     <bugs>https://github.com/GuepardoApps/LucaHome-Nextcloud/issues</bugs>
+    <repository>https://github.com/LucaHome/LucaHome-Nextcloud.git</repository>
+    <screenshot></screenshot>
     <dependencies>
-        <nextcloud min-version="14" max-version="14"/>
+        <nextcloud min-version="14" max-version="16"/>
     </dependencies>
-    <navigations>
-        <navigation>
-            <name>LucaHome</name>
-            <route>lucahome.page.index</route>
-        </navigation>
-    </navigations>
+	<background-jobs>
+		<job>OCA\LucaHome\BackgroundJobs\TemperatureJob</job>
+    </background-jobs>
+	<settings>
+		<admin>OCA\LucaHome\Settings\AdminSettings</admin>
+		<admin-section>OCA\LucaHome\Settings\AdminSection</admin-section>
+    </settings>
 </info>
