@@ -26,7 +26,7 @@ interface IWirelessSocketController {
 	 * @param int public
 	 * @return JSONResponse
 	 */
-	public function addWirelessSocket($name, $code, $area, $description, int $public);
+	public function add($name, $code, $area, $description, int $public);
     
     /**
 	 * @param int id
@@ -37,18 +37,18 @@ interface IWirelessSocketController {
 	 * @param int public
 	 * @return JSONResponse
 	 */
-    public function updateWirelessSocket(int $id, $name, $code, $area, $description, int $public);
+    public function update(int $id, $name, $code, $area, $description, int $public);
     
     /**
 	 * @param int id
 	 * @param int newState
 	 * @return JSONResponse
 	 */
-    public function setWirelessSocketState(int $id, int $newState);
+    public function setState(int $id, int $newState);
     
 	/**
 	 * @param int id
 	 * @return JSONResponse
 	 */
-	public function deleteWirelessSocket(int $id);
+	public function delete(int $id);
 }
