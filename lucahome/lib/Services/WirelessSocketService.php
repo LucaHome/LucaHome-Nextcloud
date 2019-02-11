@@ -3,6 +3,7 @@
 namespace OCA\LucaHome\Services;
 
 use \OC\User\Manager;
+use \OCA\LucaHome\Adapter\PiAdapter;
 use \OCA\LucaHome\Enums\ErrorCode;
 use \OCA\LucaHome\Entities\WirelessSocket;
 use \OCA\LucaHome\Repositories\WirelessSocketRepository;
@@ -16,12 +17,16 @@ class WirelessSocketService implements IWirelessSocketService {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var PiAdapter */
+	private $piAdapter;
+
 	/** @var WirelessSocketRepository */
 	private $repository;
 
-	public function __construct(Manager $userManager, ILogger $logger, WirelessSocketRepository $repository) {
+	public function __construct(Manager $userManager, ILogger $logger, PiAdapter $piAdapter, WirelessSocketRepository $repository) {
 		$this->userManager = $userManager;
 		$this->logger = $logger;
+		$this->piAdapter = $piAdapter;
 		$this->repository = $repository;
     }
     
@@ -113,9 +118,9 @@ class WirelessSocketService implements IWirelessSocketService {
 
         $wirelessSocket = $this->respository->getForId($userId, $id);
         $wirelessSocket->setState($newState);
-        // TODO: Send real code over 433MHz
-        // http://www.robertprice.co.uk/robblog/controlling-a-led-on-a-raspberry-pi-with-php/
-        // https://pi-buch.info/gpio-steuerung-in-php-scripts/
+
+        $response = $this->piAdapter->send433MHz(17, $wirelessSocket->getCode(), $newState);
+        // TODO: Parse response
 
         return $this->repository->update($userId, $wirelessSocket);
     }
