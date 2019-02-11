@@ -118,11 +118,12 @@ class WirelessSocketService implements IWirelessSocketService {
 
         $wirelessSocket = $this->respository->getForId($userId, $id);
         $wirelessSocket->setState($newState);
+        $databaseSuccess = $this->repository->update($userId, $wirelessSocket);
 
         $response = $this->piAdapter->send433MHz(17, $wirelessSocket->getCode(), $newState);
-        // TODO: Parse response
+        $adapterSuccess = json_decode($response)->{'Success'};
 
-        return $this->repository->update($userId, $wirelessSocket);
+        return $databaseSuccess && $adapterSuccess;
     }
     
 	/**
