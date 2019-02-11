@@ -14,18 +14,26 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-#define WTRUE 136
-#define WFALSE 142
-#define PLENGTH 300
-#define REPEAT 5
-#define CODE_LENGTH 6
+#define WIRELESS_TRUE 136
+#define WIRELESS_FALSE 142
 
-#ifndef PICONTROL_H
-#define PICONTROL_H
+#define CODE_LENGTH 6
+#define CODE_ONE '1'
+#define CODE_ZERO '0'
+
+#define PULSE_LENGTH_MS 300
+#define PULSE_REPEAT 5
+
+#define PULSE_SHORT 110 // 110 works quite OK
+#define PULSE_LONG 300  // 300 works quite OK
+#define PULSE_START 520 // 520 works quite OK
+
+#ifndef PI_CONTROL_H
+#define PI_CONTROL_H
 
 class PiControl
 {
-private:
+  private:
 	static bool sendEther(int, int[]);
 	static void printCode(int[]);
 
@@ -33,7 +41,7 @@ private:
 	static void selectPulse(unsigned char, int, bool);
 	static void sendPulse(unsigned char, int);
 
-public:
+  public:
 	static bool Send433Mhz(int, std::string, int);
 	static bool WriteGpio(int, int);
 

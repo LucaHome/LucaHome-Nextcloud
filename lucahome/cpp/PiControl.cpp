@@ -1,9 +1,5 @@
 #include "PiControl.h"
 
-int p_short = 110;									// 110 works quite OK
-int p_long = 290;									// 300 works quite OK
-int p_start = 520;									// 520 works quite OK
-
 //================= PUBLIC =================
 
 bool PiControl::Send433Mhz(int gpio, std::string codeStr, int active)
@@ -15,50 +11,50 @@ bool PiControl::Send433Mhz(int gpio, std::string codeStr, int active)
 		return false;
 	}
 
-	for (int index = 0; index < 5; index++)
+	for (int index = 0; index < CODE_LENGTH - 1; index++)
 	{
-		if (codeStr[index] != '1' && codeStr[index] != '0')
+		if (codeStr[index] != CODE_ONE && codeStr[index] != CODE_ZERO)
 		{
 			printf("The code must be in this format: 10101A\n");
 			return false;
 		}
 	}
 
-	if (!(codeStr[5] >= (int)'A' && codeStr[5] <= (int)'E'))
+	if (!(codeStr[CODE_LENGTH - 1] >= (int)'A' && codeStr[CODE_LENGTH - 1] <= (int)'E'))
 	{
 		printf("The code must be in this format: 10101B\n");
 		return false;
 	}
 
-	int code[16] = { 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 128, 0, 0, 0 };
+	int code[16] = {142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 142, 128, 0, 0, 0};
 
 	// Parse device-code
-	for (int index = 0; index < 5; index++)
+	for (int index = 0; index < CODE_LENGTH - 1; index++)
 	{
-		if (codeStr[index] == '1')
+		if (codeStr[index] == CODE_ONE)
 		{
-			code[index] = WTRUE;
+			code[index] = WIRELESS_TRUE;
 		}
 		else
 		{
-			code[index] = WFALSE;
+			code[index] = WIRELESS_FALSE;
 		}
 	}
 
 	// Parse device-id (A - E)
-	int id = pow(2, (int)codeStr[5] - 65);
+	int id = pow(2, (int)codeStr[CODE_LENGTH - 1] - 65);
 	// Set device-id
 	int x = 1;
 
-	for (int index = 1; index < 6; index++)
+	for (int index = 1; index < CODE_LENGTH; index++)
 	{
 		if ((id & x) > 0)
 		{
-			code[4 + index] = WTRUE;
+			code[4 + index] = WIRELESS_TRUE;
 		}
 		else
 		{
-			code[4 + index] = WFALSE;
+			code[4 + index] = WIRELESS_FALSE;
 		}
 		x = x << 1;
 	}
@@ -66,13 +62,13 @@ bool PiControl::Send433Mhz(int gpio, std::string codeStr, int active)
 	// Set Status
 	if (active == 1)
 	{
-		code[10] = WTRUE;
-		code[11] = WFALSE;
+		code[10] = WIRELESS_TRUE;
+		code[11] = WIRELESS_FALSE;
 	}
 	else
 	{
-		code[10] = WFALSE;
-		code[11] = WTRUE;
+		code[10] = WIRELESS_FALSE;
+		code[11] = WIRELESS_TRUE;
 	}
 
 	printCode(code);
@@ -108,11 +104,8 @@ bool PiControl::WriteGpio(int gpio, int status)
 // other IDs could work too, as long as they do not exceed 16 bit
 // known issue: not all 16 bit remote ID are valid
 // have not tested other buttons, but as there is dimmer control, some keycodes could be strictly system
-// use: sendButton(remoteID, keycode), see example blink.ino; 
+// use: sendButton(remoteID, keycode), see example blink.ino;
 
-// =======================================================================================
-//
-//
 bool PiControl::SendButton(unsigned int remoteID, unsigned char keycode, int gpio, bool action)
 {
 	if (wiringPiSetupGpio() == -1)
@@ -122,41 +115,50 @@ bool PiControl::SendButton(unsigned int remoteID, unsigned char keycode, int gpi
 
 	pinMode(gpio, OUTPUT);
 
-	for (int pulse = 0; pulse <= REPEAT; pulse++)
+	for (int pulse = 0; pulse <= PULSE_REPEAT; pulse++)
 	{
-		if (action) {
+		if (action)
+		{
 			sendPulse(1, gpio);
 		}
-		else {
+		else
+		{
 			sendPulse(0, gpio);
 		}
 
-		for (int bitIndex = 15; bitIndex >= 0; bitIndex--) {	// transmit remoteID
-			unsigned int txPulse = remoteID & (1 << bitIndex);	// read bits from remote ID
-			if (txPulse > 0) {
+		for (int bitIndex = 15; bitIndex >= 0; bitIndex--)
+		{													   // transmit remoteID
+			unsigned int txPulse = remoteID & (1 << bitIndex); // read bits from remote ID
+			if (txPulse > 0)
+			{
 				selectPulse(1, gpio, action);
 			}
-			else {
+			else
+			{
 				selectPulse(0, gpio, action);
 			}
 		}
 
-		for (int keyCodeIndex = 6; keyCodeIndex >= 0; keyCodeIndex--) 	// XXX transmit keycode
-		{
-			unsigned char txPulse = keycode & (1 << keyCodeIndex); 	// read bits from keycode
-			if (txPulse > 0) {
+		for (int keyCodeIndex = CODE_LENGTH; keyCodeIndex >= 0; keyCodeIndex--)
+		{														   // XXX transmit keycode
+			unsigned char txPulse = keycode & (1 << keyCodeIndex); // read bits from keycode
+			if (txPulse > 0)
+			{
 				selectPulse(1, gpio, action);
 			}
-			else {
+			else
+			{
 				selectPulse(0, gpio, action);
 			}
 		}
 	}
 
-	if (action) {
+	if (action)
+	{
 		digitalWrite(gpio, HIGH);
 	}
-	else {
+	else
+	{
 		digitalWrite(gpio, LOW);
 	}
 
@@ -185,7 +187,7 @@ bool PiControl::sendEther(int gpio, int code[])
 	pinMode(gpio, OUTPUT);
 	int x = 0;
 
-	for (int repeatIndex = 0; repeatIndex < REPEAT; repeatIndex++)
+	for (int repeatIndex = 0; repeatIndex < PULSE_REPEAT; repeatIndex++)
 	{
 		for (int codeIndex = 0; codeIndex < 16; codeIndex++)
 		{
@@ -201,7 +203,7 @@ bool PiControl::sendEther(int gpio, int code[])
 					digitalWrite(gpio, LOW);
 				}
 
-				usleep(PLENGTH);
+				usleep(PULSE_LENGTH_MS);
 				x = x >> 1;
 			}
 		}
@@ -211,65 +213,71 @@ bool PiControl::sendEther(int gpio, int code[])
 
 // =======================================================================================
 // build transmit sequence so that every high pulse is followed by low and vice versa
-void PiControl::selectPulse(unsigned char inBit, int gpio, bool action) {
-	switch (inBit) {
+void PiControl::selectPulse(unsigned char inBit, int gpio, bool action)
+{
+	switch (inBit)
+	{
 	case 0:
-		if (action) {
+		if (action)
+		{
 			sendPulse(2, gpio);
 			sendPulse(4, gpio);
 		}
-		else {
+		else
+		{
 			sendPulse(4, gpio);
 			sendPulse(2, gpio);
 		}
 		break;
 
 	case 1:
-		if (action) {
+		if (action)
+		{
 			sendPulse(3, gpio);
 		}
-		else {
+		else
+		{
 			sendPulse(5, gpio);
 		}
 		break;
 	}
-
 }
 
 // =========================================================================================
 // transmit pulses
 // slightly corrected pulse length, use old (commented out) values if these not working for you
-void PiControl::sendPulse(unsigned char txPulse, int gpio) {
+void PiControl::sendPulse(unsigned char txPulse, int gpio)
+{
 	switch (txPulse)
 	{
 	case 0:
 		digitalWrite(gpio, LOW);
-		delayMicroseconds(p_start);
+		delayMicroseconds(PULSE_START);
 		break;
 
 	case 1:
 		digitalWrite(gpio, HIGH);
-		delayMicroseconds(p_start);
+		delayMicroseconds(PULSE_START);
 		break;
 
 	case 2:
 		digitalWrite(gpio, LOW);
-		delayMicroseconds(p_short);
+		delayMicroseconds(PULSE_SHORT);
 		break;
 
 	case 3:
 		digitalWrite(gpio, LOW);
-		delayMicroseconds(p_long);
+		delayMicroseconds(PULSE_LONG);
 		break;
 
 	case 4:
 		digitalWrite(gpio, HIGH);
-		delayMicroseconds(p_short);
+		delayMicroseconds(PULSE_SHORT);
 		break;
 
 	case 5:
 		digitalWrite(gpio, HIGH);
-		delayMicroseconds(p_long);
+		delayMicroseconds(PULSE_LONG);
 		break;
 	}
 }
