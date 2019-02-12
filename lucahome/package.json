@@ -1,23 +1,41 @@
 {
   "name": "lucahome",
+  "description": "Nextcloud - LucaHome",
   "version": "0.1.0",
+  "author": {
+    "name": "Jonas Schubert",
+    "email": "guepardoapps@gmail.com"
+  },
+  "license": "MIT",
   "private": true,
+  "homepage": "https://github.com/LucaHome/LucaHome-Nextcloud",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:LucaHome/LucaHome-Nextcloud.git"
+  },
+  "bugs": "https://github.com/LucaHome/LucaHome-Nextcloud/issues",
+  "contributors": [],
   "dependencies": {
-    "vue": "^2.5.22"
+    "nextcloud-vue": "0.6.1",
+    "vue": "2.6.6"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.4.0",
-    "@vue/cli-plugin-eslint": "^3.4.0",
-    "@vue/cli-service": "^3.4.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.8.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.5.21"
+    "@vue/cli-plugin-babel": "3.4.0",
+    "@vue/cli-plugin-eslint": "3.4.0",
+    "@vue/cli-service": "3.4.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-eslint": "10.0.1",
+    "babel-jest": "24.1.0",
+    "eslint": "5.13.0",
+    "eslint-plugin-vue": "5.1.0",
+    "jest": "24.1.0",
+    "vue-template-compiler": "2.6.6"
   },
   "eslintConfig": {
     "root": true,
@@ -42,5 +60,31 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    },
+    "snapshotSerializers": [
+      "<rootDir>/node_modules/jest-serializer-vue"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.{js,vue}",
+      "!**/node_modules/**"
+    ],
+    "coverageReporters": [
+      "json",
+      "text",
+      "html"
+    ]
+  }
 }
