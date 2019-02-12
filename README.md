@@ -3,9 +3,35 @@
 Project for LucaHome integration into Nextcloud.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-<a target="_blank" href="https://www.paypal.me/GuepardoApps" title="Donate using PayPal"><img src="https://img.shields.io/badge/paypal-donate-blue.svg" /></a>
+[![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)
 
-# License
+## Features
+
+* set states for 433MHz connected sockets
+* ...
+
+## Installation
+
+In your Nextcloud, simply navigate to »Apps«, choose the category Tools, find the LucaHome app and enable it.
+Then open the LucaHome app from the app menu.
+
+## Maintainers
+
+[Jonas Schubert](https://github.com/GuepardoApps)
+
+If you’d like to join, just go through the [issue list](https://github.com/LucaHome/LucaHome-Nextcloud/issues) and fix some.
+
+## Developer setup info
+
+Just clone this repo into your apps directory (Nextcloud server installation needed). Additionally,  [nodejs and npm](https://nodejs.org/en/download/package-manager/) are needed for installing JavaScript dependencies.
+
+Once node and npm are installed, PHP and JavaScript dependencies can be installed by running
+```bash
+$ make
+```
+Please execute this command with your ordinary user account and neither root nor sudo.
+
+## License
 
 LucaHome-Nextcloud is distributed under the MIT license. [See LICENSE](LICENSE.md) for details.
 
