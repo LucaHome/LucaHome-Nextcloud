@@ -35,6 +35,8 @@
     "eslint": "5.13.0",
     "eslint-plugin-vue": "5.1.0",
     "jest": "24.1.0",
+    "jest-serializer-vue": "2.0.2",
+    "vue-jest": "3.0.3",
     "vue-template-compiler": "2.6.6"
   },
   "eslintConfig": {
