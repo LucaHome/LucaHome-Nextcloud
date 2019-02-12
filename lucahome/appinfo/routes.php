@@ -1,39 +1,39 @@
 <?php
-/**
- * This file is licensed under MIT License.
- * @author Jonas  Schubert <guepardoapps@gmail.com>
- * @copyright (c) 2019, Jonas Schubert
- * Source: https://github.com/nextcloud/bookmarks/blob/master/appinfo/routes.php
- */
-
-namespace OCA\Bookmarks\AppInfo;
 
 /**
- * Create your routes in here. The name is the lowercase name of the controller
- * without the controller part, the stuff after the hash is the method.
- * e.g. page#index -> PageController->index()
- *
- * The controller class has to be registered in the application.php file since
- * it's instantiated in there
+ * This file is licensed under the MIT License.
+ * 
+ * @author Jonas  Schubert
+ * @copyright 2019 Jonas Schubert  <guepardoapps@gmail.com>
+ * 
+ * Help: 
+ * https://github.com/nextcloud/bookmarks/blob/master/appinfo/routes.php
+ * https://github.com/nextcloud/tasks/blob/master/appinfo/routes.php
  */
+
+namespace OCA\LucaHome;
+
+// use \OCP\AppFramework\App;
+use \OCA\LucaHome\AppInfo\Application;
+
 $application = new Application();
 
-$application->registerRoutes($this, ['routes' => [
+$application->registerRoutes($this, array('routes' => array(
 	// Web Template Route
-	['name' => 'web_view#index', 'url' => '/', 'verb' => 'GET'],
+	array('name' => 'web_view#index', 'url' => '/', 'verb' => 'GET'),
 	
 	// WirelessSocket
-    ['name' => 'wireless_socket#get', 'url' => '/api/v1/wireless_socket', 'verb' => 'GET'],
-	['name' => 'wireless_socket#get_for_user', 'url' => '/api/v1/wireless_socket/user', 'verb' => 'GET'],
-	['name' => 'wireless_socket#get_for_id', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'GET'],
-	['name' => 'wireless_socket#add', 'url' => '/api/v1/wireless_socket', 'verb' => 'POST'],
-	['name' => 'wireless_socket#update', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'PUT'],
-	['name' => 'wireless_socket#set_state', 'url' => '/api/v1/wireless_socket/state/{id}', 'verb' => 'PUT'],
-	['name' => 'wireless_socket#delete', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'DELETE'],
+    array('name' => 'wireless_socket#get', 'url' => '/api/v1/wireless_socket', 'verb' => 'GET'),
+	array('name' => 'wireless_socket#get_for_user', 'url' => '/api/v1/wireless_socket/user', 'verb' => 'GET'),
+	array('name' => 'wireless_socket#get_for_id', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'GET'),
+	array('name' => 'wireless_socket#add', 'url' => '/api/v1/wireless_socket', 'verb' => 'POST'),
+	array('name' => 'wireless_socket#update', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'PUT'),
+	array('name' => 'wireless_socket#set_state', 'url' => '/api/v1/wireless_socket/state/{id}', 'verb' => 'PUT'),
+	array('name' => 'wireless_socket#delete', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'DELETE'),
 	
 	// Settings
-	['name' => 'settings#set_sorting', 'url' => '/settings/sort', 'verb' => 'POST'],
-	['name' => 'settings#get_sorting', 'url' => '/settings/sort', 'verb' => 'GET'],
-	['name' => 'settings#set_view_mode', 'url' => '/settings/view', 'verb' => 'POST'],
-    ['name' => 'settings#get_view_mode', 'url' => '/settings/view', 'verb' => 'GET']
-]]);
+	array('name' => 'settings#set_sorting', 'url' => '/settings/sort', 'verb' => 'POST'),
+	array('name' => 'settings#get_sorting', 'url' => '/settings/sort', 'verb' => 'GET'),
+	array('name' => 'settings#set_view_mode', 'url' => '/settings/view', 'verb' => 'POST'),
+    array('name' => 'settings#get_view_mode', 'url' => '/settings/view', 'verb' => 'GET')
+)));

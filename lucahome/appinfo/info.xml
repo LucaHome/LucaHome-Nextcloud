@@ -7,11 +7,15 @@
     <description><![CDATA[App to control sockets, switches and to measure and monitor temperature, humidity and light conditions]]></description>
     <version>0.1.0</version>
     <licence>MIT</licence>
-    <author mail="guepardoapps@gmail.com" >GuepardoApps (Jonas Schubert)</author>
+    <author mail="guepardoapps@gmail.com">GuepardoApps (Jonas Schubert)</author>
     <namespace>LucaHome</namespace>
+    <documentation>
+        <admin>https://github.com/LucaHome/LucaHome-Nextcloud#installation</admin>
+        <developer>https://github.com/LucaHome/LucaHome-Nextcloud#developer-setup-info</developer>
+    </documentation>
     <category>tools</category>
-    <website>https://github.com/GuepardoApps/LucaHome-Nextcloud/</website>
-    <bugs>https://github.com/GuepardoApps/LucaHome-Nextcloud/issues</bugs>
+    <website>https://github.com/LucaHome/LucaHome-Nextcloud/</website>
+    <bugs>https://github.com/LucaHome/LucaHome-Nextcloud/issues</bugs>
     <repository>https://github.com/LucaHome/LucaHome-Nextcloud.git</repository>
     <screenshot></screenshot>
     <dependencies>
