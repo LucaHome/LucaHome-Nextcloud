@@ -1,20 +1,20 @@
 <template>
   <div>
     <md-list class="md-triple-line">
-      <div v-for="(item, index) in items" :key="index">
-        <md-list-item :class="{selected:item.selected, selectable:!item.selected}">
-          <md-avatar @click="select(item)">
-            <img :src="item.icon">
+      <div v-for="(wirelessSocket, index) in wirelessSocketList" :key="index">
+        <md-list-item :class="{selected: wirelessSocket.id === selectedWirelessSocket.id, selectable: wirelessSocket.id !== selectedWirelessSocket.id}">
+          <md-avatar @click="select(wirelessSocket)">
+            <img :src="wirelessSocket.icon">
           </md-avatar>
 
-          <div class="md-list-item-text" @click="select(item)">
-            <span>{{item.name}}</span>
-            <span>{{item.area}}</span>
-            <p>{{item.code}}</p>
+          <div class="md-list-item-text" @click="select(wirelessSocket)">
+            <span>{{wirelessSocket.name}}</span>
+            <span>{{wirelessSocket.area}}</span>
+            <p>{{wirelessSocket.code}}</p>
           </div>
 
-          <md-button class="md-icon-button md-raised" @click="switchState(item)">
-            <md-icon :class="{'fas fa-toggle-on':item.state,'fas fa-toggle-off':!item.state}"></md-icon>
+          <md-button class="md-icon-button md-raised" @click="toggleState(wirelessSocket)">
+            <md-icon :class="{'fas fa-toggle-on':wirelessSocket.state,'fas fa-toggle-off':!wirelessSocket.state}"></md-icon>
           </md-button>
         </md-list-item>
 
@@ -29,84 +29,27 @@
 </template>
 
 <script>
-var exampleData = [
-  {
-    icon: require("@/assets/wireless_socket_light_on.png"),
-    name: "Light Sleeping",
-    area: "Sleeping Room",
-    code: "11010A",
-    state: false,
-    selected: false
-  },
-  {
-    icon: require("@/assets/wireless_socket_sound_on.png"),
-    name: "Sound TV",
-    area: "Living Room",
-    code: "11010B",
-    state: false,
-    selected: false
-  },
-  {
-    icon: require("@/assets/wireless_socket_raspberry_on.png"),
-    name: "Raspberry Pi MediaCenter",
-    area: "Living Room",
-    code: "11010C",
-    state: false,
-    selected: false
-  },
-  {
-    icon: require("@/assets/wireless_socket_light_on.png"),
-    name: "Light Couch",
-    area: "Living Room",
-    code: "11010D",
-    state: true,
-    selected: true
-  },
-  {
-    icon: require("@/assets/wireless_socket_storage_off.png"),
-    name: "Backup Drive",
-    area: "Working Room",
-    code: "11010E",
-    state: false,
-    selected: false
-  },
-  {
-    icon: require("@/assets/wireless_socket_mediamirror_off.png"),
-    name: "Media Mirror Kitchen",
-    area: "Kitchen",
-    code: "11011A",
-    state: true,
-    selected: false
-  },
-  {
-    icon: require("@/assets/wireless_socket_light_off.png"),
-    name: "Light Ceiling",
-    area: "Living Room",
-    code: "11000A",
-    state: false,
-    selected: false
-  }
-];
-
 export default {
   name: "ListView",
   methods: {
-    select(item) {
-      exampleData.forEach(item => (item.selected = false));
-      item.selected = true;
+    select(wirelessSocket) {
+      this.$store.dispatch("selectWirelessSocket", wirelessSocket);
     },
-    switchState(item) {
-      item.state = !item.state;
+    toggleState(wirelessSocket) {
+      this.$store.dispatch("toggleWirelessSocketState", wirelessSocket);
     },
     addWirelessSocket() {
-      // TODO
-      // eslint-disable-next-line
-      console.log("Add");
+      this.$store.dispatch("addWirelessSocket");
     }
   },
-  data: () => ({
-    items: exampleData
-  })
+  computed: {
+    wirelessSocketList() {
+      return this.$store.getters.wirelessSocketList;
+    },
+    selectedWirelessSocket() {
+      return this.$store.getters.selectedWirelessSocket;
+    }
+  }
 };
 </script>
 
