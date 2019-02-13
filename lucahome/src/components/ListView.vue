@@ -21,6 +21,10 @@
         <md-divider class="md-inset"></md-divider>
       </div>
     </md-list>
+
+    <md-button class="md-icon-button md-raised add-button" @click="addWirelessSocket">
+      <md-icon class="fas fa-plus-circle"></md-icon>
+    </md-button>
   </div>
 </template>
 
@@ -93,6 +97,11 @@ export default {
     },
     switchState(item) {
       item.state = !item.state;
+    },
+    addWirelessSocket() {
+      // TODO
+      // eslint-disable-next-line
+      console.log("Add");
     }
   },
   data: () => ({
@@ -112,5 +121,11 @@ export default {
   display: inline-block;
   vertical-align: top;
   border: 0.0625rem solid rgba(#000, 0.12);
+}
+
+.add-button {
+  position: absolute;
+  left: 16rem;
+  bottom: 1rem;
 }
 </style>

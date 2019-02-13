@@ -12,17 +12,14 @@
     >
 
     <ListView class="list-view"></ListView>
-    <BottomBar class="bottom-bar"></BottomBar>
   </div>
 </template>
 
 <script>
-import BottomBar from "./components/BottomBar.vue";
 import ListView from "./components/ListView.vue";
 
 export default {
   components: {
-    BottomBar,
     ListView
   }
 };
@@ -36,15 +33,8 @@ body {
   font-family: Helvetica, sans-serif;
 }
 
-.bottom-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
 .list-view {
-  height: calc(100vh - 3.5rem);
+  height: 100vh;
 }
 
 .selected {
