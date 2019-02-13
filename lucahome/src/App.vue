@@ -12,15 +12,18 @@
     >
 
     <ListView class="list-view"></ListView>
+    <DetailView class="detail-view"></DetailView>
   </div>
 </template>
 
 <script>
 import ListView from "./components/ListView.vue";
+import DetailView from "./components/DetailView.vue";
 
 export default {
   components: {
-    ListView
+    ListView,
+    DetailView
   }
 };
 </script>
@@ -40,6 +43,15 @@ body {
   height: 100vh;
   background-color: rgb(66, 66, 66);
   border: 0.0625rem solid rgba(#000, 0.12);
+}
+
+.detail-view {
+  position: absolute;
+  height: 100vh;
+  width: calc(100vw - 20.5rem);
+  background-color: rgb(66, 66, 66);
+  left: 20.5rem;
+  top: 0;
 }
 
 .selected {
