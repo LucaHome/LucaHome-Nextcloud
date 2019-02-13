@@ -5,9 +5,9 @@
       <span class="md-bottom-bar-label">List</span>
     </md-bottom-bar-item>
 
-    <md-bottom-bar-item id="edit" @click="showEdit">
-      <md-icon class="fas fa-edit"></md-icon>
-      <span class="md-bottom-bar-label">Edit</span>
+    <md-bottom-bar-item id="add" @click="showAdd">
+      <md-icon class="fas fa-plus-circle"></md-icon>
+      <span class="md-bottom-bar-label">Add</span>
     </md-bottom-bar-item>
   </md-bottom-bar>
 </template>
@@ -23,9 +23,9 @@ export default {
       this.clearReload();
       this.$store.dispatch("changeView", "list");
     },
-    showEdit() {
+    showAdd() {
       this.clearReload();
-      this.$store.dispatch("changeView", "edit");
+      this.$store.dispatch("changeView", "add");
     },
     clearReload() {
       window.clearInterval(this.checkInterval);
