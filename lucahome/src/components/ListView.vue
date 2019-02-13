@@ -58,16 +58,12 @@ export default {
   min-width: 20rem;
   width: 20rem;
   max-width: 20rem;
-  min-height: 100%;
-  height: 100%;
-  max-height: 100%;
   display: inline-block;
   vertical-align: top;
-  border: 0.0625rem solid rgba(#000, 0.12);
 }
 
 .add-button {
-  position: absolute;
+  position: fixed;
   left: 16rem;
   bottom: 1rem;
 }
