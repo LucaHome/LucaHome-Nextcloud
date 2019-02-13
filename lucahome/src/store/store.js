@@ -3,16 +3,19 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+var preselectedWirelessSocket = {
+    id: 0,
+    icon: require("@/assets/wireless_socket_light_on.png"),
+    name: "Light Sleeping",
+    area: "Sleeping Room",
+    code: "11010A",
+    state: false
+};
+
 export default new Vuex.Store({
     state: {
-        wirelessSocketList: [{
-                id: 0,
-                icon: require("@/assets/wireless_socket_light_on.png"),
-                name: "Light Sleeping",
-                area: "Sleeping Room",
-                code: "11010A",
-                state: false
-            },
+        wirelessSocketList: [
+            preselectedWirelessSocket,
             {
                 id: 1,
                 icon: require("@/assets/wireless_socket_sound_on.png"),
@@ -62,7 +65,7 @@ export default new Vuex.Store({
                 state: false
             }
         ],
-        selectedWirelessSocket: {}
+        selectedWirelessSocket: preselectedWirelessSocket
     },
     mutations: {
         SELECT_WIRELESS_SOCKET(state, wirelessSocket) {
