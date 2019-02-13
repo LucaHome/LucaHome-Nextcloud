@@ -1,31 +1,58 @@
 <template>
   <div id="app">
-    <!--<img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-    <Home/>
+    <link
+      rel="stylesheet"
+      href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons"
+    >
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    >
+
+    <ListView class="list-view"></ListView>
+    <BottomBar class="bottom-bar"></BottomBar>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-import Home from "./components/Home.vue";
+import BottomBar from "./components/BottomBar.vue";
+import ListView from "./components/ListView.vue";
 
 export default {
-  name: "app",
   components: {
-    HelloWorld,
-    Home
+    BottomBar,
+    ListView
   }
 };
 </script>
 
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+@import "~vue-material/dist/theme/engine";
+@import "~vue-material/dist/theme/all";
+
+body {
+  font-family: Helvetica, sans-serif;
+}
+
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.list-view {
+  height: calc(100vh - 3.5rem);
+}
+
+.selected {
+  background-color: dimgrey;
+  cursor: default;
+}
+
+.selectable {
+  cursor: pointer;
 }
 </style>
