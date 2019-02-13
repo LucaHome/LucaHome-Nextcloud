@@ -34,7 +34,12 @@ body {
 }
 
 .list-view {
+  min-width: 20rem;
+  width: 20rem;
+  max-width: 20rem;
   height: 100vh;
+  background-color: rgb(66, 66, 66);
+  border: 0.0625rem solid rgba(#000, 0.12);
 }
 
 .selected {
