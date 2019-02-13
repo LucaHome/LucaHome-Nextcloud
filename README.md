@@ -10,6 +10,8 @@ Project for LucaHome integration into Nextcloud.
 * set states for 433MHz connected sockets
 * ...
 
+![alt tag](/screenshots/wip_20190213_1919.jpg)
+
 ## Installation
 
 In your Nextcloud, simply navigate to »Apps«, choose the category Tools, find the LucaHome app and enable it.
