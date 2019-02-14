@@ -49,6 +49,10 @@
         <md-card-actions>
           <md-button type="submit" class="md-primary" :disabled="sending">Save wireless socket</md-button>
         </md-card-actions>
+
+        <md-card-actions>
+          <md-button type="button" class="md-accent" :disabled="sending">Delete wireless socket</md-button>
+        </md-card-actions>
       </md-card>
 
       <md-snackbar :md-active.sync="saved">The wireless socket was saved with success!</md-snackbar>
@@ -108,17 +112,8 @@ export default {
     },
     clearForm() {
       this.$v.$reset();
-      this.form.name = null;
-      this.form.code = null;
-      this.form.area = null;
-      this.form.gender = null;
-      this.form.state = false;
-      this.form.userId = null;
-      this.form.description = null;
-      this.form.public = true;
-      this.form.added = null;
-      this.form.lastmodified = null;
-      this.form.clickcount = 0;
+      var wirelessSocket = this.$store.getters.selectedWirelessSocket;
+      this.setFormData(wirelessSocket);
     },
     save() {
       this.sending = true;
@@ -136,16 +131,21 @@ export default {
       if (!this.$v.$invalid) {
         this.save();
       }
+    },
+    setFormData(wirelessSocket) {
+      this.form.name = wirelessSocket.name;
+      this.form.code = wirelessSocket.code;
+      this.form.area = wirelessSocket.area;
     }
   },
   watch: {
     selectedWirelessSocket(wirelessSocket) {
-      this.form.name = wirelessSocket.name;
+      this.setFormData(wirelessSocket);
     }
   },
   created() {
     var wirelessSocket = this.$store.getters.selectedWirelessSocket;
-    this.form.name = wirelessSocket.name;
+    this.setFormData(wirelessSocket);
   },
   computed: {
     selectedWirelessSocket() {
