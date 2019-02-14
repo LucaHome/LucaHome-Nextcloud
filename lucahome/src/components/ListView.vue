@@ -22,7 +22,7 @@
       </div>
     </md-list>
 
-    <md-button class="md-icon-button md-raised add-button" @click="addWirelessSocket">
+    <md-button class="md-icon-button md-raised add-button md-primary" @click="addWirelessSocket">
       <md-icon class="fas fa-plus-circle"></md-icon>
     </md-button>
   </div>
