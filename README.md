@@ -10,9 +10,9 @@ Project for LucaHome integration into Nextcloud.
 [![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/LucaHome/LucaHome-RaspberryServer/tree/develop)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
-[![Vue](https://img.shields.io/badge/Vue-lightgreen.svg)](https://vuejs.org/)
-[![PHP](https://img.shields.io/badge/PHP-blue.svg)](http://php.net/)
-[![C++](https://img.shields.io/badge/C++-blue.svg)](https://isocpp.org/)
+[![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
+[![PHP](https://img.shields.io/badge/lang-PHP-blue.svg)](http://php.net/)
+[![C++](https://img.shields.io/badge/lang-C++-blue.svg)](https://isocpp.org/)
 
 ## Features
 
