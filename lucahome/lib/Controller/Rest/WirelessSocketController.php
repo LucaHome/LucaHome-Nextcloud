@@ -300,7 +300,6 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 	/**
 	 * @brief Delete a WirelessSocket
 	 * @param int id
-	 * @param int newState
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
