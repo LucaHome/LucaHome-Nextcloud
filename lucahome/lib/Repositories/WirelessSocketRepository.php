@@ -179,7 +179,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @return ErrorCode WirelessSocket is valid or not
 	 */
     private function validate(WirelessSocket $wirelessSocket) {
-        if(nameInUse($wirelessSocket->getCode()) === true) {
+        if(nameInUse($wirelessSocket->getName()) === true) {
             return ErrorCode::WirelessSocketNameAlreadyInUse;
         }
 
