@@ -2,7 +2,7 @@
 
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)/></a>
+[![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)
 
 [![Build](https://img.shields.io/badge/build-WIP-yellow.svg)](./)
 [![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/LucaHome/LucaHome-RaspberryServer/tree/develop)
