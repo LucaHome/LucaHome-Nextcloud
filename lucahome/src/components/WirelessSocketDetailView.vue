@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="selectedWirelessSocket">
     <form novalidate class="md-layout" @submit.prevent="validate">
       <md-card class="md-layout-item md-size-95 md-small-size-100">
         <md-card-header>
@@ -65,7 +65,7 @@ import { validationMixin } from "vuelidate";
 import { required, minLength, maxLength } from "vuelidate/lib/validators";
 
 export default {
-  name: "FormValidation",
+  name: "WirelessSocketDetailView",
   mixins: [validationMixin],
   data: () => ({
     form: {
@@ -133,9 +133,15 @@ export default {
       }
     },
     setFormData(wirelessSocket) {
-      this.form.name = wirelessSocket.name;
-      this.form.code = wirelessSocket.code;
-      this.form.area = wirelessSocket.area;
+      if (wirelessSocket) {
+        this.form.name = wirelessSocket.name;
+        this.form.code = wirelessSocket.code;
+        this.form.area = wirelessSocket.area;
+      } else {
+        this.form.name = "";
+        this.form.code = "";
+        this.form.area = "";
+      }
     }
   },
   watch: {

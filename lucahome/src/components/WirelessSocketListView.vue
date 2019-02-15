@@ -2,7 +2,9 @@
   <div>
     <md-list class="md-triple-line">
       <div v-for="(wirelessSocket, index) in wirelessSocketList" :key="index">
-        <md-list-item :class="{selected: wirelessSocket.id === selectedWirelessSocket.id, selectable: wirelessSocket.id !== selectedWirelessSocket.id}">
+        <md-list-item
+          :class="{selected: wirelessSocket.id === selectedWirelessSocket.id, selectable: wirelessSocket.id !== selectedWirelessSocket.id}"
+        >
           <md-avatar @click="select(wirelessSocket)">
             <img :src="wirelessSocket.icon">
           </md-avatar>
@@ -14,7 +16,9 @@
           </div>
 
           <md-button class="md-icon-button md-raised" @click="toggleState(wirelessSocket)">
-            <md-icon :class="{'fas fa-toggle-on':wirelessSocket.state,'fas fa-toggle-off':!wirelessSocket.state}"></md-icon>
+            <md-icon
+              :class="{'fas fa-toggle-on':wirelessSocket.state,'fas fa-toggle-off':!wirelessSocket.state}"
+            ></md-icon>
           </md-button>
         </md-list-item>
 
@@ -23,14 +27,14 @@
     </md-list>
 
     <md-button class="md-icon-button md-raised add-button md-primary" @click="addWirelessSocket">
-      <md-icon class="fas fa-plus-circle"></md-icon>
+      <md-icon>add</md-icon>
     </md-button>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ListView",
+  name: "WirelessSocketListView",
   methods: {
     select(wirelessSocket) {
       this.$store.dispatch("selectWirelessSocket", wirelessSocket);
@@ -44,7 +48,7 @@ export default {
   },
   computed: {
     wirelessSocketList() {
-      return this.$store.getters.wirelessSocketList;
+      return this.$store.getters.visibleWirelessSocketList;
     },
     selectedWirelessSocket() {
       return this.$store.getters.selectedWirelessSocket;
@@ -64,7 +68,7 @@ export default {
 
 .add-button {
   position: fixed;
-  left: 16rem;
+  left: 31.5rem;
   bottom: 1rem;
 }
 </style>
