@@ -14,12 +14,6 @@ interface IWirelessSocketRepository {
 
 	/**
      * @param string userId
-	 * @return array WirelessSocket
-	 */
-	public function getForUser($userId);
-
-	/**
-     * @param string userId
      * @param int id
 	 * @return array WirelessSocket
 	 */

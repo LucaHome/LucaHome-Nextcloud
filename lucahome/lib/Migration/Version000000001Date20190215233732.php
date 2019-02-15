@@ -14,7 +14,7 @@ use OCP\IDBConnection;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version000000001Date20190203180000 extends SimpleMigrationStep {
+class Version000000001Date20190215233732 extends SimpleMigrationStep {
     private $db;
     
 	public function __construct(IDBConnection $db) {
@@ -49,7 +49,7 @@ class Version000000001Date20190203180000 extends SimpleMigrationStep {
             
 			$table->addColumn('name', 'string', [
 				'notnull' => true,
-				'length' => 4096,
+				'length' => 128,
 				'default' => '',
 			]);
 			$table->addColumn('code', 'string', [
@@ -59,7 +59,7 @@ class Version000000001Date20190203180000 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('area', 'string', [
 				'notnull' => true,
-				'length' => 4096,
+				'length' => 128,
 				'default' => '',
 			]);
 			$table->addColumn('state', 'smallint', [
@@ -67,39 +67,10 @@ class Version000000001Date20190203180000 extends SimpleMigrationStep {
 				'length' => 1,
 				'default' => 0,
             ]);
-            
-			$table->addColumn('user_id', 'string', [
-				'notnull' => true,
-				'length' => 64,
-				'default' => '',
-			]);
 			$table->addColumn('description', 'string', [
 				'notnull' => true,
 				'length' => 4096,
 				'default' => '',
-			]);
-			$table->addColumn('public', 'smallint', [
-				'notnull' => false,
-				'length' => 1,
-				'default' => 0,
-			]);
-			$table->addColumn('added', 'integer', [
-				'notnull' => false,
-				'length' => 4,
-				'default' => 0,
-				'unsigned' => true,
-			]);
-			$table->addColumn('lastmodified', 'integer', [
-				'notnull' => false,
-				'length' => 4,
-				'default' => 0,
-				'unsigned' => true,
-			]);
-			$table->addColumn('clickcount', 'integer', [
-				'notnull' => true,
-				'length' => 4,
-				'default' => 0,
-				'unsigned' => true,
 			]);
 			$table->setPrimaryKey(['id']);
         }

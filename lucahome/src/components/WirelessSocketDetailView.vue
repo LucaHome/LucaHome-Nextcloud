@@ -114,7 +114,8 @@ export default {
     form: {
       name: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(3),
+        maxLength: maxLength(128)
       },
       code: {
         required,
@@ -123,7 +124,8 @@ export default {
       },
       area: {
         required,
-        minLength: minLength(3)
+        minLength: minLength(3),
+        maxLength: maxLength(128)
       }
     }
   },

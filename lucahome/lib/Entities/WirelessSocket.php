@@ -14,19 +14,9 @@ class WirelessSocket extends Entity {
     protected $code;
     protected $area;
     protected $state;
-
-    protected $userId;
     protected $description;
-    protected $public;
-    protected $added;
-    protected $lastmodified;
-    protected $clickcount;
 
     public function __construct() {
         $this->addType('state', 'integer');
-        $this->addType('public', 'integer');
-        $this->addType('added', 'integer');
-        $this->addType('lastmodified', 'integer');
-        $this->addType('clickcount', 'integer');
     }
 }

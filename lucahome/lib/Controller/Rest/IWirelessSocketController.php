@@ -14,11 +14,6 @@ interface IWirelessSocketController {
 	public function get();
 
 	/**
-	 * @return JSONResponse
-	 */
-	public function getForUser();
-
-	/**
      * @param int id
 	 * @return JSONResponse
 	 */
@@ -29,10 +24,9 @@ interface IWirelessSocketController {
 	 * @param string code
 	 * @param string area
 	 * @param string description
-	 * @param int public
 	 * @return JSONResponse
 	 */
-	public function add($name, $code, $area, $description, int $public);
+	public function add($name, $code, $area, $description);
     
     /**
 	 * @param int id
@@ -40,10 +34,9 @@ interface IWirelessSocketController {
 	 * @param string code
 	 * @param string area
 	 * @param string description
-	 * @param int public
 	 * @return JSONResponse
 	 */
-    public function update(int $id, $name, $code, $area, $description, int $public);
+    public function update(int $id, $name, $code, $area, $description);
     
     /**
 	 * @param int id

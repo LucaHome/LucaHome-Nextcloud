@@ -15,12 +15,6 @@ interface IWirelessSocketService {
 	public function get($userId = null);
 
 	/**
-     * @param string userId
-	 * @return array WirelessSocket
-	 */
-	public function getForUser($userId = null);
-
-	/**
      * @param int id
      * @param string userId
 	 * @return array WirelessSocket

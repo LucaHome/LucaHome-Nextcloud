@@ -45,20 +45,6 @@ class WirelessSocketService implements IWirelessSocketService {
     }
 
 	/**
-     * @brief returns all wireless sockets for a userId and the public
-     * @param string userId
-	 * @return array WirelessSocket
-	 */
-	public function getForUser($userId = null) {
-        $errorCode = validateUserId($userId);
-        if($errorCode !== ErrorCode::NoError){
-            return $errorCode;
-        }
-
-        return $this->repository->getForUser($userId);
-    }
-
-	/**
      * @brief returns single wireless sockets for the id and userId
      * @param int id
      * @param string userId

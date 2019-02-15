@@ -24,7 +24,6 @@ $application->registerRoutes($this, array('routes' => array(
 	
 	// WirelessSocket
     array('name' => 'wireless_socket#get', 'url' => '/api/v1/wireless_socket', 'verb' => 'GET'),
-	array('name' => 'wireless_socket#get_for_user', 'url' => '/api/v1/wireless_socket/user', 'verb' => 'GET'),
 	array('name' => 'wireless_socket#get_for_id', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'GET'),
 	array('name' => 'wireless_socket#add', 'url' => '/api/v1/wireless_socket', 'verb' => 'POST'),
 	array('name' => 'wireless_socket#update', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'PUT'),

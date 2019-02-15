@@ -28,34 +28,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         $qb = $this->db->getQueryBuilder();
         $qb
             ->select('*')
-            ->from('wirelesssockets')
-            ->where($qb->expr()->eq('public', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)));
-
-        $cursor = $qb->execute();
-        $result = $cursor->fetch();
-        $cursor->closeCursor();
-
-        return $result;
-    }
-
-	/**
-	 * @brief returns all wireless sockets for a userId and the public
-     * @param string userId
-	 * @return array WirelessSocket
-	 */
-    public function getForUser($userId) {
-        $qb = $this->db->getQueryBuilder();
-        $qb
-            ->select('*')
-            ->from('wirelesssockets')
-            ->where($qb->expr()->andX(
-                $qb->expr()->eq('public', $qb->createNamedParameter(1, IQueryBuilder::PARAM_INT)),
-                $qb->expr()-ne('user_id', $qb->createNamedParameter($userId))
-            ))
-            ->orWhere($qb->expr()->andX(
-                $qb->expr()->eq('public', $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT)),
-                $qb->expr()-eq('user_id', $qb->createNamedParameter($userId))
-            ));
+            ->from('wirelesssockets');
 
         $cursor = $qb->execute();
         $result = $cursor->fetch();
@@ -75,8 +48,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         $qb
             ->select('*')
             ->from('wirelesssockets')
-            ->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
-            ->andWhere($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+            ->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
         $cursor = $qb->execute();
         $result = $cursor->fetch();
@@ -105,26 +77,16 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 				'code' => $qb->createParameter('code'),
 				'area' => $qb->createParameter('area'),
                 'state' => $qb->createParameter('state'),
-				'user_id' => $qb->createParameter('user_id'),
-                'description' => $qb->createParameter('description'),
-				'public' => $qb->createParameter('public'),
-				'added' => isset($date_added)? $date_added : $qb->createFunction('UNIX_TIMESTAMP()'),
-				'lastmodified' => $qb->createFunction('UNIX_TIMESTAMP()'),
-				'clickcount' => $qb->createParameter('clickcount'),
+                'description' => $qb->createParameter('description')
 			])
 			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')));
         
         $qb->setParameters([
-            'user_id' => $userId,
-            
 			'name' => $wirelessSocket->getName(),
 			'code' => $wirelessSocket->getCode(),
 			'area' => $wirelessSocket->getArea(),
             'state' => $wirelessSocket->getState(),
-            
-			'description' => $wirelessSocket->getDescription(),
-			'public' => $wirelessSocket->getPublic(),
-			'clickcount' => $wirelessSocket->getClickcount(),
+			'description' => $wirelessSocket->getDescription()
         ]);
         
         $cursor = $qb->execute();
@@ -162,13 +124,8 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
             ->set('code', $qb->createNamedParameter($wirelessSocket->getCode()))
             ->set('area', $qb->createNamedParameter($wirelessSocket->getArea()))
             ->set('state', $qb->createNamedParameter($wirelessSocket->getState()))
-            ->set('user_id', $qb->createNamedParameter($wirelessSocket->getUserId()))
             ->set('description', $qb->createNamedParameter($wirelessSocket->getDescription()))
-            ->set('public', $qb->createNamedParameter($wirelessSocket->getPublic()))
-            ->set('clickcount', $qb->createNamedParameter($wirelessSocket->getClickcount()))
-			->set('lastmodified', $qb->createFunction('UNIX_TIMESTAMP()'))
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($userid)));
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
         $cursor = $qb->execute();
 
@@ -197,8 +154,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 		$qb
 			->select('id')
 			->from('wirelesssockets')
-			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId)))
-			->andWhere($qb->expr()->eq('id', $qb->createNamedParameter($id)));
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
 		$id = $qb->execute()->fetchColumn();
 		if ($id === false) {

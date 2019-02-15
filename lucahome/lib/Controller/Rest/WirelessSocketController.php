@@ -78,31 +78,6 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
     }
     
 	/**
-	 * @brief returns all wireless sockets for a user
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
-	 */
-	public function getForUser() {
-		try {
-			$serviceResponse = $this->service->getForUser($this->userId);
-		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'lucahome']);
-			return new JSONResponse([
-				'error' => $e,
-				'response' => NULL,
-				'status' => 'error'
-			], Http::STATUS_INTERNAL_SERVER_ERROR);
-        }
-        
-		return new JSONResponse([
-			'error' => NULL,
-			'response' => $serviceResponse,
-			'status' => 'success'
-		], Http::STATUS_OK);
-    }
-    
-	/**
 	 * @brief returns a single wireless socket based on its' id for a user
      * @param int id
 	 * @return JSONResponse
@@ -134,12 +109,11 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 	 * @param string code
 	 * @param string area
 	 * @param string description
-	 * @param int public
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
-	public function add($name, $code, $area, $description, int $public) {
+	public function add($name, $code, $area, $description) {
 		if (isset($name)) {
 			$name = trim($name);
 		} else {
@@ -179,11 +153,7 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 		$wirelessSocket->code =  $code;
 		$wirelessSocket->area =  $area;
 		$wirelessSocket->state =  0;
-
-		$wirelessSocket->userId =  $this->userId;
 		$wirelessSocket->description =  $description;
-		$wirelessSocket->public =  $public;
-		$wirelessSocket->clickcount =  0;
 
 		try {
 			$serviceResponse = $this->service->add($wirelessSocket, $this->userId);
@@ -210,12 +180,11 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 	 * @param string code
 	 * @param string area
 	 * @param string description
-	 * @param int public
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
-	public function update(int $id, $name, $code, $area, $description, int $public) {
+	public function update(int $id, $name, $code, $area, $description) {
 		if($id < 0)  {
 			$this->logger->logException('Invalid parameter id in WirelessSocketController::update', ['app' => 'lucahome']);
 			return new JSONResponse([
@@ -264,7 +233,6 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 		$wirelessSocket->code =  $code;
 		$wirelessSocket->area =  $area;
 		$wirelessSocket->description =  $description;
-		$wirelessSocket->public =  $public;
 
 		try {
 			$serviceResponse = $this->service->update($wirelessSocket, $this->userId);
