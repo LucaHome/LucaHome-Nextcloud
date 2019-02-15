@@ -39,7 +39,8 @@ var preselectedWirelessSocket = {
     name: "Light Sleeping",
     area: "Sleeping Room",
     code: "11010A",
-    state: false
+    state: false,
+    description: ""
 };
 
 var wirelessSocketList = [
@@ -50,7 +51,8 @@ var wirelessSocketList = [
         name: "Sound TV",
         area: "Living Room",
         code: "11010B",
-        state: false
+        state: false,
+        description: ""
     },
     {
         id: 2,
@@ -58,7 +60,8 @@ var wirelessSocketList = [
         name: "Raspberry Pi MediaCenter",
         area: "Living Room",
         code: "11010C",
-        state: false
+        state: false,
+        description: ""
     },
     {
         id: 3,
@@ -66,7 +69,8 @@ var wirelessSocketList = [
         name: "Light Couch",
         area: "Living Room",
         code: "11010D",
-        state: true
+        state: true,
+        description: ""
     },
     {
         id: 4,
@@ -74,7 +78,8 @@ var wirelessSocketList = [
         name: "Backup Drive",
         area: "Working Room",
         code: "11010E",
-        state: false
+        state: false,
+        description: ""
     },
     {
         id: 5,
@@ -82,7 +87,8 @@ var wirelessSocketList = [
         name: "Media Mirror Kitchen",
         area: "Kitchen",
         code: "11011A",
-        state: true
+        state: true,
+        description: ""
     },
     {
         id: 6,
@@ -90,7 +96,8 @@ var wirelessSocketList = [
         name: "Light Ceiling",
         area: "Living Room",
         code: "11000A",
-        state: false
+        state: false,
+        description: ""
     }
 ];
 
@@ -154,7 +161,8 @@ export default new Vuex.Store({
                 name: "",
                 area: "",
                 code: "",
-                state: false
+                state: false,
+                description: ""
             };
             state.wirelessSocketList.push(wirelessSocket)
             state.selectedWirelessSocket = wirelessSocket
