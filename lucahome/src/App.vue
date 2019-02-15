@@ -11,19 +11,22 @@
       crossorigin="anonymous"
     >
 
-    <ListView class="list-view"></ListView>
-    <DetailView class="detail-view"></DetailView>
+    <AreaListView class="area-list-view"></AreaListView>
+    <WirelessSocketListView class="wireless-socket-list-view"></WirelessSocketListView>
+    <WirelessSocketDetailView class="detail-view"></WirelessSocketDetailView>
   </div>
 </template>
 
 <script>
-import ListView from "./components/ListView.vue";
-import DetailView from "./components/DetailView.vue";
+import AreaListView from "./components/AreaListView.vue";
+import WirelessSocketDetailView from "./components/WirelessSocketDetailView.vue";
+import WirelessSocketListView from "./components/WirelessSocketListView.vue";
 
 export default {
   components: {
-    ListView,
-    DetailView
+    AreaListView,
+    WirelessSocketDetailView,
+    WirelessSocketListView
   }
 };
 </script>
@@ -36,21 +39,33 @@ body {
   font-family: Helvetica, sans-serif;
 }
 
-.list-view {
+.area-list-view {
+  position: absolute;
+  min-width: 15rem;
+  width: 15rem;
+  max-width: 15rem;
+  height: 100vh;
+  background-color: rgb(66, 66, 66);
+  border: 0.0625rem solid rgba(#000, 0.12);
+}
+
+.wireless-socket-list-view {
+  position: absolute;
   min-width: 20rem;
   width: 20rem;
   max-width: 20rem;
   height: 100vh;
   background-color: rgb(66, 66, 66);
   border: 0.0625rem solid rgba(#000, 0.12);
+  left: 15.5rem;
 }
 
 .detail-view {
   position: absolute;
   height: 100vh;
-  width: calc(100vw - 20.5rem);
+  width: calc(100vw - 36rem);
   background-color: rgb(66, 66, 66);
-  left: 20.5rem;
+  left: 36rem;
   top: 0;
 }
 
