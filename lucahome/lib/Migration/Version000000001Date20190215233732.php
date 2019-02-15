@@ -72,6 +72,29 @@ class Version000000001Date20190215233732 extends SimpleMigrationStep {
 				'length' => 4096,
 				'default' => '',
 			]);
+			
+			$table->setPrimaryKey(['id']);
+        }
+        
+		if (!$schema->hasTable('areas')) {
+			$table = $schema->createTable('areas');
+			$table->addColumn('id', 'bigint', [
+				'autoincrement' => true,
+				'notnull' => true,
+				'length' => 64,
+            ]);
+            
+			$table->addColumn('name', 'string', [
+				'notnull' => true,
+				'length' => 128,
+				'default' => '',
+			]);
+			$table->addColumn('filter', 'string', [
+				'notnull' => true,
+				'length' => 128,
+				'default' => '',
+			]);
+
 			$table->setPrimaryKey(['id']);
         }
         
