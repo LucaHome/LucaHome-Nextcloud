@@ -30,6 +30,13 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'wireless_socket#set_state', 'url' => '/api/v1/wireless_socket/state/{id}', 'verb' => 'PUT'),
 	array('name' => 'wireless_socket#delete', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'DELETE'),
 	
+	// Area
+    array('name' => 'area#get', 'url' => '/api/v1/area', 'verb' => 'GET'),
+	array('name' => 'area#get_for_id', 'url' => '/api/v1/area/{id}', 'verb' => 'GET'),
+	array('name' => 'area#add', 'url' => '/api/v1/area', 'verb' => 'POST'),
+	array('name' => 'area#update', 'url' => '/api/v1/area/{id}', 'verb' => 'PUT'),
+	array('name' => 'area#delete', 'url' => '/api/v1/area/{id}', 'verb' => 'DELETE'),
+	
 	// Settings
 	array('name' => 'settings#set_sorting', 'url' => '/settings/sort', 'verb' => 'POST'),
 	array('name' => 'settings#get_sorting', 'url' => '/settings/sort', 'verb' => 'GET'),
