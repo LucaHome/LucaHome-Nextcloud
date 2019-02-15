@@ -2,15 +2,24 @@
 
 Project for LucaHome integration into Nextcloud.
 
+[![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)
+
+[![Build](https://img.shields.io/badge/build-WIP-yellow.svg)](./)
+[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/LucaHome/LucaHome-RaspberryServer/tree/develop)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+
+[![Vue](https://img.shields.io/badge/Vue-lightgreen.svg)](https://vuejs.org/)
+[![PHP](https://img.shields.io/badge/PHP-blue.svg)](http://php.net/)
+[![C++](https://img.shields.io/badge/C++-blue.svg)](https://isocpp.org/)
 
 ## Features
 
 * set states for 433MHz connected sockets
 * ...
 
-![alt tag](/screenshots/wip_20190213_2236.jpg)
+![alt tag](/screenshots/wip_20190215_2327.jpg)
 
 ## Installation
 
