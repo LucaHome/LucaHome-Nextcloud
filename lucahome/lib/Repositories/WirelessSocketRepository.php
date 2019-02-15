@@ -39,11 +39,10 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 
 	/**
 	 * @brief returns single wireless socket for a userId and the id
-     * @param string userId
      * @param int id
 	 * @return array WirelessSocket
 	 */
-    public function getForId($userId, int $id) {
+    public function getForId(int $id) {
         $qb = $this->db->getQueryBuilder();
         $qb
             ->select('*')
@@ -78,8 +77,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 				'area' => $qb->createParameter('area'),
                 'state' => $qb->createParameter('state'),
                 'description' => $qb->createParameter('description')
-			])
-			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')));
+			]);
         
         $qb->setParameters([
 			'name' => $wirelessSocket->getName(),
@@ -210,15 +208,15 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 
 	/**
 	 * @brief check if an wireless socket name is already in use
-	 * @param string $code WirelessSocket name possible in use
+	 * @param string $name WirelessSocket name possible in use
 	 * @return bool|int the wireless socket id if existing, false otherwise
 	 */
-	private function nameInUse($code) {
+	private function nameInUse($name) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('id')
 			->from('wirelesssockets')
-			->where($qb->expr()->eq('name', $qb->createNamedParameter($code)));
+			->where($qb->expr()->eq('name', $qb->createNamedParameter($name)));
 
         $cursor = $qb->execute();
         $result = $cursor->fetch();

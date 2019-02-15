@@ -56,7 +56,7 @@ class WirelessSocketService implements IWirelessSocketService {
             return $errorCode;
         }
 
-        return $this->respository->getForId($userId, $id);
+        return $this->respository->getForId($id);
     }
 
 	/**
@@ -102,7 +102,7 @@ class WirelessSocketService implements IWirelessSocketService {
             return $errorCode;
         }
 
-        $wirelessSocket = $this->respository->getForId($userId, $id);
+        $wirelessSocket = $this->respository->getForId($id);
         $wirelessSocket->setState($newState);
         $databaseSuccess = $this->repository->update($userId, $wirelessSocket);
 

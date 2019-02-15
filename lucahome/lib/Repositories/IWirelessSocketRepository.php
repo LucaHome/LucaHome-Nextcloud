@@ -13,11 +13,10 @@ interface IWirelessSocketRepository {
 	public function get();
 
 	/**
-     * @param string userId
      * @param int id
 	 * @return array WirelessSocket
 	 */
-	public function getForId($userId, int $id);
+	public function getForId(int $id);
 
 	/**
 	 * @param string userId
