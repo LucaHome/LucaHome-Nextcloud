@@ -24,4 +24,12 @@ abstract class ErrorCode {
     const InvalidUser = -200;
     const InvalidUserNull = -201;
     const UserDoesNotExist = -202;
+
+    const AreaNameAlreadyInUse = -300;
+    const AreaFilterAlreadyInUse = -301;
+    const AreaNameTooLong = -302;
+    const AreaFilterTooLong = -303;
+    const AreaDbCreateError = -304;
+    const AreaDbUpdateError = -305;
+    const AreaDoesNotExist = -306;
 }
