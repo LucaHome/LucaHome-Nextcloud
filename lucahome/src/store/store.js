@@ -113,9 +113,10 @@ export default new Vuex.Store({
         SELECT_AREA(state, area) {
             state.selectedArea = area
 
-            var wirelessSocketList = area.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === area.filter)
-            var selectedWirelessSocket = wirelessSocketList.length > 0 ? wirelessSocketList[0] : null
-            state.visibleWirelessSocketList = wirelessSocketList
+            var visibleWirelessSocketList = area.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === area.filter)
+            state.visibleWirelessSocketList = visibleWirelessSocketList
+
+            var selectedWirelessSocket = visibleWirelessSocketList.length > 0 ? visibleWirelessSocketList[0] : null
             state.selectedWirelessSocket = selectedWirelessSocket
         },
         ADD_AREA(state) {
@@ -159,18 +160,38 @@ export default new Vuex.Store({
                 id: state.wirelessSocketList.length,
                 icon: require("@/assets/img/wireless_socket/light_off.png"),
                 name: "",
-                area: "",
+                area: state.selectedArea !== preselectedArea ? state.selectedArea.name : "",
                 code: "",
                 state: false,
                 description: ""
             };
             state.wirelessSocketList.push(wirelessSocket)
+
+            var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter)
+            state.visibleWirelessSocketList = visibleWirelessSocketList
+
             state.selectedWirelessSocket = wirelessSocket
         },
         REMOVE_WIRELESS_SOCKET(state, wirelessSocket) {
             var wirelessSocketList = state.wirelessSocketList
             wirelessSocketList.splice(wirelessSocketList.indexOf(wirelessSocket), 1)
             state.wirelessSocketList = wirelessSocketList
+
+            var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter)
+            state.visibleWirelessSocketList = visibleWirelessSocketList
+
+            var selectedWirelessSocket = visibleWirelessSocketList.length > 0 ? visibleWirelessSocketList[0] : null
+            state.selectedWirelessSocket = selectedWirelessSocket
+        },
+        SAVE_WIRELESS_SOCKET(state, wirelessSocket) {
+            var wirelessSocketList = state.wirelessSocketList.filter(x => x.id !== wirelessSocket.id)
+            wirelessSocketList.push(wirelessSocket)
+            state.wirelessSocketList = wirelessSocketList
+
+            var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter)
+            state.visibleWirelessSocketList = visibleWirelessSocketList
+
+            state.selectedWirelessSocket = wirelessSocket
         },
         TOGGLE_WIRELESS_SOCKET_STATE(state, wirelessSocket) {
             wirelessSocket.state = !wirelessSocket.state
@@ -217,6 +238,11 @@ export default new Vuex.Store({
             commit
         }, wirelessSocket) {
             commit('REMOVE_WIRELESS_SOCKET', wirelessSocket)
+        },
+        saveWirelessSocket({
+            commit
+        }, wirelessSocket) {
+            commit('SAVE_WIRELESS_SOCKET', wirelessSocket)
         },
         toggleWirelessSocketState({
             commit

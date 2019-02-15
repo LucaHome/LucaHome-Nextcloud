@@ -15,7 +15,11 @@
             <p>{{wirelessSocket.code}}</p>
           </div>
 
-          <md-button class="md-icon-button md-raised" @click="toggleState(wirelessSocket)">
+          <md-button
+            class="md-icon-button md-raised"
+            @click="toggleState(wirelessSocket)"
+            :disabled="sending"
+          >
             <md-icon
               :class="{'fas fa-toggle-on':wirelessSocket.state,'fas fa-toggle-off':!wirelessSocket.state}"
             ></md-icon>
@@ -35,12 +39,21 @@
 <script>
 export default {
   name: "WirelessSocketListView",
+  data: () => ({
+    sending: false
+  }),
   methods: {
     select(wirelessSocket) {
       this.$store.dispatch("selectWirelessSocket", wirelessSocket);
     },
     toggleState(wirelessSocket) {
-      this.$store.dispatch("toggleWirelessSocketState", wirelessSocket);
+      this.sending = true;
+
+      // Instead of this timeout, here we have to call the API
+      window.setTimeout(() => {
+        this.$store.dispatch("toggleWirelessSocketState", wirelessSocket);
+        this.sending = false;
+      }, 500);
     },
     addWirelessSocket() {
       this.$store.dispatch("addWirelessSocket");
