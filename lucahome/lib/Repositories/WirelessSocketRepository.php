@@ -179,11 +179,11 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @return ErrorCode WirelessSocket is valid or not
 	 */
     private function validate(WirelessSocket $wirelessSocket) {
-        if(nameInUse($wirelessSocket->getCode()) !== true) {
+        if(nameInUse($wirelessSocket->getCode()) === true) {
             return ErrorCode::WirelessSocketNameAlreadyInUse;
         }
 
-        if(codeInUse($wirelessSocket->getCode()) !== true) {
+        if(codeInUse($wirelessSocket->getCode()) === true) {
             return ErrorCode::WirelessSocketCodeAlreadyInUse;
         }
 
@@ -209,7 +209,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	/**
 	 * @brief check if an wireless socket name is already in use
 	 * @param string $name WirelessSocket name possible in use
-	 * @return bool|int the wireless socket id if existing, false otherwise
+	 * @return bool true if existing, false otherwise
 	 */
 	private function nameInUse($name) {
 		$qb = $this->db->getQueryBuilder();
@@ -223,7 +223,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         $cursor->closeCursor();
         
 		if ($result) {
-			return $result['id'];
+			return true;
         } 
         
         return false;
@@ -232,7 +232,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	/**
 	 * @brief check if an wireless socket code is already in use
 	 * @param string $code WirelessSocket code possible in use
-	 * @return bool|int the wireless socket id if existing, false otherwise
+	 * @return bool true if existing, false otherwise
 	 */
 	private function codeInUse($code) {
 		$qb = $this->db->getQueryBuilder();
@@ -246,7 +246,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         $cursor->closeCursor();
         
 		if ($result) {
-			return $result['id'];
+			return true;
         } 
         
         return false;
