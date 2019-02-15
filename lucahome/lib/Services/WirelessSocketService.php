@@ -124,7 +124,7 @@ class WirelessSocketService implements IWirelessSocketService {
             return $errorCode;
         }
 
-        return $this->repository->delete($userId, $wirelessSocket->getId());
+        return $this->repository->delete($userId, $id);
     }
 
 	/**
