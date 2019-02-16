@@ -150,7 +150,7 @@ export default {
       window.setTimeout(() => {
         var wirelessSocket = {
           id: this.selectedWirelessSocket.id,
-          icon: require("@/assets/img/wireless_socket/light_off.png"),
+          icon: "fas fa-lightbulb",
           name: this.form.name,
           area: this.form.area,
           code: this.form.code,

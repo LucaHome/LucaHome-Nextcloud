@@ -6,7 +6,7 @@
           :class="{selected: wirelessSocket.id === selectedWirelessSocket.id, selectable: wirelessSocket.id !== selectedWirelessSocket.id}"
         >
           <md-avatar @click="select(wirelessSocket)">
-            <img :src="wirelessSocket.icon">
+            <md-icon :class="wirelessSocket.icon"></md-icon>
           </md-avatar>
 
           <div class="md-list-item-text" @click="select(wirelessSocket)">

@@ -120,7 +120,7 @@ export default new Vuex.Store({
         ADD_WIRELESS_SOCKET(state) {
             var wirelessSocket = {
                 id: state.wirelessSocketList.length,
-                icon: require("@/assets/img/wireless_socket/light_off.png"),
+                icon: "fas fa-lightbulb",
                 name: "",
                 area: state.selectedArea !== preselectedArea ? state.selectedArea.name : "",
                 code: "",

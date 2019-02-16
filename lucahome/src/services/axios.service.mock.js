@@ -22,7 +22,7 @@ var areaList = [{
 
 var wirelessSocketList = [{
         id: 0,
-        icon: require("@/assets/img/wireless_socket/light_on.png"),
+        icon: "fas fa-lightbulb",
         name: "Light Sleeping",
         area: "Sleeping Room",
         code: "11010A",
@@ -31,7 +31,7 @@ var wirelessSocketList = [{
     },
     {
         id: 1,
-        icon: require("@/assets/img/wireless_socket/sound_on.png"),
+        icon: "fas fa-headphones",
         name: "Sound TV",
         area: "Living Room",
         code: "11010B",
@@ -40,7 +40,7 @@ var wirelessSocketList = [{
     },
     {
         id: 2,
-        icon: require("@/assets/img/wireless_socket/raspberry_on.png"),
+        icon: "fab fa-raspberry-pi",
         name: "Raspberry Pi MediaCenter",
         area: "Living Room",
         code: "11010C",
@@ -49,7 +49,7 @@ var wirelessSocketList = [{
     },
     {
         id: 3,
-        icon: require("@/assets/img/wireless_socket/light_on.png"),
+        icon: "fas fa-lightbulb",
         name: "Light Couch",
         area: "Living Room",
         code: "11010D",
@@ -58,7 +58,7 @@ var wirelessSocketList = [{
     },
     {
         id: 4,
-        icon: require("@/assets/img/wireless_socket/storage_off.png"),
+        icon: "fas fa-hdd",
         name: "Backup Drive",
         area: "Working Room",
         code: "11010E",
@@ -67,7 +67,7 @@ var wirelessSocketList = [{
     },
     {
         id: 5,
-        icon: require("@/assets/img/wireless_socket/mediamirror_off.png"),
+        icon: "fas fa-tablet-alt",
         name: "Media Mirror Kitchen",
         area: "Kitchen",
         code: "11011A",
@@ -76,7 +76,7 @@ var wirelessSocketList = [{
     },
     {
         id: 6,
-        icon: require("@/assets/img/wireless_socket/light_off.png"),
+        icon: "fas fa-lightbulb",
         name: "Light Ceiling",
         area: "Living Room",
         code: "11000A",
