@@ -19,8 +19,8 @@ Project for LucaHome integration into Nextcloud.
 * set states for 433MHz connected sockets
 * ...
 
-![alt tag](/screenshots/wip_20190215_2327.jpg)
-![alt tag](/screenshots/wip_20190216_1303.jpg)
+![alt tag](/screenshots/wip_20190216_1324.jpg)
+![alt tag](/screenshots/wip_20190216_1325.jpg)
 
 ## Installation
 
