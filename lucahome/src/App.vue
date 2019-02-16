@@ -27,6 +27,14 @@ export default {
     AreaListView,
     WirelessSocketDetailView,
     WirelessSocketListView
+  },
+  methods: {
+    init() {
+      this.$store.dispatch("init", this.$axiosService);
+    }
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

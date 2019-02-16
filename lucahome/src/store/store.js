@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import axiosService from '../services/axios.service'
+
 Vue.use(Vuex)
 
 var preselectedArea = {
@@ -19,71 +21,101 @@ export default new Vuex.Store({
     },
     mutations: {
         INIT(state) {
-            this.$axiosService.get("area").then((areaResponse) => {
-                state.areaList = areaResponse;
-                state.selectedArea = areaResponse.length > 0 ? areaResponse[0] : null;
-
-                if(areaResponse.length > 0) {
-                    this.$axiosService.get("wireless_socket").then((wirelessSocketResponse) => {
-                        state.wirelessSocketList = wirelessSocketResponse
-
-                        var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter)
-                        state.visibleWirelessSocketList = visibleWirelessSocketList
-            
-                        var selectedWirelessSocket = visibleWirelessSocketList.length > 0 ? visibleWirelessSocketList[0] : null
-                        state.selectedWirelessSocket = selectedWirelessSocket
-                    });
+            axiosService.get("area").then((areaResponse) => {
+                if(areaResponse.status === "success") {
+                    var areaList = [preselectedArea];
+                    state.areaList = areaList.concat(areaResponse.response);
                 } else {
-                    state.wirelessSocketList = []
-                    state.visibleWirelessSocketList = []
-                    state.selectedWirelessSocket = null
+                    state.areaList = [preselectedArea];
+                    // eslint-disable-next-line
+                    console.error(JSON.stringify(areaResponse));
                 }
+                state.selectedArea = state.areaList[0];
+
+                axiosService.get("wireless_socket").then((wirelessSocketResponse) => {
+                    if(wirelessSocketResponse.status === "success") {
+                        state.wirelessSocketList = wirelessSocketResponse.response;
+                    } else {
+                        state.wirelessSocketList = [];
+                        // eslint-disable-next-line
+                        console.error(JSON.stringify(wirelessSocketResponse));
+                    }
+
+                    var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter);
+                    state.visibleWirelessSocketList = visibleWirelessSocketList;
+        
+                    var selectedWirelessSocket = visibleWirelessSocketList.length > 0 ? visibleWirelessSocketList[0] : null;
+                    state.selectedWirelessSocket = selectedWirelessSocket;
+                });
             });
         },
+
         SELECT_AREA(state, area) {
-            state.selectedArea = area
+            state.selectedArea = area;
 
-            var visibleWirelessSocketList = area.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === area.filter)
-            state.visibleWirelessSocketList = visibleWirelessSocketList
+            var visibleWirelessSocketList = area.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === area.filter);
+            state.visibleWirelessSocketList = visibleWirelessSocketList;
 
-            var selectedWirelessSocket = visibleWirelessSocketList.length > 0 ? visibleWirelessSocketList[0] : null
-            state.selectedWirelessSocket = selectedWirelessSocket
+            var selectedWirelessSocket = visibleWirelessSocketList.length > 0 ? visibleWirelessSocketList[0] : null;
+            state.selectedWirelessSocket = selectedWirelessSocket;
         },
         ADD_AREA(state) {
             var area = {
-                id: state.areaList.length,
+                id: Math.max(...state.areaList.map(x => x.id)) + 1,
                 filter: "",
                 name: ""
             };
-            state.areaList.push(area)
-            state.selectedArea = area
 
-            state.visibleWirelessSocketList = null
-            state.selectedWirelessSocket = null
+            axiosService.put("area", area).then((response) => {
+                if(response.status === "success" && response.response >= 0) {
+                    area.id = response.response;
+                    state.areaList.push(area);
+                    state.selectedArea = area;
+        
+                    state.visibleWirelessSocketList = null;
+                    state.selectedWirelessSocket = null;
+                } else {
+                    // eslint-disable-next-line
+                    console.error(JSON.stringify(response));
+                }
+            });
+        },
+        SAVE_AREA(state, area) {
+            axiosService.post("area", area).then((response) => {
+                if(response.status === "success"  && response.response === 0) {
+                    var areaList = state.areaList;
+                    var index = areaList.map(x => x.id).indexOf(area.id);
+
+                    areaList[index] = area;
+                    state.areaList = areaList;
+                    state.selectedArea = area;
+                } else {
+                    // eslint-disable-next-line
+                    console.error(JSON.stringify(response));
+                }
+            });
         },
         REMOVE_AREA(state, area) {
-            var areaList = state.areaList
-            areaList.splice(areaList.indexOf(area), 1)
-            state.areaList = areaList
-            state.selectedArea = null
+            axiosService.delete("area", area.id).then((response) => {
+                if(response.status === "success"  && response.response === 0) {
+                    var areaList = state.areaList;
+                    areaList.splice(areaList.indexOf(area), 1);
+                    state.areaList = areaList;
+                    state.selectedArea = null;
+        
+                    var wirelessSocketList = area.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area !== area.filter);
+                    state.wirelessSocketList = wirelessSocketList;
+                    state.visibleWirelessSocketList = null;
+                    state.selectedWirelessSocket = null;
+                } else {
+                    // eslint-disable-next-line
+                    console.error(JSON.stringify(response));
+                }
+            });
+        },
 
-            var wirelessSocketList = area.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area !== area.filter)
-            state.wirelessSocketList = wirelessSocketList
-            state.visibleWirelessSocketList = null
-            state.selectedWirelessSocket = null
-        },
-        SAVE_AREA(state, name) {
-            var areaList = state.areaList
-            areaList[areaList.length - 1] = {
-                id: areaList.length,
-                filter: name,
-                name: name
-            };
-            state.areaList = areaList
-            state.selectedArea = areaList[areaList.length - 1]
-        },
         SELECT_WIRELESS_SOCKET(state, wirelessSocket) {
-            state.selectedWirelessSocket = wirelessSocket
+            state.selectedWirelessSocket = wirelessSocket;
         },
         ADD_WIRELESS_SOCKET(state) {
             var wirelessSocket = {
@@ -95,42 +127,77 @@ export default new Vuex.Store({
                 state: false,
                 description: ""
             };
-            state.wirelessSocketList.push(wirelessSocket)
-
-            var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter)
-            state.visibleWirelessSocketList = visibleWirelessSocketList
-
-            state.selectedWirelessSocket = wirelessSocket
-        },
-        REMOVE_WIRELESS_SOCKET(state, wirelessSocket) {
-            var wirelessSocketList = state.wirelessSocketList
-            wirelessSocketList.splice(wirelessSocketList.indexOf(wirelessSocket), 1)
-            state.wirelessSocketList = wirelessSocketList
-
-            var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter)
-            state.visibleWirelessSocketList = visibleWirelessSocketList
-
-            var selectedWirelessSocket = visibleWirelessSocketList.length > 0 ? visibleWirelessSocketList[0] : null
-            state.selectedWirelessSocket = selectedWirelessSocket
+            
+            axiosService.put("wireless_socket", wirelessSocket).then((response) => {
+                if(response.status === "success" && response.response >= 0) {
+                    state.wirelessSocketList.push(wirelessSocket);
+        
+                    var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter);
+                    state.visibleWirelessSocketList = visibleWirelessSocketList;
+        
+                    state.selectedWirelessSocket = wirelessSocket;
+                } else {
+                    // eslint-disable-next-line
+                    console.error(JSON.stringify(response));
+                }
+            });
         },
         SAVE_WIRELESS_SOCKET(state, wirelessSocket) {
-            var wirelessSocketList = state.wirelessSocketList.filter(x => x.id !== wirelessSocket.id)
-            wirelessSocketList.push(wirelessSocket)
-            state.wirelessSocketList = wirelessSocketList
+            axiosService.post("wireless_socket", wirelessSocket).then((response) => {
+                if(response.status === "success"  && response.response === 0) {
+                    var wirelessSocketList = state.wirelessSocketList;
+                    var index = wirelessSocketList.map(x => x.id).indexOf(wirelessSocket.id);
+                    wirelessSocketList[index] = wirelessSocket;
 
-            var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter)
-            state.visibleWirelessSocketList = visibleWirelessSocketList
-
-            state.selectedWirelessSocket = wirelessSocket
+                    state.wirelessSocketList = wirelessSocketList;
+        
+                    var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter);
+                    state.visibleWirelessSocketList = visibleWirelessSocketList;
+        
+                    state.selectedWirelessSocket = wirelessSocket;
+                } else {
+                    // eslint-disable-next-line
+                    console.error(JSON.stringify(response));
+                }
+            });
         },
         TOGGLE_WIRELESS_SOCKET_STATE(state, wirelessSocket) {
-            wirelessSocket.state = !wirelessSocket.state
-            var wirelessSocketList = state.wirelessSocketList
-            const index = wirelessSocketList.findIndex(entry => entry.id === wirelessSocket.id)
-            if (index !== -1) {
-                wirelessSocketList[index] = wirelessSocket;
-            }
-            state.wirelessSocketList = wirelessSocketList
+            wirelessSocket.state = !wirelessSocket.state;
+            axiosService.post("wireless_socket", wirelessSocket).then((response) => {
+                if(response.status === "success"  && response.response === 0) {
+                    var wirelessSocketList = state.wirelessSocketList;
+                    var index = wirelessSocketList.map(x => x.id).indexOf(wirelessSocket.id);
+                    wirelessSocketList[index] = wirelessSocket;
+
+                    state.wirelessSocketList = wirelessSocketList;
+        
+                    var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter);
+                    state.visibleWirelessSocketList = visibleWirelessSocketList;
+        
+                    state.selectedWirelessSocket = wirelessSocket;
+                } else {
+                    // eslint-disable-next-line
+                    console.error(JSON.stringify(response));
+                }
+            });
+        },
+        REMOVE_WIRELESS_SOCKET(state, wirelessSocket) {
+            axiosService.delete("wireless_socket", wirelessSocket.id).then((response) => {
+                if(response.status === "success"  && response.response === 0) {
+                    var wirelessSocketList = state.wirelessSocketList;
+                    wirelessSocketList.splice(wirelessSocketList.indexOf(wirelessSocket), 1);
+                    state.wirelessSocketList = wirelessSocketList;
+        
+                    var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter);
+                    state.visibleWirelessSocketList = visibleWirelessSocketList;
+        
+                    var selectedWirelessSocket = visibleWirelessSocketList.length > 0 ? visibleWirelessSocketList[0] : null;
+                    state.selectedWirelessSocket = selectedWirelessSocket;
+                } else {
+                    // eslint-disable-next-line
+                    console.error(JSON.stringify(response));
+                }
+            });
         }
     },
     actions: {
@@ -143,26 +210,27 @@ export default new Vuex.Store({
         addArea({commit}) {
             commit('ADD_AREA')
         },
+        saveArea({commit}, area) {
+            commit('SAVE_AREA', area)
+        },
         removeArea({commit}, area) {
             commit('REMOVE_AREA', area)
         },
-        saveArea({commit}, name) {
-            commit('SAVE_AREA', name)
-        },
+
         selectWirelessSocket({commit}, wirelessSocket) {
             commit('SELECT_WIRELESS_SOCKET', wirelessSocket)
         },
         addWirelessSocket({commit}) {
             commit('ADD_WIRELESS_SOCKET')
         },
-        removeWirelessSocket({commit}, wirelessSocket) {
-            commit('REMOVE_WIRELESS_SOCKET', wirelessSocket)
-        },
         saveWirelessSocket({commit}, wirelessSocket) {
             commit('SAVE_WIRELESS_SOCKET', wirelessSocket)
         },
         toggleWirelessSocketState({commit}, wirelessSocket) {
             commit('TOGGLE_WIRELESS_SOCKET_STATE', wirelessSocket)
+        },
+        removeWirelessSocket({commit}, wirelessSocket) {
+            commit('REMOVE_WIRELESS_SOCKET', wirelessSocket)
         }
     },
     getters: {

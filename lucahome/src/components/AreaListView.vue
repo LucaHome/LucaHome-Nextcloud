@@ -43,7 +43,7 @@ export default {
     },
     saveArea() {
       if (this.newAreaName.length > 0) {
-        this.$store.dispatch("saveArea", this.newAreaName);
+        this.$store.dispatch("saveArea", {id: this.$store.getters.selectedArea.id, name: this.newAreaName, filter: this.newAreaName});
       }
     }
   },

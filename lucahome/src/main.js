@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import axiosService from './services/axios.service'
 import store from './store/store'
 
 import VueMaterial from 'vue-material'
@@ -13,11 +12,8 @@ import 'vue-material/dist/theme/default-dark.css'
 Vue.use(VueMaterial)
 Vue.use(Vuelidate)
 
-Vue.prototype.OC = OC;
-
 new Vue({
-  el: '#lucahome',
-  axiosService,
+  el: '#app',
   store,
   render: h => h(App)
 })

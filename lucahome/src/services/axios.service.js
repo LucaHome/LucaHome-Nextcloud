@@ -1,9 +1,8 @@
 "use strict"
 
-import axios from "nextcloud-axios";
+// import axios from "nextcloud-axios";
 
-var areaList = [
-    {
+var areaList = [{
         id: 1,
         filter: "Sleeping Room",
         name: "Sleeping Room"
@@ -25,8 +24,7 @@ var areaList = [
     }
 ];
 
-var wirelessSocketList = [
-    {
+var wirelessSocketList = [{
         id: 0,
         icon: require("@/assets/img/wireless_socket/light_on.png"),
         name: "Light Sleeping",
@@ -93,13 +91,30 @@ var wirelessSocketList = [
 
 export default {
     get(url) {
-        switch(url){
+        switch (url) {
             case "area":
-                return Promise.resolve(areaList)
+                var jsonResponseArea = {
+                    error: null,
+                    response: areaList,
+                    status: "success"
+                };
+                return Promise.resolve(jsonResponseArea)
+
             case "wireless_socket":
-                return Promise.resolve(wirelessSocketList)
+                var jsonResponseWirelessSocket = {
+                    error: null,
+                    response: wirelessSocketList,
+                    status: "success"
+                };
+                return Promise.resolve(jsonResponseWirelessSocket)
+
             default:
-                return Promise.resolve([])
+                var jsonResponseDefault = {
+                    error: "Invalid url",
+                    response: null,
+                    status: "error"
+                };
+                return Promise.resolve(jsonResponseDefault)
         }
 
         /*
@@ -109,18 +124,101 @@ export default {
         */
     },
     put(url, data) {
-        return axios.put(OC.linkToOCS("apps/lucahome/api/v1/", 2) + url, data)
-            .then((response) => Promise.resolve(response))
-            .catch((error) => Promise.reject(error))
+        switch (url) {
+            case "area":
+                var jsonResponseArea = {
+                    error: null,
+                    response: data.id + 1,
+                    status: "success"
+                };
+                return Promise.resolve(jsonResponseArea)
+
+            case "wireless_socket":
+                var jsonResponseWirelessSocket = {
+                    error: null,
+                    response: data.id + 1,
+                    status: "success"
+                };
+                return Promise.resolve(jsonResponseWirelessSocket)
+
+            default:
+                var jsonResponseDefault = {
+                    error: "Invalid url",
+                    response: null,
+                    status: "error"
+                };
+                return Promise.resolve(jsonResponseDefault)
+        }
+        /*
+         return axios.put(OC.linkToOCS("apps/lucahome/api/v1/", 2) + url, data)
+             .then((response) => Promise.resolve(response))
+             .catch((error) => Promise.reject(error))
+        */
     },
+    // eslint-disable-next-line
     post(url, data) {
+        switch (url) {
+            case "area":
+                var jsonResponseArea = {
+                    error: null,
+                    response: 0,
+                    status: "success"
+                };
+                return Promise.resolve(jsonResponseArea)
+
+            case "wireless_socket":
+                var jsonResponseWirelessSocket = {
+                    error: null,
+                    response: 0,
+                    status: "success"
+                };
+                return Promise.resolve(jsonResponseWirelessSocket)
+
+            default:
+                var jsonResponseDefault = {
+                    error: "Invalid url",
+                    response: null,
+                    status: "error"
+                };
+                return Promise.resolve(jsonResponseDefault)
+        }
+        /*
         return axios.post(OC.linkToOCS("apps/lucahome/api/v1/", 2) + url, data)
             .then((response) => Promise.resolve(response))
             .catch((error) => Promise.reject(error))
+        */
     },
-    delete(url, data) {
+    // eslint-disable-next-line
+    delete(url, id) {
+        switch (url) {
+            case "area":
+                var jsonResponseArea = {
+                    error: null,
+                    response: 0,
+                    status: "success"
+                };
+                return Promise.resolve(jsonResponseArea)
+
+            case "wireless_socket":
+                var jsonResponseWirelessSocket = {
+                    error: null,
+                    response: 0,
+                    status: "success"
+                };
+                return Promise.resolve(jsonResponseWirelessSocket)
+
+            default:
+                var jsonResponseDefault = {
+                    error: "Invalid url",
+                    response: null,
+                    status: "error"
+                };
+                return Promise.resolve(jsonResponseDefault)
+        }
+        /*
         return axios.delete(OC.linkToOCS("apps/lucahome/api/v1/", 2) + url, data)
             .then((response) => Promise.resolve(response))
             .catch((error) => Promise.reject(error))
+        */
     }
 }
