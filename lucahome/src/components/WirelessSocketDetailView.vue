@@ -55,6 +55,15 @@
                 />
               </md-field>
             </div>
+
+            <div class="md-layout-item md-small-size-100">
+              <md-field>
+                <label for="icon">Icon</label>
+                <md-input name="icon" id="icon" v-model="form.icon" :disabled="sending"/>
+                <md-icon :class="form.icon"></md-icon>
+              </md-field>
+              <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_">Get Icons from here</a>
+            </div>
           </div>
         </md-card-content>
 
@@ -104,7 +113,8 @@ export default {
       code: null,
       area: null,
       state: false,
-      description: null
+      description: null,
+      icon: null
     },
     saved: false,
     sending: false,
@@ -126,6 +136,11 @@ export default {
         required,
         minLength: minLength(3),
         maxLength: maxLength(128)
+      },
+      icon: {
+        required,
+        minLength: minLength(8),
+        maxLength: maxLength(32)
       }
     }
   },
@@ -150,12 +165,12 @@ export default {
       window.setTimeout(() => {
         var wirelessSocket = {
           id: this.selectedWirelessSocket.id,
-          icon: "fas fa-lightbulb",
           name: this.form.name,
           area: this.form.area,
           code: this.form.code,
           state: false,
-          description: this.form.description
+          description: this.form.description,
+          icon: this.form.icon
         };
         this.$store.dispatch("saveWirelessSocket", wirelessSocket);
 
@@ -180,11 +195,13 @@ export default {
         this.form.code = wirelessSocket.code;
         this.form.area = wirelessSocket.area;
         this.form.description = wirelessSocket.description;
+        this.form.icon = wirelessSocket.icon;
       } else {
         this.form.name = null;
         this.form.code = null;
         this.form.area = null;
         this.form.description = null;
+        this.form.icon = null;
       }
     },
     hasChanges() {
@@ -192,7 +209,8 @@ export default {
         this.form.name !== this.selectedWirelessSocket.name ||
         this.form.code !== this.selectedWirelessSocket.code ||
         this.form.area !== this.selectedWirelessSocket.area ||
-        this.form.description !== this.selectedWirelessSocket.description
+        this.form.description !== this.selectedWirelessSocket.description ||
+        this.form.icon !== this.selectedWirelessSocket.icon
       );
     }
   },

@@ -120,12 +120,12 @@ export default new Vuex.Store({
         ADD_WIRELESS_SOCKET(state) {
             var wirelessSocket = {
                 id: state.wirelessSocketList.length,
-                icon: "fas fa-lightbulb",
                 name: "",
                 area: state.selectedArea !== preselectedArea ? state.selectedArea.name : "",
                 code: "",
                 state: false,
-                description: ""
+                description: "",
+                icon: ""
             };
             
             axiosService.put("wireless_socket", wirelessSocket).then((response) => {
