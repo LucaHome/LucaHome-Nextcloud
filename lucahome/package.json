@@ -22,6 +22,7 @@
   "bugs": "https://github.com/LucaHome/LucaHome-Nextcloud/issues",
   "contributors": [],
   "dependencies": {
+    "axios": "0.18.0",
     "nextcloud-axios": "0.1.3",
     "nextcloud-vue": "0.6.1",
     "vue": "2.6.6",
