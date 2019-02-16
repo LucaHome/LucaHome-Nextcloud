@@ -51,11 +51,11 @@ using namespace std;
 
 string handleMessage(string message)
 {
-	vector<string> data = Tools::Explode(MESSAGE_DELIMITER, message);
+	vector<string> data = PiTools::Explode(MESSAGE_DELIMITER, message);
 
 	if (data.size() != MESSAGE_ARRAY_LENGTH)
 	{
-		reutrn MESSAGE_ERROR_INVALID_LENGTH;
+		return MESSAGE_ERROR_INVALID_LENGTH;
 	}
 
 	string type = data[MESSAGE_TYPE_INDEX];
