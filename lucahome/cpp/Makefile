@@ -17,7 +17,4 @@ clean:
 install:
 	cp ./bin/lucahome /bin/lucahome
 	cp ./init/lucahome /etc/init.d
-	cp ./script/lucahome.sh /etc/init.d
-	chmod +x /etc/init.d/lucahome.sh
 	update-rc.d lucahome defaults
-	update-rc.d lucahome.sh defaults
