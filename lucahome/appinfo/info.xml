@@ -2,30 +2,22 @@
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
     <id>lucahome</id>
-    <name>LucaHome</name>
-    <summary>App to control sockets, switches and to measure and monitor temperature, humidity and light conditions</summary>
-    <description><![CDATA[App to control sockets, switches and to measure and monitor temperature, humidity and light conditions]]></description>
-    <version>0.2.0</version>
-    <licence>MIT</licence>
-    <author mail="guepardoapps@gmail.com">GuepardoApps (Jonas Schubert)</author>
+    <name>Luca Home</name>
+    <summary>LucaHome lets you control 433MHz sockets within Nextcloud while running on a raspberry</summary>
+    <description><![CDATA[LucaHome lets you control 433MHz sockets within Nextcloud while running on a raspberry]]></description>
+    <version>0.0.1</version>
+    <licence>agpl</licence>
+    <author mail="guepardoapps@gmail.com" >Jonas Schubert</author>
     <namespace>LucaHome</namespace>
-    <documentation>
-        <admin>https://github.com/LucaHome/LucaHome-Nextcloud#installation</admin>
-        <developer>https://github.com/LucaHome/LucaHome-Nextcloud#developer-setup-info</developer>
-    </documentation>
     <category>tools</category>
-    <website>https://github.com/LucaHome/LucaHome-Nextcloud/</website>
     <bugs>https://github.com/LucaHome/LucaHome-Nextcloud/issues</bugs>
-    <repository>https://github.com/LucaHome/LucaHome-Nextcloud.git</repository>
-    <screenshot></screenshot>
     <dependencies>
         <nextcloud min-version="14" max-version="16"/>
     </dependencies>
-	<background-jobs>
-		<job>OCA\LucaHome\BackgroundJobs\TemperatureJob</job>
-    </background-jobs>
-	<settings>
-		<admin>OCA\LucaHome\Settings\AdminSettings</admin>
-		<admin-section>OCA\LucaHome\Settings\AdminSection</admin-section>
-    </settings>
+    <navigations>
+        <navigation>
+            <name>Luca Home</name>
+            <route>lucahome.page.index</route>
+        </navigation>
+    </navigations>
 </info>

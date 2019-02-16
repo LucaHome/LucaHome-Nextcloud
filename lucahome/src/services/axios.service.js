@@ -4,7 +4,7 @@
 import axios from "axios";
 import axiosServiceMock from "./axios.service.mock";
 
-const usingMockData = true;
+const usingMockData = false;
 const apiUrl = "apps/lucahome/api/v1/";
 
 export default {

@@ -1,11 +1,11 @@
 {
-    "name": "LucaHome",
-    "description": "App to control sockets, switches and to measure and monitor temperature, humidity and light conditions",
+    "name": "Luca Home",
+    "description": "LucaHome lets you control 433MHz sockets within Nextcloud while running on a raspberry",
     "type": "project",
-    "license": "MIT",
+    "license": "AGPL",
     "authors": [
         {
-            "name": "GuepardoApps (Jonas Schubert)"
+            "name": "Jonas Schubert"
         }
     ],
     "require": {},
