@@ -76,7 +76,8 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 				'code' => $qb->createParameter('code'),
 				'area' => $qb->createParameter('area'),
                 'state' => $qb->createParameter('state'),
-                'description' => $qb->createParameter('description')
+                'description' => $qb->createParameter('description'),
+                'icon' => $qb->createParameter('icon')
 			]);
         
         $qb->setParameters([
@@ -84,7 +85,8 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 			'code' => $wirelessSocket->getCode(),
 			'area' => $wirelessSocket->getArea(),
             'state' => $wirelessSocket->getState(),
-			'description' => $wirelessSocket->getDescription()
+			'description' => $wirelessSocket->getDescription(),
+			'icon' => $wirelessSocket->getIcon()
         ]);
         
         $cursor = $qb->execute();
@@ -123,6 +125,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
             ->set('area', $qb->createNamedParameter($wirelessSocket->getArea()))
             ->set('state', $qb->createNamedParameter($wirelessSocket->getState()))
             ->set('description', $qb->createNamedParameter($wirelessSocket->getDescription()))
+            ->set('icon', $qb->createNamedParameter($wirelessSocket->getIcon()))
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
         $cursor = $qb->execute();
@@ -201,6 +204,10 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 
         if(strlen($wirelessSocket->getDescription()) > 4096) {
             return ErrorCode::WirelessSocketDescriptionTooLong;
+        }
+
+        if(strlen($wirelessSocket->getIcon()) > 32) {
+            return ErrorCode::WirelessSocketIconTooLong;
         }
 
         return ErrorCode::NoError;

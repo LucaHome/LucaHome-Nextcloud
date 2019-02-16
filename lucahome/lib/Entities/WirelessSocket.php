@@ -15,6 +15,7 @@ class WirelessSocket extends Entity {
     protected $area;
     protected $state;
     protected $description;
+    protected $icon;
 
     public function __construct() {
         $this->addType('state', 'integer');

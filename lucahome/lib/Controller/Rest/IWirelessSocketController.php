@@ -24,9 +24,10 @@ interface IWirelessSocketController {
 	 * @param string code
 	 * @param string area
 	 * @param string description
+	 * @param string icon
 	 * @return JSONResponse
 	 */
-	public function add($name, $code, $area, $description);
+	public function add($name, $code, $area, $description, $icon);
     
     /**
 	 * @param int id
@@ -34,9 +35,10 @@ interface IWirelessSocketController {
 	 * @param string code
 	 * @param string area
 	 * @param string description
+	 * @param string icon
 	 * @return JSONResponse
 	 */
-    public function update(int $id, $name, $code, $area, $description);
+    public function update(int $id, $name, $code, $area, $description, $icon);
     
 	/**
 	 * @param int id

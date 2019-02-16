@@ -109,11 +109,12 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 	 * @param string code
 	 * @param string area
 	 * @param string description
+	 * @param string icon
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
-	public function add($name, $code, $area, $description) {
+	public function add($name, $code, $area, $description, $icon) {
 		if (isset($name)) {
 			$name = trim($name);
 		} else {
@@ -147,6 +148,12 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 		} else {
 			$description = "";
 		}
+
+		if (isset($icon)) {
+			$icon = trim($icon);
+		} else {
+			$icon = "";
+		}
 		
 		$wirelessSocket = new WirelessSocket();
 		$wirelessSocket->name =  $name;
@@ -154,6 +161,7 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 		$wirelessSocket->area =  $area;
 		$wirelessSocket->state =  0;
 		$wirelessSocket->description =  $description;
+		$wirelessSocket->icon =  $icon;
 
 		try {
 			$serviceResponse = $this->service->add($wirelessSocket, $this->userId);
@@ -180,11 +188,12 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 	 * @param string code
 	 * @param string area
 	 * @param string description
+	 * @param string icon
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
-	public function update(int $id, $name, $code, $area, $description) {
+	public function update(int $id, $name, $code, $area, $description, $icon) {
 		if($id < 0)  {
 			$this->logger->logException('Invalid parameter id in WirelessSocketController::update', ['app' => 'lucahome']);
 			return new JSONResponse([
@@ -227,12 +236,19 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
 		} else {
 			$description = "";
 		}
+
+		if (isset($icon)) {
+			$icon = trim($icon);
+		} else {
+			$icon = "";
+		}
 		
 		$wirelessSocket = $this->service->getForId($id, $this->userId);
 		$wirelessSocket->name =  $name;
 		$wirelessSocket->code =  $code;
 		$wirelessSocket->area =  $area;
 		$wirelessSocket->description =  $description;
+		$wirelessSocket->icon =  $icon;
 
 		try {
 			$serviceResponse = $this->service->update($wirelessSocket, $this->userId);

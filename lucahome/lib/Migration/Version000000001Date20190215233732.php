@@ -72,6 +72,11 @@ class Version000000001Date20190215233732 extends SimpleMigrationStep {
 				'length' => 4096,
 				'default' => '',
 			]);
+			$table->addColumn('icon', 'string', [
+				'notnull' => true,
+				'length' => 32,
+				'default' => '',
+			]);
 			
 			$table->setPrimaryKey(['id']);
         }

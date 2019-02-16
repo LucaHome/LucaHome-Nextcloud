@@ -21,6 +21,7 @@ abstract class ErrorCode {
     const WirelessSocketDbUpdateError = -107;
     const WirelessSocketDoesNotExist = -108;
     const WirelessSocketFailedToToggle = -109;
+    const WirelessSocketIconTooLong = -110;
 
     const InvalidUser = -200;
     const InvalidUserNull = -201;
