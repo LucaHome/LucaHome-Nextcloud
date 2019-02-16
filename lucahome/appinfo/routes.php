@@ -27,7 +27,6 @@ $application->registerRoutes($this, array('routes' => array(
 	array('name' => 'wireless_socket#get_for_id', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'GET'),
 	array('name' => 'wireless_socket#add', 'url' => '/api/v1/wireless_socket', 'verb' => 'POST'),
 	array('name' => 'wireless_socket#update', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'PUT'),
-	array('name' => 'wireless_socket#set_state', 'url' => '/api/v1/wireless_socket/state/{id}', 'verb' => 'PUT'),
 	array('name' => 'wireless_socket#delete', 'url' => '/api/v1/wireless_socket/{id}', 'verb' => 'DELETE'),
 	
 	// Area
