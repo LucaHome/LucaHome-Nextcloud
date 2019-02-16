@@ -7,7 +7,7 @@ Project for LucaHome integration into Nextcloud.
 [![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)
 
 [![Build](https://img.shields.io/badge/build-WIP-yellow.svg)](./)
-[![Version](https://img.shields.io/badge/version-v0.1.0-blue.svg)](https://github.com/LucaHome/LucaHome-RaspberryServer/tree/develop)
+[![Version](https://img.shields.io/badge/version-v0.2.0-blue.svg)](./)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 [![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
@@ -20,6 +20,7 @@ Project for LucaHome integration into Nextcloud.
 * ...
 
 ![alt tag](/screenshots/wip_20190215_2327.jpg)
+![alt tag](/screenshots/wip_20190216_1303.jpg)
 
 ## Installation
 
