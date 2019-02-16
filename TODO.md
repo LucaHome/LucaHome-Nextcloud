@@ -1,2 +1,0 @@
-- [ ] Add Contributing.md
-- [ ] Implement application

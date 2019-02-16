@@ -25,6 +25,6 @@ return [
 		array('name' => 'area#get_for_id', 'url' => '/api/v1/area/{id}', 'verb' => 'GET'),
 		array('name' => 'area#add', 'url' => '/api/v1/area', 'verb' => 'POST'),
 		array('name' => 'area#update', 'url' => '/api/v1/area/{id}', 'verb' => 'PUT'),
-		array('name' => 'area#delete', 'url' => '/api/v1/area/{id}', 'verb' => 'DELETE'),
+		array('name' => 'area#delete', 'url' => '/api/v1/area/{id}', 'verb' => 'DELETE')
     ]
 ];

@@ -5,8 +5,8 @@
     <name>Luca Home</name>
     <summary>LucaHome lets you control 433MHz sockets within Nextcloud while running on a raspberry</summary>
     <description><![CDATA[LucaHome lets you control 433MHz sockets within Nextcloud while running on a raspberry]]></description>
-    <version>0.0.1</version>
-    <licence>agpl</licence>
+    <version>0.2.1</version>
+    <licence>MIT</licence>
     <author mail="guepardoapps@gmail.com" >Jonas Schubert</author>
     <namespace>LucaHome</namespace>
     <category>tools</category>
