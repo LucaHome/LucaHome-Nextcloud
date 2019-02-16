@@ -25,7 +25,7 @@ class TemperatureJob extends TimedJob {
 		if ($this->settings->getAppValue('core', 'backgroundjobs_mode') !== 'cron') {
 			return;
 		}
-		\OCP\Util::writeLog('bookmarks', 'starting TemperatureJob', \OCP\Util::WARN);
+		\OCP\Util::writeLog('lucahome', 'starting TemperatureJob', \OCP\Util::WARN);
 		
 		// TODO Check temperature and send mail while out of normal range
 		// => add settings to add range for valid temperature

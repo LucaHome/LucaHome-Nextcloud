@@ -5,7 +5,7 @@
     <name>LucaHome</name>
     <summary>App to control sockets, switches and to measure and monitor temperature, humidity and light conditions</summary>
     <description><![CDATA[App to control sockets, switches and to measure and monitor temperature, humidity and light conditions]]></description>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <licence>MIT</licence>
     <author mail="guepardoapps@gmail.com">GuepardoApps (Jonas Schubert)</author>
     <namespace>LucaHome</namespace>
