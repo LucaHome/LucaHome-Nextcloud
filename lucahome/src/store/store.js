@@ -9,107 +9,37 @@ var preselectedArea = {
     name: "All"
 };
 
-var areaList = [
-    preselectedArea,
-    {
-        id: 1,
-        filter: "Sleeping Room",
-        name: "Sleeping Room"
-    },
-    {
-        id: 2,
-        filter: "Living Room",
-        name: "Living Room"
-    },
-    {
-        id: 3,
-        filter: "Working Room",
-        name: "Working Room"
-    },
-    {
-        id: 4,
-        filter: "Kitchen",
-        name: "Kitchen"
-    }
-];
-
-var preselectedWirelessSocket = {
-    id: 0,
-    icon: require("@/assets/img/wireless_socket/light_on.png"),
-    name: "Light Sleeping",
-    area: "Sleeping Room",
-    code: "11010A",
-    state: false,
-    description: ""
-};
-
-var wirelessSocketList = [
-    preselectedWirelessSocket,
-    {
-        id: 1,
-        icon: require("@/assets/img/wireless_socket/sound_on.png"),
-        name: "Sound TV",
-        area: "Living Room",
-        code: "11010B",
-        state: false,
-        description: ""
-    },
-    {
-        id: 2,
-        icon: require("@/assets/img/wireless_socket/raspberry_on.png"),
-        name: "Raspberry Pi MediaCenter",
-        area: "Living Room",
-        code: "11010C",
-        state: false,
-        description: ""
-    },
-    {
-        id: 3,
-        icon: require("@/assets/img/wireless_socket/light_on.png"),
-        name: "Light Couch",
-        area: "Living Room",
-        code: "11010D",
-        state: true,
-        description: ""
-    },
-    {
-        id: 4,
-        icon: require("@/assets/img/wireless_socket/storage_off.png"),
-        name: "Backup Drive",
-        area: "Working Room",
-        code: "11010E",
-        state: false,
-        description: ""
-    },
-    {
-        id: 5,
-        icon: require("@/assets/img/wireless_socket/mediamirror_off.png"),
-        name: "Media Mirror Kitchen",
-        area: "Kitchen",
-        code: "11011A",
-        state: true,
-        description: ""
-    },
-    {
-        id: 6,
-        icon: require("@/assets/img/wireless_socket/light_off.png"),
-        name: "Light Ceiling",
-        area: "Living Room",
-        code: "11000A",
-        state: false,
-        description: ""
-    }
-];
-
 export default new Vuex.Store({
     state: {
-        areaList: areaList,
-        selectedArea: preselectedArea,
-        wirelessSocketList: wirelessSocketList,
-        visibleWirelessSocketList: wirelessSocketList,
-        selectedWirelessSocket: preselectedWirelessSocket
+        areaList: [],
+        selectedArea: null,
+        wirelessSocketList: [],
+        visibleWirelessSocketList: [],
+        selectedWirelessSocket: null
     },
     mutations: {
+        INIT(state) {
+            this.$axiosService.get("area").then((areaResponse) => {
+                state.areaList = areaResponse;
+                state.selectedArea = areaResponse.length > 0 ? areaResponse[0] : null;
+
+                if(areaResponse.length > 0) {
+                    this.$axiosService.get("wireless_socket").then((wirelessSocketResponse) => {
+                        state.wirelessSocketList = wirelessSocketResponse
+
+                        var visibleWirelessSocketList = state.selectedArea.filter === "" ? state.wirelessSocketList : state.wirelessSocketList.filter(x => x.area === state.selectedArea.filter)
+                        state.visibleWirelessSocketList = visibleWirelessSocketList
+            
+                        var selectedWirelessSocket = visibleWirelessSocketList.length > 0 ? visibleWirelessSocketList[0] : null
+                        state.selectedWirelessSocket = selectedWirelessSocket
+                    });
+                } else {
+                    state.wirelessSocketList = []
+                    state.visibleWirelessSocketList = []
+                    state.selectedWirelessSocket = null
+                }
+            });
+        },
         SELECT_AREA(state, area) {
             state.selectedArea = area
 
@@ -204,49 +134,34 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        selectArea({
-            commit
-        }, area) {
+        init({commit}) {
+            commit('INIT')
+        },
+        selectArea({commit}, area) {
             commit('SELECT_AREA', area)
         },
-        addArea({
-            commit
-        }) {
+        addArea({commit}) {
             commit('ADD_AREA')
         },
-        removeArea({
-            commit
-        }, area) {
+        removeArea({commit}, area) {
             commit('REMOVE_AREA', area)
         },
-        saveArea({
-            commit
-        }, name) {
+        saveArea({commit}, name) {
             commit('SAVE_AREA', name)
         },
-        selectWirelessSocket({
-            commit
-        }, wirelessSocket) {
+        selectWirelessSocket({commit}, wirelessSocket) {
             commit('SELECT_WIRELESS_SOCKET', wirelessSocket)
         },
-        addWirelessSocket({
-            commit
-        }) {
+        addWirelessSocket({commit}) {
             commit('ADD_WIRELESS_SOCKET')
         },
-        removeWirelessSocket({
-            commit
-        }, wirelessSocket) {
+        removeWirelessSocket({commit}, wirelessSocket) {
             commit('REMOVE_WIRELESS_SOCKET', wirelessSocket)
         },
-        saveWirelessSocket({
-            commit
-        }, wirelessSocket) {
+        saveWirelessSocket({commit}, wirelessSocket) {
             commit('SAVE_WIRELESS_SOCKET', wirelessSocket)
         },
-        toggleWirelessSocketState({
-            commit
-        }, wirelessSocket) {
+        toggleWirelessSocketState({commit}, wirelessSocket) {
             commit('TOGGLE_WIRELESS_SOCKET_STATE', wirelessSocket)
         }
     },
