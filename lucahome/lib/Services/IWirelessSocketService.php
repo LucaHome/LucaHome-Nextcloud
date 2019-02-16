@@ -35,14 +35,6 @@ interface IWirelessSocketService {
 	 */
     public function update(WirelessSocket $wirelessSocket, $userId = null);
     
-    /**
-	 * @param int id
-     * @param int newState
-     * @param string userId
-	 * @return ErrorCode Success or failure of action
-	 */
-    public function setState(int $id, int $newState, $userId = null);
-    
 	/**
 	 * @param int id WirelessSocket ID to delete
      * @param string userId

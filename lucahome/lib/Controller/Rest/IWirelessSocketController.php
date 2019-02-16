@@ -38,13 +38,6 @@ interface IWirelessSocketController {
 	 */
     public function update(int $id, $name, $code, $area, $description);
     
-    /**
-	 * @param int id
-	 * @param int newState
-	 * @return JSONResponse
-	 */
-    public function setState(int $id, int $newState);
-    
 	/**
 	 * @param int id
 	 * @return JSONResponse

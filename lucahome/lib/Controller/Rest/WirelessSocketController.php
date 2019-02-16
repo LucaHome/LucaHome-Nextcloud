@@ -253,51 +253,6 @@ class WirelessSocketController extends ApiController implements IWirelessSocketC
     }
     
 	/**
-	 * @brief Set state of a WirelessSocket
-	 * @param int id
-	 * @param int newState
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
-	 */
-	public function setState(int $id, int $newState) {
-		if($id < 0)  {
-			$this->logger->logException('Invalid parameter id in WirelessSocketController::setState', ['app' => 'lucahome']);
-			return new JSONResponse([
-				'error' => 'Invalid parameter id in WirelessSocketController::setState',
-				'response' => NULL,
-				'status' => 'error'
-			], Http::STATUS_BAD_REQUEST );
-		}
-		
-		$legalArguments = [0, 1];
-		if (!in_array($newState, $legalArguments)) {
-			return new JSONResponse([
-				'error' => 'Invalid parameter newState in WirelessSocketController::setState',
-				'response' => NULL,
-				'status' => 'error'
-			], Http::STATUS_BAD_REQUEST);
-		}
-
-		try {
-			$serviceResponse = $this->service->setState($id, $newState, $this->userId);
-		} catch (\Exception $e) {
-			$this->logger->logException($e, ['app' => 'lucahome']);
-			return new JSONResponse([
-				'error' => $e,
-				'response' => NULL,
-				'status' => 'error'
-			], Http::STATUS_INTERNAL_SERVER_ERROR);
-        }
-		
-		return new JSONResponse([
-			'error' => NULL,
-			'response' => $serviceResponse,
-			'status' => 'success'
-		], Http::STATUS_OK);
-    }
-    
-	/**
 	 * @brief Delete a WirelessSocket
 	 * @param int id
 	 * @return JSONResponse
