@@ -1,31 +1,19 @@
-# files build by make
-/css/src/sprites-bw.scss
-/css/src/sprites-color.scss
-/img/bw.svg
-/img/color.svg
-/js/
-/build
-
-# misc
 .DS_Store
-node_modules
-/dist
-/vendor
-
-# local env files
-.env.local
-.env.*.local
-
-# log files
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# editor directories and files
+# Editor directories and files
 .idea
 .vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
-*.sw*
+
+.marginalia
+
+js/
+build/
+coverage*

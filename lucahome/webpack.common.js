@@ -10,7 +10,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './js'),
         publicPath: '/js/',
-        filename: 'lucahome.js'
+        filename: 'lucahome.js',
+        chunkFilename: 'chunks/[name].js'
     },
     module: {
         rules: [{
@@ -44,8 +45,19 @@ module.exports = {
             }
         ]
     },
-    plugins: [new VueLoaderPlugin(), new StyleLintPlugin()],
+    plugins: [
+        new VueLoaderPlugin(),
+        new StyleLintPlugin(),
+        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    ],
     resolve: {
+        alias: {
+            Components: path.resolve(__dirname, 'src/components/'),
+            Mixins: path.resolve(__dirname, 'src/mixins/'),
+            Models: path.resolve(__dirname, 'src/models/'),
+            Services: path.resolve(__dirname, 'src/services/'),
+            Views: path.resolve(__dirname, 'src/views/')
+        },
         extensions: ['*', '.js', '.vue', '.json']
     }
 }

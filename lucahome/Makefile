@@ -1,138 +1,86 @@
-# Generic Makefile for building and packaging a Nextcloud app which uses npm and
-# Composer.
-#
-# Dependencies:
-# * make
-# * which
-# * curl: used if phpunit and composer are not installed to fetch them from the web
-# * tar: for building the archive
-# * npm: for building and testing everything JS
-#
-# The npm command by launches the npm build script:
-#
-#    npm run build
-#
-# The npm test command launches the npm test script:
-#
-#    npm run test
-#
+# This file is licensed under the Affero General Public License version 3 or
+# later. See the COPYING file.
 
 app_name=$(notdir $(CURDIR))
-build_directory=$(CURDIR)/build
-appstore_build_directory=$(CURDIR)/build/appstore/$(app_name)
-appstore_artifact_directory=$(CURDIR)/build/artifacts/appstore
-appstore_package_name=$(appstore_artifact_directory)/$(app_name)
-npm=$(shell which npm 2> /dev/null)
-gcp=$(shell which gcp 2> /dev/null)
+project_directory=$(CURDIR)/../$(app_name)
+build_tools_directory=$(CURDIR)/build/tools
+source_build_directory=$(CURDIR)/build/artifacts/source
+source_package_name=$(source_build_directory)/$(app_name)
+appstore_build_directory=$(CURDIR)/build/artifacts/appstore
+appstore_package_name=$(appstore_build_directory)/$(app_name)
 
-ifeq (, $(gcp))
-	copy_command=cp
-else
-	copy_command=gcp
-endif
+all: dev-setup lint build-js-production test test-php
 
-# code signing
-# assumes the following:
-# * the app is inside the nextcloud/apps folder
-# * the private key is located in ~/.nextcloud/lucahome.key
-# * the certificate is located in ~/.nextcloud/lucahome.crt
-occ=$(CURDIR)/../../occ
-configdir=$(CURDIR)/../../config
-private_key=$(HOME)/.nextcloud/$(app_name).key
-certificate=$(HOME)/.nextcloud/$(app_name).crt
-sign=php -f $(occ) integrity:sign-app --privateKey="$(private_key)" --certificate="$(certificate)"
-sign_skip_msg="Skipping signing, either no key and certificate found in $(private_key) and $(certificate) or occ can not be found at $(occ)"
-ifneq ("$(wildcard $(private_key))","") #(,$(wildcard $(private_key)))
-	ifneq ("$(wildcard $(certificate))","")#(,$(wildcard $(certificate)))
-		ifneq ("$(wildcard $(occ))","")#(,$(wildcard $(occ)))
-			CAN_SIGN=true
-		endif
-	endif
-endif
+# Dev env management
+dev-setup: clean clean-dev npm-init
 
-all: install build
+npm-init:
+	npm install
 
-# Fetches the PHP and JS dependencies and compiles the JS. If no composer.json
-# is present, the composer step is skipped, if no package.json or js/package.json
-# is present, the npm step is skipped
-.PHONY: build
-build:
-	$(npm) run build
+npm-update:
+	npm update
 
-# Sets up the development environment
-.PHONY: install
-install:
-	$(npm) install
-	$(npm) update
+# Building
+build-js:
+	npm run dev
 
-# Runs the development build
-.PHONY: development
-development:
-	$(npm) install
-	$(npm) update
-	$(npm) run dev
+build-js-production:
+	npm run build
 
-# Removes the build directory and the compiled files
-.PHONY: clean
+watch-js:
+	npm run watch
+
+# Testing
+test:
+	npm run test
+
+test-watch:
+	npm run test:watch
+
+test-coverage:
+	npm run test:coverage
+
+test-php:
+	phpunit -c phpunit.xml
+	phpunit -c phpunit.integration.xml
+
+test-php-coverage:
+	phpunit -c phpunit.xml --coverage-clover=coverage-unit.xml
+	phpunit -c phpunit.integration.xml --coverage-clover=coverage-integration.xml
+
+# Linting
+lint:
+	npm run lint
+
+lint-fix:
+	npm run lint:fix
+
+# Style linting
+stylelint:
+	npm run stylelint
+
+stylelint-fix:
+	npm run stylelint:fix
+
+# Cleaning
 clean:
-	rm -f ./js/lucahome.js
-	rm -f ./js/lucahome.js.map
-	rm -rf $(build_directory)
+	rm -f js/lucahome.js
+	rm -f js/lucahome.js.map
+	rm -Rf js/chunks
 
-# Same as clean but also removes dependencies installed by npm
-.PHONY: distclean
-distclean: clean
+clean-dev:
 	rm -rf node_modules
 
-# Watches the js and scss files
-.PHONY: watch
-watch:
-	$(npm) run watch
-
-# Builds the source package for the app store
-.PHONY: appstore
-appstore: clean build
-	mkdir -p $(appstore_build_directory) $(appstore_artifact_directory)
-	rsync -av .	$(appstore_build_directory) \
-	--exclude=/.git \
-	--exclude=/.babelrc.js \
-	--exclude=/.gitignore \
-	--exclude=/.v8flags*.json \
-	--exclude=/build.xml \
-	--exclude=/CONTRIBUTING.md \
-	--exclude=/Makefile \
-	--exclude=/package-lock.json \
-	--exclude=/package.json \
-	--exclude=/README.md \
-	--exclude=/webpack.common.js \
-	--exclude=/webpack.prod.js \
-	--exclude=/webpack.dev.js \
-	--exclude=/build \
-	--exclude=/coverage \
-	--exclude=/img/src \
-	--exclude=/src \
-	--exclude=/node_modules \
-	--exclude=/screenshots/ \
-	--exclude=/test \
-	--exclude=/tests
-ifdef CAN_SIGN
-	mv $(configdir)/config.php $(configdir)/config-2.php
-	$(sign) --path="$(appstore_build_directory)"
-	mv $(configdir)/config-2.php $(configdir)/config.php
-else
-	@echo $(sign_skip_msg)
-endif
-	cd $(appstore_build_directory)/../; \
-	zip -r $(appstore_package_name).zip $(app_name)
-	tar -czf $(appstore_package_name).tar.gz -C $(appstore_build_directory)/../ $(app_name)
-# create hash
-ifdef CAN_SIGN
-	openssl dgst -sha512 -sign $(private_key) $(appstore_package_name).tar.gz | openssl base64 -out $(appstore_artifact_directory)/$(app_name).sha512
-else
-	@echo "Skipping hashing, no key found in $(private_key)."
-endif
-
-# Command for running VUE tests
-.PHONY: test
-test:
-	$(npm) run test
+# Builds the source package for the app store, ignores php and js tests
+appstore:
+	rm -rf $(appstore_build_directory)
+	mkdir -p $(appstore_build_directory)
+	tar cvzf $(appstore_package_name).tar.gz \
+	--exclude-vcs \
+	$(project_directory)/appinfo \
+	$(project_directory)/css \
+	$(project_directory)/img \
+	$(project_directory)/lib \
+	$(project_directory)/templates \
+	$(project_directory)/js \
+	$(project_directory)/COPYING

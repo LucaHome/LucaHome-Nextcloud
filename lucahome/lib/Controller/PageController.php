@@ -4,9 +4,8 @@ namespace OCA\LucaHome\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
-use \OCP\IRequest;
-use \OCP\IUserSession;
 use \OCP\IConfig;
+use \OCP\IRequest;
 
 /**
  * Controller class for main page.
@@ -14,9 +13,9 @@ use \OCP\IConfig;
 class PageController extends Controller {
 
 	/**
-	 * @var IUserSession
+	 * @var String
 	 */
-	private $userSession;
+	protected $appName;
 
 	/**
 	 * @var IConfig
@@ -26,12 +25,11 @@ class PageController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request an instance of the request
-	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 */
-	public function __construct(string $appName, IRequest $request, IUserSession $userSession, IConfig $config) {
+	public function __construct(string $appName, IRequest $request, IConfig $config) {
 		parent::__construct($appName, $request);
-		$this->userSession = $userSession;
+		$this->appName = $appName;
 		$this->config = $config;
 	}
 
@@ -43,21 +41,16 @@ class PageController extends Controller {
 	 */
 	public function index():TemplateResponse {
 		\OCP\Util::connectHook('\OCP\Config', 'js', $this, 'addJavaScriptVariablesForIndex');
-		return new TemplateResponse('lucahome', 'index');
+		return new TemplateResponse('lucahome', 'main');
 	}
 
 	/**
 	 * Add parameters to javascript for user sites
-	 *
 	 * @param array $array
 	 */
 	public function addJavaScriptVariablesForIndex(array $array) {
-		$user = $this->userSession->getUser();
-		if ($user === null) {
-			return;
-		}
 		$appversion = $this->config->getAppValue($this->appName, 'installed_version');
-		$array['array']['oca_lucahome'] = \json_encode([
+		$array['array']['oca_contacts'] = \json_encode([
 			'versionstring' => $appversion,
 		]);
 	}
