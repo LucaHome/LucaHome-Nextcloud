@@ -11,6 +11,7 @@
   "homepage": "https://github.com/LucaHome/LucaHome-Nextcloud",
   "scripts": {
     "serve": "vue-cli-service serve",
+    "build_vue": "vue-cli-service build",
     "dev": "webpack --config webpack.dev.js",
     "watch": "webpack --progress --watch --config webpack.dev.js",
     "build": "webpack --progress --hide-modules --config webpack.prod.js",

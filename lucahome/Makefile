@@ -135,4 +135,4 @@ endif
 # Command for running VUE tests
 .PHONY: test
 test:
-$(npm) run test
+	$(npm) run test

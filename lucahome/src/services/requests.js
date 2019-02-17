@@ -6,7 +6,7 @@ const useMockData = false;
 import Axios from "axios";
 //Axios.defaults.headers.common.requesttoken = OC.requestToken;
 
-const baseUrl = "http://localhost/nextcloud/apps/lucahome/api/v1/";
+const baseUrl = "http://localhost:8080/nextcloud/apps/lucahome/api/v1/";
 
 export default {
     get(url) {

@@ -36,13 +36,14 @@ Vue.use(Vuelidate)
 
 //OCA.LucaHome.App = new Vue({
 new Vue({
-	el: '#app',
+	name:  "LucaHome",
+	el: "#app",
 	store,
 	data: function () {},
 	mounted: function () {},
 	beforeMount() {
-		this.$store.dispatch('loadAreas')
-		this.$store.dispatch('loadWirelessSockets')
+		this.$store.dispatch("loadAreas")
+		this.$store.dispatch("loadWirelessSockets")
 	},
 	methods: {},
 	render: h => h(App)
