@@ -1,31 +1,64 @@
 <?php
+
 namespace OCA\LucaHome\Controller;
 
-use OCP\IRequest;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Controller;
+use \OCP\AppFramework\Controller;
+use \OCP\AppFramework\Http\TemplateResponse;
+use \OCP\IRequest;
+use \OCP\IUserSession;
+use \OCP\IConfig;
 
+/**
+ * Controller class for main page.
+ */
 class PageController extends Controller {
-	private $userId;
 
-	public function __construct($AppName, IRequest $request, $UserId){
-		parent::__construct($AppName, $request);
-		$this->userId = $UserId;
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+
+	/**
+	 * @param string $appName
+	 * @param IRequest $request an instance of the request
+	 * @param IUserSession $userSession
+	 * @param IConfig $config
+	 */
+	public function __construct(string $appName, IRequest $request, IUserSession $userSession, IConfig $config) {
+		parent::__construct($appName, $request);
+		$this->userSession = $userSession;
+		$this->config = $config;
 	}
 
 	/**
-	 * CAUTION: the @Stuff turns off security checks; for this page no admin is
-	 *          required and no CSRF check. If you don't know what CSRF is, read
-	 *          it up in the docs or you might create a security hole. This is
-	 *          basically the only required method to add this exemption, don't
-	 *          add it to any other method if you don't exactly know what it does
-	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 *
+	 * @return TemplateResponse
 	 */
-	public function index() {
-		return new TemplateResponse('lucahome', 'index');  // templates/index.php
+	public function index():TemplateResponse {
+		\OCP\Util::connectHook('\OCP\Config', 'js', $this, 'addJavaScriptVariablesForIndex');
+		return new TemplateResponse('lucahome', 'index');
 	}
 
+	/**
+	 * Add parameters to javascript for user sites
+	 *
+	 * @param array $array
+	 */
+	public function addJavaScriptVariablesForIndex(array $array) {
+		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return;
+		}
+		$appversion = $this->config->getAppValue($this->appName, 'installed_version');
+		$array['array']['oca_lucahome'] = \json_encode([
+			'versionstring' => $appversion,
+		]);
+	}
 }

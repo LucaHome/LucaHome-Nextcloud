@@ -13,12 +13,6 @@ interface IAreaRepository {
 	public function get();
 
 	/**
-     * @param int id
-	 * @return array Area
-	 */
-	public function getForId(int $id);
-
-	/**
 	 * @param string userId
 	 * @param Area area
 	 * @return ErrorCode Success or failure of action

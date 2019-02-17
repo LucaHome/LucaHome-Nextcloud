@@ -2,124 +2,85 @@
 
 namespace OCA\LucaHome\Services;
 
-use \OC\User\Manager;
 use \OCA\LucaHome\Adapter\PiAdapter;
 use \OCA\LucaHome\Enums\ErrorCode;
 use \OCA\LucaHome\Entities\WirelessSocket;
 use \OCA\LucaHome\Repositories\WirelessSocketRepository;
-use OCP\ILogger;
 
 class WirelessSocketService implements IWirelessSocketService {
 
-	/** @var Manager  */
-    private $userManager;
+	/** @var string  */
+    private $userId;
     
-	/** @var ILogger */
-	private $logger;
+	/**
+	 * @var IConfig
+	 */
+    private $settings;
+    
+	/**
+	 * @var string
+	 */
+    private $appName;
 
-	/** @var PiAdapter */
+	/** 
+	 * @var PiAdapter 
+	 * */
 	private $piAdapter;
 
-	/** @var WirelessSocketRepository */
+	/** 
+	 * @var WirelessSocketRepository 
+	 * */
 	private $repository;
 
-	public function __construct(Manager $userManager, ILogger $logger, PiAdapter $piAdapter, WirelessSocketRepository $repository) {
-		$this->userManager = $userManager;
-		$this->logger = $logger;
+	/**
+	 * @param string $userId
+	 * @param IConfig $settings
+	 * @param string $appName
+	 * @param PiAdapter $piAdapter
+	 * @param WirelessSocketRepository $repository
+	 */
+	public function __construct(string $userId, IConfig $settings, string $appName, PiAdapter $piAdapter, WirelessSocketRepository $repository) {
+		$this->userId = $userId;
+		$this->settings = $settings;
+		$this->appName = $appName;
 		$this->piAdapter = $piAdapter;
 		$this->repository = $repository;
     }
     
 	/**
 	 * @brief returns all wireless sockets
-     * @param string userId
 	 * @return array WirelessSocket
 	 */
-	public function get($userId = null) {
-        $errorCode = validateUserId($userId);
-        if($errorCode !== ErrorCode::NoError){
-            return $errorCode;
-        }
-
+	public function get() {
         return $this->repository->get();
-    }
-
-	/**
-     * @brief returns single wireless sockets for the id and userId
-     * @param int id
-     * @param string userId
-	 * @return array WirelessSocket
-	 */
-	public function getForId(int $id, $userId = null) {
-        $errorCode = validateUserId($userId);
-        if($errorCode !== ErrorCode::NoError){
-            return $errorCode;
-        }
-
-        return $this->respository->getForId($id);
     }
 
 	/**
 	 * Add a WirelessSocket
 	 * @param WirelessSocket wirelessSocket
-     * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function add(WirelessSocket $wirelessSocket, $userId = null) {
-        $errorCode = validateUserId($userId);
-        if($errorCode !== ErrorCode::NoError){
-            return $errorCode;
-        }
-
-        return $this->repository->add($userId, $wirelessSocket);
+	public function add(WirelessSocket $wirelessSocket) {
+        return $this->repository->add($this->userId, $wirelessSocket);
     }
     
     /**
 	 * Update a WirelessSocket
 	 * @param WirelessSocket wirelessSocket
-     * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function update(WirelessSocket $wirelessSocket, $userId = null) {
-        $errorCode = validateUserId($userId);
-        if($errorCode !== ErrorCode::NoError){
-            return $errorCode;
-        }
-
-        return $this->repository->update($userId, $wirelessSocket);
+    public function update(WirelessSocket $wirelessSocket) {
+		$gpioPin = (int)$this->settings->getUserValue($this->userId, $this->appName,'various_wirelessSocketGpioPin');
+        $this->piAdapter->send433MHz($gpioPin, $wirelessSocket->getCode(), $wirelessSocket->getState());
+        return $this->repository->update($this->userId, $wirelessSocket);
     }
     
 	/**
 	 * @brief Delete WirelessSocket with specific id
 	 * @param int $id WirelessSocket ID to delete
-     * @param string userId
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function delete(int $id, $userId = null) {
-        $errorCode = validateUserId($userId);
-        if($errorCode !== ErrorCode::NoError){
-            return $errorCode;
-        }
-
-        return $this->repository->delete($userId, $id);
-    }
-
-	/**
-	 * @brief Checks if userId is valid
-     * @param string userId
-	 * @return ErrorCode Success or failure of action
-	 */
-    private function validateUserId($userId = null) {
-        if ($userId === null) {
-			$this->logger->warn("No userId provided", ['app' => 'lucahome']);
-			return ErrorCode::InvalidUserNull;
-		} else {
-			if ($this->userManager->userExists($userId) === false) {
-                $this->logger->warn("UserId does not exist", ['app' => 'lucahome']);
-				return ErrorCode::UserDoesNotExist;
-			}
-        }
-        
-        return ErrorCode::NoError;
+	public function delete(int $id) {
+        return $this->repository->delete($this->userId, $id);
     }
 }

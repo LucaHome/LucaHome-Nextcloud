@@ -43,7 +43,11 @@ export default {
     },
     saveArea() {
       if (this.newAreaName.length > 0) {
-        this.$store.dispatch("saveArea", {id: this.$store.getters.selectedArea.id, name: this.newAreaName, filter: this.newAreaName});
+        this.$store.dispatch("saveArea", {
+          id: this.$store.getters.selectedArea.id,
+          name: this.newAreaName,
+          filter: this.newAreaName
+        });
       }
     }
   },
@@ -57,24 +61,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.md-list {
-  min-width: 15rem;
-  width: 15rem;
-  max-width: 15rem;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.add-button {
-  position: fixed;
-  left: 11rem;
-  bottom: 1rem;
-}
-
-.save-button {
-  cursor: pointer;
-  right: 1.5rem;
-}
-</style>

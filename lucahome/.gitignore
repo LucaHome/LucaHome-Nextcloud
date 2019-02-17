@@ -1,3 +1,11 @@
+# files build by make
+/css/src/sprites-bw.scss
+/css/src/sprites-color.scss
+/img/bw.svg
+/img/color.svg
+/js/
+
+# misc
 .DS_Store
 node_modules
 /dist
@@ -7,12 +15,12 @@ node_modules
 .env.local
 .env.*.local
 
-# Log files
+# log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Editor directories and files
+# editor directories and files
 .idea
 .vscode
 *.suo

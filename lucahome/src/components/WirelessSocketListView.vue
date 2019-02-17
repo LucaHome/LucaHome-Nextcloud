@@ -69,19 +69,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.md-list {
-  min-width: 20rem;
-  width: 20rem;
-  max-width: 20rem;
-  display: inline-block;
-  vertical-align: top;
-}
-
-.add-button {
-  position: fixed;
-  left: 31.5rem;
-  bottom: 1rem;
-}
-</style>

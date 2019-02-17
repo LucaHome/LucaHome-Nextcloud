@@ -62,7 +62,10 @@
                 <md-input name="icon" id="icon" v-model="form.icon" :disabled="sending"/>
                 <md-icon :class="form.icon"></md-icon>
               </md-field>
-              <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_">Get Icons from here</a>
+              <a
+                href="https://fontawesome.com/icons?d=gallery&m=free"
+                target="_"
+              >Get Icons from here</a>
             </div>
           </div>
         </md-card-content>
@@ -233,12 +236,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.md-progress-bar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-}
-</style>

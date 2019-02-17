@@ -27,62 +27,6 @@ export default {
     AreaListView,
     WirelessSocketDetailView,
     WirelessSocketListView
-  },
-  methods: {
-    init() {
-      this.$store.dispatch("init", this.$axiosService);
-    }
-  },
-  mounted() {
-    this.init();
   }
 };
 </script>
-
-<style lang="scss">
-@import "~vue-material/dist/theme/engine";
-@import "~vue-material/dist/theme/all";
-
-body {
-  font-family: Helvetica, sans-serif;
-}
-
-.area-list-view {
-  position: absolute;
-  min-width: 15rem;
-  width: 15rem;
-  max-width: 15rem;
-  height: 100vh;
-  background-color: rgb(66, 66, 66);
-  border: 0.0625rem solid rgba(#000, 0.12);
-}
-
-.wireless-socket-list-view {
-  position: absolute;
-  min-width: 20rem;
-  width: 20rem;
-  max-width: 20rem;
-  height: 100vh;
-  background-color: rgb(66, 66, 66);
-  border: 0.0625rem solid rgba(#000, 0.12);
-  left: 15.5rem;
-}
-
-.detail-view {
-  position: absolute;
-  height: 100vh;
-  width: calc(100vw - 36rem);
-  background-color: rgb(66, 66, 66);
-  left: 36rem;
-  top: 0;
-}
-
-.selected {
-  background-color: dimgrey;
-  cursor: default;
-}
-
-.selectable {
-  cursor: pointer;
-}
-</style>

@@ -38,25 +38,6 @@ class AreaRepository implements IAreaRepository {
     }
 
 	/**
-	 * @brief returns single wireless socket for a userId and the id
-     * @param int id
-	 * @return array Area
-	 */
-    public function getForId(int $id) {
-        $qb = $this->db->getQueryBuilder();
-        $qb
-            ->select('*')
-            ->from('areas')
-            ->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-
-        $cursor = $qb->execute();
-        $result = $cursor->fetch();
-        $cursor->closeCursor();
-
-        return $result;
-    }
-
-	/**
 	 * Add an Area
 	 * @param string userId
 	 * @param Area area
@@ -77,8 +58,8 @@ class AreaRepository implements IAreaRepository {
 			]);
         
         $qb->setParameters([
-			'name' => $area->getName(),
-			'filter' => $area->getFilter()
+			'name' => trim($area->getName()),
+			'filter' => trim($area->getFilter())
         ]);
         
         $cursor = $qb->execute();
@@ -112,8 +93,8 @@ class AreaRepository implements IAreaRepository {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->update('areas')
-            ->set('name', $qb->createNamedParameter($area->getName()))
-            ->set('filter', $qb->createNamedParameter($area->getFilter()))
+            ->set('name', $qb->createNamedParameter(trim($area->getName())))
+            ->set('filter', $qb->createNamedParameter(trim($area->getFilter())))
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
         $cursor = $qb->execute();

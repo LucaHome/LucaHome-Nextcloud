@@ -38,25 +38,6 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
     }
 
 	/**
-	 * @brief returns single wireless socket for a userId and the id
-     * @param int id
-	 * @return array WirelessSocket
-	 */
-    public function getForId(int $id) {
-        $qb = $this->db->getQueryBuilder();
-        $qb
-            ->select('*')
-            ->from('wirelesssockets')
-            ->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-
-        $cursor = $qb->execute();
-        $result = $cursor->fetch();
-        $cursor->closeCursor();
-
-        return $result;
-    }
-
-	/**
 	 * Add a WirelessSocket
 	 * @param string userId
 	 * @param WirelessSocket wirelessSocket
@@ -81,12 +62,12 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 			]);
         
         $qb->setParameters([
-			'name' => $wirelessSocket->getName(),
-			'code' => $wirelessSocket->getCode(),
-			'area' => $wirelessSocket->getArea(),
+			'name' => trim($wirelessSocket->getName()),
+			'code' => trim($wirelessSocket->getCode()),
+			'area' => trim($wirelessSocket->getArea()),
             'state' => $wirelessSocket->getState(),
-			'description' => $wirelessSocket->getDescription(),
-			'icon' => $wirelessSocket->getIcon()
+			'description' => trim($wirelessSocket->getDescription()),
+			'icon' => trim($wirelessSocket->getIcon())
         ]);
         
         $cursor = $qb->execute();
@@ -120,12 +101,12 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->update('wirelesssockets')
-            ->set('name', $qb->createNamedParameter($wirelessSocket->getName()))
-            ->set('code', $qb->createNamedParameter($wirelessSocket->getCode()))
-            ->set('area', $qb->createNamedParameter($wirelessSocket->getArea()))
+            ->set('name', $qb->createNamedParameter(trim($wirelessSocket->getName())))
+            ->set('code', $qb->createNamedParameter(trim($wirelessSocket->getCode())))
+            ->set('area', $qb->createNamedParameter(trim($wirelessSocket->getArea())))
             ->set('state', $qb->createNamedParameter($wirelessSocket->getState()))
-            ->set('description', $qb->createNamedParameter($wirelessSocket->getDescription()))
-            ->set('icon', $qb->createNamedParameter($wirelessSocket->getIcon()))
+            ->set('description', $qb->createNamedParameter(trim($wirelessSocket->getDescription())))
+            ->set('icon', $qb->createNamedParameter(trim($wirelessSocket->getIcon())))
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
         $cursor = $qb->execute();
