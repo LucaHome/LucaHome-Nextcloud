@@ -51,9 +51,9 @@ module.exports = {
 		// 1tbs brace style
 		'brace-style': 'error',
 		// tabs only
-		indent: ['error', ''],
+		indent: ['error', 'never'],
 		'no-tabs': 0,
-		'vue/html-indent': ['error', ''],
+		'vue/html-indent': ['error', 'never'],
 		// only debug console
 		'no-console': ['error', {
 			allow: ['error', 'warn', 'info', 'debug']
