@@ -20,9 +20,12 @@ The make command will install or update Composer dependencies if a composer.json
 **package.json**:
 ```json
 "scripts": {
-    "test": "node node_modules/gulp-cli/bin/gulp.js karma",
-    "prebuild": "npm install && node_modules/bower/bin/bower install && node_modules/bower/bin/bower update",
-    "build": "node node_modules/gulp-cli/bin/gulp.js"
+    "dev": "webpack --config webpack.dev.js",
+    "watch": "webpack --progress --watch --config webpack.dev.js",
+    "build": "webpack --progress --hide-modules --config webpack.prod.js",
+    "lint": "eslint --ext .js,.vue src tests",
+    "lint:fix": "eslint --ext .js,.vue src tests --fix",
+    "test": "jest --verbose"
 }
 ```
 
