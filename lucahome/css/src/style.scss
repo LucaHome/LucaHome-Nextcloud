@@ -7,9 +7,9 @@ body {
 
 .area-list-view {
     position: absolute;
-    min-width: 15rem;
-    width: 15rem;
-    max-width: 15rem;
+    min-width: 20rem;
+    width: 20rem;
+    max-width: 20rem;
     height: 100vh;
     background-color: rgb(66, 66, 66);
     border: 0.0625rem solid rgba(#000, 0.12);
@@ -23,15 +23,15 @@ body {
     height: 100vh;
     background-color: rgb(66, 66, 66);
     border: 0.0625rem solid rgba(#000, 0.12);
-    left: 15.5rem;
+    left: 20.5rem;
 }
 
 .detail-view {
     position: absolute;
     height: 100vh;
-    width: calc(100vw - 36rem);
+    width: calc(100vw - 41rem);
     background-color: rgb(66, 66, 66);
-    left: 36rem;
+    left: 41rem;
     top: 0;
 }
 
@@ -45,12 +45,12 @@ body {
 }
 
 .add-button {
-    position: absolute;
-    left: 11rem;
+    position: absolute !important;
+    left: 16rem;
     bottom: 1rem;
 }
 
 .save-button {
     cursor: pointer;
-    right: 1.5rem;
+    right: 0rem;
 }

@@ -6,9 +6,15 @@ import Requests from '../services/requests'
 
 Vue.use(Vuex)
 
+const preSelectedArea = {
+    id: 0,
+    name: "All",
+    filter: ""
+}
+
 const state = {
     areas: [],
-    areaSelected: null
+    areaSelected: preSelectedArea
 }
 
 const getters = {
@@ -24,7 +30,10 @@ const mutations = {
      * @param {Object} payload The collections payload
      */
     setAreas(state, payload) {
-        state.areas = payload.areas;
+        var areas = [preSelectedArea];
+        areas.push(...payload.areas);
+        state.areas = areas;
+        state.areaSelected = state.areas[0];
     },
 
     /**
@@ -86,7 +95,8 @@ const actions = {
      */
     loadAreas({commit}) {
         return new Promise(function (resolve) {
-            Requests.get(OC.generateUrl('apps/lucahome/api/v1/area'))
+            //Requests.get(OC.generateUrl('area'))
+            Requests.get('area')
                 .then(response => {
                     commit('setAreas', {
                         areas: response.data
@@ -103,11 +113,10 @@ const actions = {
      * @param {Object} area The selected area
      * @returns {Promise}
      */
-    selectWirelessSocket({commit}, area) {
+    selectArea({commit}, area) {
         commit('setAreaSelected', {
             area: area
         });
-        resolve();
     },
 
     /**
@@ -118,15 +127,16 @@ const actions = {
      */
     addArea({commit}) {
         var area = {
-            id: -1,
+            id: Math.max(...this.getters.areas.map(x => x.id)) + 1,
             name: "",
             filter: ""
         };
 
         return new Promise(function (resolve) {
-            Requests.put(OC.generateUrl('apps/lucahome/api/v1/area'), area)
+            //Requests.put(OC.generateUrl('area'), area)
+            Requests.put('area', area)
                 .then(response => {
-                    if(response.status === "success" && response.data >= 0) {
+                    if (response.status === "success" && response.data >= 0) {
                         area.id = response.data;
                         commit('addArea', {
                             area: area
@@ -149,9 +159,10 @@ const actions = {
      */
     updateArea({commit}, area) {
         return new Promise(function (resolve) {
-            Requests.post(OC.generateUrl('apps/lucahome/api/v1/area'), area)
+            //Requests.post(OC.generateUrl('area'), area)
+            Requests.post('area', area)
                 .then(response => {
-                    if(response.status === "success" && response.data === 0) {
+                    if (response.status === "success" && response.data === 0) {
                         commit('updateArea', {
                             area: area
                         });
@@ -173,9 +184,10 @@ const actions = {
      */
     deleteArea({commit}, area) {
         return new Promise(function (resolve) {
-            Requests.delete(OC.generateUrl('apps/lucahome/api/v1/area'), area.id)
+            //Requests.delete(OC.generateUrl('area'), area.id)
+            Requests.delete('area', area.id)
                 .then(response => {
-                    if(response.status === "success" && response.data === 0) {
+                    if (response.status === "success" && response.data === 0) {
                         commit('deleteArea', {
                             area: area
                         });

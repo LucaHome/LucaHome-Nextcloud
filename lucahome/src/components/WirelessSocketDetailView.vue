@@ -1,5 +1,5 @@
 <template>
-  <div v-if="selectedWirelessSocket">
+  <div v-if="wirelessSocketSelected">
     <form novalidate class="md-layout" style="margin: 1rem;" @submit.prevent="validate">
       <md-card class="md-layout-item md-size-95 md-small-size-100">
         <md-card-header>
@@ -159,31 +159,28 @@ export default {
     },
     clearForm() {
       this.$v.$reset();
-      this.setFormData(this.selectedWirelessSocket);
+      this.setFormData(this.wirelessSocketSelected);
     },
     save() {
       this.sending = true;
 
-      // Instead of this timeout, here we have to call the API
-      window.setTimeout(() => {
-        var wirelessSocket = {
-          id: this.selectedWirelessSocket.id,
-          name: this.form.name,
-          area: this.form.area,
-          code: this.form.code,
-          state: false,
-          description: this.form.description,
-          icon: this.form.icon
-        };
-        this.$store.dispatch("saveWirelessSocket", wirelessSocket);
+      var wirelessSocket = {
+        id: this.wirelessSocketSelected.id,
+        name: this.form.name,
+        area: this.form.area,
+        code: this.form.code,
+        state: false,
+        description: this.form.description,
+        icon: this.form.icon
+      };
+      this.$store.dispatch("updateWirelessSocket", wirelessSocket);
 
-        this.saved = true;
-        this.sending = false;
-        this.clearForm();
-      }, 1500);
+      this.saved = true;
+      this.sending = false;
+      this.clearForm();
     },
     onDeleteYes() {
-      this.$store.dispatch("removeWirelessSocket", this.selectedWirelessSocket);
+      this.$store.dispatch("deleteWirelessSocket", this.wirelessSocketSelected);
     },
     validate() {
       this.$v.$touch();
@@ -209,29 +206,28 @@ export default {
     },
     hasChanges() {
       return (
-        this.form.name !== this.selectedWirelessSocket.name ||
-        this.form.code !== this.selectedWirelessSocket.code ||
-        this.form.area !== this.selectedWirelessSocket.area ||
-        this.form.description !== this.selectedWirelessSocket.description ||
-        this.form.icon !== this.selectedWirelessSocket.icon
+        this.form.name !== this.wirelessSocketSelected.name ||
+        this.form.code !== this.wirelessSocketSelected.code ||
+        this.form.area !== this.wirelessSocketSelected.area ||
+        this.form.description !== this.wirelessSocketSelected.description ||
+        this.form.icon !== this.wirelessSocketSelected.icon
       );
     }
   },
   watch: {
-    selectedWirelessSocket(wirelessSocket) {
+    wirelessSocketSelected(wirelessSocket) {
       this.setFormData(wirelessSocket);
     }
   },
   created() {
-    var wirelessSocket = this.$store.getters.selectedWirelessSocket;
-    this.setFormData(wirelessSocket);
+    this.setFormData(this.$store.getters.wirelessSocketSelected);
   },
   computed: {
-    selectedWirelessSocket() {
-      return this.$store.getters.selectedWirelessSocket;
+    areaSelected() {
+      return this.$store.getters.areaSelected;
     },
-    selectedArea() {
-      return this.$store.getters.selectedArea;
+    wirelessSocketSelected() {
+      return this.$store.getters.wirelessSocketSelected;
     }
   }
 };

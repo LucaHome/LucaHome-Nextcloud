@@ -1,9 +1,9 @@
 <template>
   <div>
     <md-list class="md-triple-line">
-      <div v-for="(wirelessSocket, index) in wirelessSocketList" :key="index">
+      <div v-for="(wirelessSocket, index) in wirelessSocketsForArea" :key="index">
         <md-list-item
-          :class="{selected: wirelessSocket.id === selectedWirelessSocket.id, selectable: wirelessSocket.id !== selectedWirelessSocket.id}"
+          :class="{selected: wirelessSocket.id === wirelessSocketSelected.id, selectable: wirelessSocket.id !== wirelessSocketSelected.id}"
         >
           <md-avatar @click="select(wirelessSocket)">
             <md-icon :class="wirelessSocket.icon"></md-icon>
@@ -15,11 +15,7 @@
             <p>{{wirelessSocket.code}}</p>
           </div>
 
-          <md-button
-            class="md-icon-button md-raised"
-            @click="toggleState(wirelessSocket)"
-            :disabled="sending"
-          >
+          <md-button class="md-icon-button md-raised" @click="toggleState(wirelessSocket)">
             <md-icon
               :class="{'fas fa-toggle-on':wirelessSocket.state,'fas fa-toggle-off':!wirelessSocket.state}"
             ></md-icon>
@@ -39,32 +35,40 @@
 <script>
 export default {
   name: "WirelessSocketListView",
-  data: () => ({
-    sending: false
-  }),
   methods: {
     select(wirelessSocket) {
       this.$store.dispatch("selectWirelessSocket", wirelessSocket);
     },
-    toggleState(wirelessSocket) {
-      this.sending = true;
-
-      // Instead of this timeout, here we have to call the API
-      window.setTimeout(() => {
-        this.$store.dispatch("toggleWirelessSocketState", wirelessSocket);
-        this.sending = false;
-      }, 500);
-    },
     addWirelessSocket() {
-      this.$store.dispatch("addWirelessSocket");
+      this.$store.dispatch(
+        "addWirelessSocket",
+        this.$store.getters.areaSelected.name
+      );
+    },
+    toggleState(wirelessSocket) {
+      wirelessSocket.state = !wirelessSocket.state;
+      this.$store.dispatch("updateWirelessSocket", wirelessSocket);
     }
   },
   computed: {
-    wirelessSocketList() {
-      return this.$store.getters.visibleWirelessSocketList;
+    wirelessSocketsForArea() {
+      var wirelessSockets = this.$store.getters.wirelessSockets;
+      var areaSelected = this.$store.getters.areaSelected;
+
+      var wirelessSocketsForArea =
+        areaSelected.filter === ""
+          ? wirelessSockets
+          : wirelessSockets.filter(x => x.area === areaSelected.filter);
+
+      this.$store.dispatch(
+        "selectWirelessSocket",
+        wirelessSocketsForArea.length === 0 ? null : wirelessSocketsForArea[0]
+      );
+
+      return wirelessSocketsForArea;
     },
-    selectedWirelessSocket() {
-      return this.$store.getters.selectedWirelessSocket;
+    wirelessSocketSelected() {
+      return this.$store.getters.wirelessSocketSelected;
     }
   }
 };

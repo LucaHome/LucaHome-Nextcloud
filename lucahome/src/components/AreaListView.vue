@@ -1,9 +1,9 @@
 <template>
   <div>
     <md-list class="md-single-line">
-      <div v-for="(area, index) in areaList" :key="index">
+      <div v-for="(area, index) in areas" :key="index">
         <md-list-item
-          :class="{selected: area.id === selectedArea.id, selectable: area.id !== selectedArea.id}"
+          :class="{selected: area.id === areaSelected.id, selectable: area.id !== areaSelected.id}"
         >
           <div v-if="area.name" class="md-list-item-text" @click="select(area)">
             <span>{{area.name}}</span>
@@ -12,7 +12,7 @@
           <md-field v-else>
             <label>Name</label>
             <md-input v-model="newAreaName"></md-input>
-            <md-button class="md-icon-button save-button md-primary" @click="saveArea">
+            <md-button class="md-icon-button save-button md-primary" @click="updateArea">
               <md-icon>save</md-icon>
             </md-button>
           </md-field>
@@ -22,7 +22,11 @@
       </div>
     </md-list>
 
-    <md-button class="md-icon-button md-raised add-button md-primary" @click="addArea">
+    <md-button
+      class="md-icon-button md-raised add-button md-primary"
+      @click="addArea"
+      :disabled="adding"
+    >
       <md-icon>add</md-icon>
     </md-button>
   </div>
@@ -32,31 +36,39 @@
 export default {
   name: "AreaListView",
   data: () => ({
-    newAreaName: null
+    newAreaName: null,
+    adding: false
   }),
   methods: {
     select(area) {
-      this.$store.dispatch("selectArea", area);
+      if (!this.adding) {
+        this.$store.dispatch("selectArea", area);
+      }
     },
     addArea() {
-      this.$store.dispatch("addArea");
+      if (!this.adding) {
+        this.$store.dispatch("addArea");
+        this.adding = true;
+      }
     },
-    saveArea() {
+    updateArea() {
       if (this.newAreaName.length > 0) {
-        this.$store.dispatch("saveArea", {
-          id: this.$store.getters.selectedArea.id,
+        this.$store.dispatch("updateArea", {
+          id: this.$store.getters.areaSelected.id,
           name: this.newAreaName,
           filter: this.newAreaName
         });
+        this.newAreaName = "";
+        this.adding = false;
       }
     }
   },
   computed: {
-    areaList() {
-      return this.$store.getters.areaList;
+    areas() {
+      return this.$store.getters.areas;
     },
-    selectedArea() {
-      return this.$store.getters.selectedArea;
+    areaSelected() {
+      return this.$store.getters.areaSelected;
     }
   }
 };

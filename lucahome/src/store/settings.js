@@ -84,9 +84,10 @@ const actions = {
 	 */
 	setSetting(context, payload) {
 		context.commit('setSetting', payload)
-		return new Promise(function() {
-			Requests.post(OC.generateUrl('apps/lucahome/settings/{type}/{value}', payload), {})
-		})
+		// TODO
+		//return new Promise(function() {
+		//	Requests.post(OC.generateUrl('apps/lucahome/settings/{type}/{value}', payload), {})
+		//})
 	},
 
 	/**
@@ -97,7 +98,8 @@ const actions = {
 	 */
 	loadSettings({ commit }) {
 		return new Promise(function(resolve) {
-			Requests.get(OC.generateUrl('apps/lucahome/settings'))
+			//Requests.get(OC.generateUrl('apps/lucahome/settings'))
+			Requests.get('apps/lucahome/settings')
 				.then(response => {
 					commit('setSettings', {
 						settings: response.data

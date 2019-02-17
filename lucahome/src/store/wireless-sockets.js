@@ -13,13 +13,7 @@ const state = {
 
 const getters = {
     wirelessSockets: state => state.wirelessSockets,
-    wirelessSocketSelected: state => state.wirelessSocketSelected,
-    wirelessSocketsForArea: (state, getters, area) => {
-        var wirelessSocketsForArea = area.filter === "" 
-            ? getters.wirelessSockets 
-            : getters.wirelessSockets.filter(x => x.area === area.filter);
-        return wirelessSocketsForArea;
-    }
+    wirelessSocketSelected: state => state.wirelessSocketSelected
 }
 
 const mutations = {
@@ -31,6 +25,7 @@ const mutations = {
      */
     setWirelessSockets(state, payload) {
         state.wirelessSockets = payload.wirelessSockets;
+        state.wirelessSocketSelected = state.wirelessSockets.length > 0 ? state.wirelessSockets[0] : null;
     },
 
     /**
@@ -62,9 +57,9 @@ const mutations = {
      */
     updateWirelessSocket(state, payload) {
         var wirelessSockets = state.wirelessSockets;
-        var index = wirelessSockets.map(x => x.id).indexOf(payload.wirelessSocket.id);
-        wirelessSockets[index] = payload.wirelessSocket;
+        wirelessSockets.splice(wirelessSockets.indexOf(payload.wirelessSocket), 1);
         state.wirelessSockets = wirelessSockets;
+        state.wirelessSockets.push(payload.wirelessSocket);
         state.wirelessSocketSelected = payload.wirelessSocket;
     },
 
@@ -90,9 +85,12 @@ const actions = {
      * @param {Object} commit The store mutations
      * @returns {Promise}
      */
-    loadWirelessSockets({commit}) {
+    loadWirelessSockets({
+        commit
+    }) {
         return new Promise(function (resolve) {
-            Requests.get(OC.generateUrl('apps/lucahome/api/v1/wireless_socket'))
+            //Requests.get(OC.generateUrl('wireless_socket'))
+            Requests.get('wireless_socket')
                 .then(response => {
                     commit('setWirelessSockets', {
                         wirelessSockets: response.data
@@ -109,24 +107,28 @@ const actions = {
      * @param {Object} wirelessSocket The selected wireless socket
      * @returns {Promise}
      */
-    selectWirelessSocket({commit}, wirelessSocket) {
+    selectWirelessSocket({
+        commit
+    }, wirelessSocket) {
         commit('setWirelessSocketSelected', {
             wirelessSocket: wirelessSocket
         });
-        resolve();
     },
 
     /**
      * Adds a wireless socket
      *
      * @param {Object} commit The store mutations
+     * @param {String} area The area
      * @returns {Promise}
      */
-    addWirelessSocket({commit}) {
+    addWirelessSocket({
+        commit
+    }, area) {
         var wirelessSocket = {
-            id: -1,
+            id: Math.max(...this.getters.wirelessSockets.map(x => x.id)) + 1,
             name: "",
-            area: "",
+            area: area,
             code: "",
             state: false,
             description: "",
@@ -134,9 +136,10 @@ const actions = {
         };
 
         return new Promise(function (resolve) {
-            Requests.put(OC.generateUrl('apps/lucahome/api/v1/wireless_socket'), wirelessSocket)
+            //Requests.put(OC.generateUrl('wireless_socket'), wirelessSocket)
+            Requests.put('wireless_socket', wirelessSocket)
                 .then(response => {
-                    if(response.status === "success" && response.data >= 0) {
+                    if (response.status === "success" && response.data >= 0) {
                         wirelessSocket.id = response.data;
                         commit('addWirelessSocket', {
                             wirelessSocket: wirelessSocket
@@ -157,11 +160,14 @@ const actions = {
      * @param {Object} wirelessSocket The selected wireless socket
      * @returns {Promise}
      */
-    updateWirelessSocket({commit}, wirelessSocket) {
+    updateWirelessSocket({
+        commit
+    }, wirelessSocket) {
         return new Promise(function (resolve) {
-            Requests.post(OC.generateUrl('apps/lucahome/api/v1/wireless_socket'), wirelessSocket)
+            //Requests.post(OC.generateUrl('wireless_socket'), wirelessSocket)
+            Requests.post('wireless_socket', wirelessSocket)
                 .then(response => {
-                    if(response.status === "success" && response.data === 0) {
+                    if (response.status === "success" && response.data === 0) {
                         commit('updateWirelessSocket', {
                             wirelessSocket: wirelessSocket
                         });
@@ -181,11 +187,14 @@ const actions = {
      * @param {Object} wirelessSocket The selected wireless socket
      * @returns {Promise}
      */
-    deleteWirelessSocket({commit}, wirelessSocket) {
+    deleteWirelessSocket({
+        commit
+    }, wirelessSocket) {
         return new Promise(function (resolve) {
-            Requests.delete(OC.generateUrl('apps/lucahome/api/v1/wireless_socket'), wirelessSocket.id)
+            //Requests.delete(OC.generateUrl('wireless_socket'), wirelessSocket.id)
+            Requests.delete('wireless_socket', wirelessSocket.id)
                 .then(response => {
-                    if(response.status === "success" && response.data === 0) {
+                    if (response.status === "success" && response.data === 0) {
                         commit('deleteWirelessSocket', {
                             wirelessSocket: wirelessSocket
                         });

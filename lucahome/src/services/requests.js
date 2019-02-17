@@ -1,10 +1,12 @@
 "use strict"
 
 import requestMock from "./request.mock";
-const useMockData = true;
+const useMockData = false;
 
 import Axios from "axios";
-Axios.defaults.headers.common.requesttoken = OC.requestToken;
+//Axios.defaults.headers.common.requesttoken = OC.requestToken;
+
+const baseUrl = "http://localhost/nextcloud/apps/lucahome/api/v1/";
 
 export default {
     get(url) {
@@ -12,7 +14,7 @@ export default {
             return requestMock.getMock(url);
         }
 
-        return Axios.get(url)
+        return Axios.get(baseUrl + url)
             .then((response) => Promise.resolve(response))
             .catch((error) => Promise.reject(error));
     },
@@ -21,7 +23,7 @@ export default {
             return requestMock.putMock(url, data);
         }
 
-        return Axios.put(url, data)
+        return Axios.put(baseUrl + url, data)
             .then((response) => Promise.resolve(response))
             .catch((error) => Promise.reject(error));
     },
@@ -30,7 +32,7 @@ export default {
             return requestMock.postDeleteMock(url, data);
         }
 
-        return Axios.post(url, data)
+        return Axios.post(baseUrl + url, data)
             .then((response) => Promise.resolve(response))
             .catch((error) => Promise.reject(error));
     },
@@ -39,7 +41,7 @@ export default {
             return requestMock.postDeleteMock(url, data);
         }
 
-        return Axios.delete(url, data)
+        return Axios.delete(baseUrl + url, data)
             .then((response) => Promise.resolve(response))
             .catch((error) => Promise.reject(error));
     }

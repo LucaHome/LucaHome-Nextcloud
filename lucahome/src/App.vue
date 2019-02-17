@@ -23,6 +23,7 @@ import WirelessSocketDetailView from "./components/WirelessSocketDetailView.vue"
 import WirelessSocketListView from "./components/WirelessSocketListView.vue";
 
 export default {
+  name: "App",
   components: {
     AreaListView,
     WirelessSocketDetailView,
@@ -30,3 +31,6 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+@import "../css/lucahome";
+</style>
