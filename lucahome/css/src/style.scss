@@ -1,56 +1,56 @@
-@import "~vue-material/dist/theme/engine";
-@import "~vue-material/dist/theme/all";
+@import '~vue-material/dist/theme/engine';
+@import '~vue-material/dist/theme/all';
 
 body {
-    font-family: Helvetica, sans-serif;
+	font-family: Helvetica, sans-serif;
 }
 
 .area-list-view {
-    position: absolute;
-    min-width: 20rem;
-    width: 20rem;
-    max-width: 20rem;
-    height: 100vh;
-    background-color: rgb(66, 66, 66);
-    border: 0.0625rem solid rgba(#000, 0.12);
+	position: absolute;
+	min-width: 20rem;
+	width: 20rem;
+	max-width: 20rem;
+	height: 100vh;
+	background-color: rgb(66, 66, 66);
+	border: 0.0625rem solid rgba(#000, 0.12);
 }
 
 .wireless-socket-list-view {
-    position: absolute;
-    min-width: 20rem;
-    width: 20rem;
-    max-width: 20rem;
-    height: 100vh;
-    background-color: rgb(66, 66, 66);
-    border: 0.0625rem solid rgba(#000, 0.12);
-    left: 20.5rem;
+	position: absolute;
+	min-width: 20rem;
+	width: 20rem;
+	max-width: 20rem;
+	height: 100vh;
+	background-color: rgb(66, 66, 66);
+	border: 0.0625rem solid rgba(#000, 0.12);
+	left: 20.5rem;
 }
 
 .detail-view {
-    position: absolute;
-    height: 100vh;
-    width: calc(100vw - 41rem);
-    background-color: rgb(66, 66, 66);
-    left: 41rem;
-    top: 0;
+	position: absolute;
+	height: 100vh;
+	width: calc(100vw - 41rem);
+	background-color: rgb(66, 66, 66);
+	left: 41rem;
+	top: 0;
 }
 
 .selected {
-    background-color: dimgrey;
-    cursor: default;
+	background-color: dimgrey;
+	cursor: default;
 }
 
 .selectable {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .add-button {
-    position: absolute !important;
-    left: 16rem;
-    bottom: 1rem;
+	position: absolute !important;
+	left: 16rem;
+	bottom: 1rem;
 }
 
 .save-button {
-    cursor: pointer;
-    right: 0rem;
+	cursor: pointer;
+	right: 0rem;
 }
