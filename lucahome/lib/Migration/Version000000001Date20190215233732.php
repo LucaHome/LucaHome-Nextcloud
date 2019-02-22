@@ -6,10 +6,10 @@
 
 namespace OCA\LucaHome\Migration;
 
-use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
-use OCP\Migration\IOutput;
-use OCP\IDBConnection;
+use \OCP\DB\ISchemaWrapper;
+use \OCP\Migration\SimpleMigrationStep;
+use \OCP\Migration\IOutput;
+use \OCP\IDBConnection;
 
 /**
  * Auto-generated migration step: Please modify to your needs!

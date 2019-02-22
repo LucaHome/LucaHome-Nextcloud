@@ -8,8 +8,8 @@ namespace OCA\LucaHome\Repositories;
 
 use \OCA\LucaHome\Enums\ErrorCode;
 use \OCA\LucaHome\Entities\Area;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
+use \OCP\DB\QueryBuilder\IQueryBuilder;
+use \OCP\IDBConnection;
 
 class AreaRepository implements IAreaRepository {
 

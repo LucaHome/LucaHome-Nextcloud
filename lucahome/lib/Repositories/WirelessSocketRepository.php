@@ -8,8 +8,8 @@ namespace OCA\LucaHome\Repositories;
 
 use \OCA\LucaHome\Enums\ErrorCode;
 use \OCA\LucaHome\Entities\WirelessSocket;
-use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
+use \OCP\DB\QueryBuilder\IQueryBuilder;
+use \OCP\IDBConnection;
 
 class WirelessSocketRepository implements IWirelessSocketRepository {
 

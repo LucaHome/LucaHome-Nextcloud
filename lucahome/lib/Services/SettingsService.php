@@ -2,7 +2,7 @@
 
 namespace OCA\LucaHome\Services;
 
-use OCP\IConfig;
+use \OCP\IConfig;
 
 class SettingsService implements ISettingsService {
 	/**
