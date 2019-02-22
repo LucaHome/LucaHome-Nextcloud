@@ -2,14 +2,14 @@
 
 namespace OCA\LucaHome\Controller;
 
-use OCA\LucaHome\Entities\Area;
-use OCA\LucaHome\Services\AreaService;
+use OCA\LucaHome\Entities\WirelessSocket;
+use OCA\LucaHome\Services\WirelessSocketService;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
 
-class AreaController extends Controller {
+class WirelessSocketApiController extends Controller {
 
-	/** @var AreaService */
+	/** @var WirelessSocketService */
 	private $service;
 	
 	use Response;
@@ -17,15 +17,15 @@ class AreaController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param AreaService $service
+	 * @param WirelessSocketService $service
 	 */
-	public function __construct(string $appName, IRequest $request, AreaService $service) {
+	public function __construct(string $appName, IRequest $request, WirelessSocketService $service) {
 		parent::__construct($appName, $request);
 		$this->service = $service;
     }
     
 	/**
-	 * @brief returns all areas
+	 * @brief returns all WirelessSockets
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
@@ -37,33 +37,33 @@ class AreaController extends Controller {
     }
     
 	/**
-	 * @brief Add an Area
-	 * @param Area area
+	 * @brief Add a WirelessSocket
+	 * @param WirelessSocket wirelessSocket
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
-	public function add(Area $area) {
+	public function add(WirelessSocket $wirelessSocket) {
 		return $this->generateResponse("success", function () {
-			return $this->service->add($area);
+			return $this->service->add($wirelessSocket);
 		}, null);
     }
     
 	/**
-	 * @brief Update an Area
-	 * @param Area area
+	 * @brief Update a WirelessSocket
+	 * @param WirelessSocket wirelessSocket
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
-	public function update(Area $area) {
+	public function update(WirelessSocket $wirelessSocket) {
 		return $this->generateResponse("success", function () {
-			return $this->service->update($area);
+			return $this->service->update($wirelessSocket);
 		}, null);
     }
     
 	/**
-	 * @brief Delete an Area
+	 * @brief Delete a WirelessSocket
 	 * @param int id
 	 * @return JSONResponse
 	 *

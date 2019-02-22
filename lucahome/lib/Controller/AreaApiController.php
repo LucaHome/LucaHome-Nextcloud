@@ -2,14 +2,14 @@
 
 namespace OCA\LucaHome\Controller;
 
-use OCA\LucaHome\Entities\WirelessSocket;
-use OCA\LucaHome\Services\WirelessSocketService;
+use OCA\LucaHome\Entities\Area;
+use OCA\LucaHome\Services\AreaService;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
 
-class WirelessSocketController extends Controller {
+class AreaApiController extends Controller {
 
-	/** @var WirelessSocketService */
+	/** @var AreaService */
 	private $service;
 	
 	use Response;
@@ -17,15 +17,15 @@ class WirelessSocketController extends Controller {
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param WirelessSocketService $service
+	 * @param AreaService $service
 	 */
-	public function __construct(string $appName, IRequest $request, WirelessSocketService $service) {
+	public function __construct(string $appName, IRequest $request, AreaService $service) {
 		parent::__construct($appName, $request);
 		$this->service = $service;
     }
     
 	/**
-	 * @brief returns all WirelessSockets
+	 * @brief returns all areas
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
@@ -37,33 +37,33 @@ class WirelessSocketController extends Controller {
     }
     
 	/**
-	 * @brief Add a WirelessSocket
-	 * @param WirelessSocket wirelessSocket
+	 * @brief Add an Area
+	 * @param Area area
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
-	public function add(WirelessSocket $wirelessSocket) {
+	public function add(Area $area) {
 		return $this->generateResponse("success", function () {
-			return $this->service->add($wirelessSocket);
+			return $this->service->add($area);
 		}, null);
     }
     
 	/**
-	 * @brief Update a WirelessSocket
-	 * @param WirelessSocket wirelessSocket
+	 * @brief Update an Area
+	 * @param Area area
 	 * @return JSONResponse
 	 *
 	 * @NoAdminRequired
 	 */
-	public function update(WirelessSocket $wirelessSocket) {
+	public function update(Area $area) {
 		return $this->generateResponse("success", function () {
-			return $this->service->update($wirelessSocket);
+			return $this->service->update($area);
 		}, null);
     }
     
 	/**
-	 * @brief Delete a WirelessSocket
+	 * @brief Delete an Area
 	 * @param int id
 	 * @return JSONResponse
 	 *
