@@ -2,9 +2,9 @@
 
 namespace OCA\LucaHome\Services;
 
-use \OCA\LucaHome\Enums\ErrorCode;
-use \OCA\LucaHome\Entities\Area;
-use \OCA\LucaHome\Repositories\AreaRepository;
+use OCA\LucaHome\Enums\ErrorCode;
+use OCA\LucaHome\Entities\Area;
+use OCA\LucaHome\Repositories\AreaRepository;
 
 interface IAreaService {
 

@@ -11,31 +11,12 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-/*
-if ((@include_once __DIR__ . '/../vendor/autoload.php')===false) {
-	throw new Exception('Cannot include autoload. Did you run install dependencies using composer?');
-}
 
-use OCA\LucaHome\AppInfo\Application;
-
-\OC_App::loadApps(['lucahome']);
-
-$app = new Application();
-$app->registerNavigationEntry();
-*/
+namespace OCA\LucaHome\AppInfo;
 
 use OCP\AppFramework\App;
 
-$app = new App('lucahome');
-$container = $app->getContainer();
-
-$container->query('OCP\INavigationManager')->add(function () use ($container) {
-	$urlGenerator = $container->query('OCP\IURLGenerator');
-	return [
-		'id' => 'lucahome',
-		'order' => 10,
-		'href' => $urlGenerator->linkToRoute('lucahome.page.index'),
-		'icon' => $urlGenerator->imagePath('lucahome', 'app.svg'),
-		'name' => 'Luca Home',
-	];
-});
+/**
+ * Additional autoloader registration, e.g. registering composer autoloaders
+ */
+require_once __DIR__ . '/../vendor/autoload.php';

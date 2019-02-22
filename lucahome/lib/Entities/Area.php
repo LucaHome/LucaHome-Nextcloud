@@ -6,7 +6,7 @@
 
 namespace OCA\LucaHome\Entities;
 
-use \OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Db\Entity;
 
 class Area extends Entity {
     protected $name;

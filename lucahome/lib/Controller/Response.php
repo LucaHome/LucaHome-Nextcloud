@@ -2,9 +2,9 @@
 
 namespace OCA\LucaHome\Controller;
 
-use \Closure;
-use \OCP\AppFramework\Http;
-use \OCP\AppFramework\Http\JSONResponse;
+use Closure;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 
 trait Response {
 	protected function generateResponse (string $status, Closure $callback, string $message) {

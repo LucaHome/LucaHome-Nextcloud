@@ -2,10 +2,10 @@
 
 namespace OCA\LucaHome\Controller;
 
-use \OCA\LucaHome\Entities\WirelessSocket;
-use \OCA\LucaHome\Services\WirelessSocketService;
-use \OCP\AppFramework\Controller;
-use \OCP\IRequest;
+use OCA\LucaHome\Entities\WirelessSocket;
+use OCA\LucaHome\Services\WirelessSocketService;
+use OCP\AppFramework\Controller;
+use OCP\IRequest;
 
 class WirelessSocketController extends Controller {
 

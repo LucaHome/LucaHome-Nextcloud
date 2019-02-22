@@ -2,10 +2,10 @@
 
 namespace OCA\LucaHome\Services;
 
-use \OCA\LucaHome\Adapter\PiAdapter;
-use \OCA\LucaHome\Enums\ErrorCode;
-use \OCA\LucaHome\Entities\WirelessSocket;
-use \OCA\LucaHome\Repositories\WirelessSocketRepository;
+use OCA\LucaHome\Adapter\PiAdapter;
+use OCA\LucaHome\Enums\ErrorCode;
+use OCA\LucaHome\Entities\WirelessSocket;
+use OCA\LucaHome\Repositories\WirelessSocketRepository;
 
 interface IWirelessSocketService {
 

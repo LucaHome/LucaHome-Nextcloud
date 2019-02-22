@@ -2,10 +2,10 @@
 
 namespace OCA\LucaHome\Controller;
 
-use \OCP\AppFramework\Controller;
-use \OCP\AppFramework\Http\TemplateResponse;
-use \OCP\IConfig;
-use \OCP\IRequest;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
+use OCP\IRequest;
 
 /**
  * Controller class for main page.
@@ -39,19 +39,7 @@ class PageController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function index():TemplateResponse {
-		\OCP\Util::connectHook('\OCP\Config', 'js', $this, 'addJavaScriptVariablesForIndex');
-		return new TemplateResponse('lucahome', 'main');
-	}
-
-	/**
-	 * Add parameters to javascript for user sites
-	 * @param array $array
-	 */
-	public function addJavaScriptVariablesForIndex(array $array) {
-		$appversion = $this->config->getAppValue($this->appName, 'installed_version');
-		$array['array']['oca_contacts'] = \json_encode([
-			'versionstring' => $appversion,
-		]);
+	public function index() {
+		return new TemplateResponse('lucahome', 'index');  // templates/index.php
 	}
 }

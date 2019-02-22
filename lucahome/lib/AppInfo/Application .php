@@ -14,29 +14,25 @@
 
 namespace OCA\LucaHome\AppInfo;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
-use \OCP\AppFramework\App;
-use \OCP\AppFramework\IAppContainer;
-
-use \OCA\LucaHome\Adapter\PiAdapter;
-
-use \OCA\LucaHome\Controller\AreaController;
-use \OCA\LucaHome\Controller\PageController;
-use \OCA\LucaHome\Controller\SettingsController;
-use \OCA\LucaHome\Controller\WirelessSocketController;
-
-use \OCA\LucaHome\Services\AreaService;
-use \OCA\LucaHome\Services\SettingsService;
-use \OCA\LucaHome\Services\WirelessSocketService;
-
-use \OCA\LucaHome\Repositories\AreaRepository;
-use \OCA\LucaHome\Repositories\WirelessSocketRepository;
+use OCA\LucaHome\Adapter\PiAdapter;
+use OCA\LucaHome\Controller\AreaController;
+use OCA\LucaHome\Controller\PageController;
+use OCA\LucaHome\Controller\SettingsController;
+use OCA\LucaHome\Controller\WirelessSocketController;
+use OCA\LucaHome\Repositories\AreaRepository;
+use OCA\LucaHome\Repositories\WirelessSocketRepository;
+use OCA\LucaHome\Services\AreaService;
+use OCA\LucaHome\Services\SettingsService;
+use OCA\LucaHome\Services\WirelessSocketService;
+use OCP\AppFramework\App;
+use OCP\AppFramework\IAppContainer;
+use OCP\IURLGenerator;
+use OCP\INavigationManager;
 
 class Application extends App {
 
 	public function __construct (array $urlParams=array()) {
-		parent::__construct('lucahome', $urlParams);
+		parent::__construct('LucaHome', $urlParams);
 
 		$container = $this->getContainer();
 
@@ -138,6 +134,20 @@ class Application extends App {
 
 		$container->registerService('Settings', function(IAppContainer $c) {
 			return $c->query('ServerContainer')->getConfig();
+		});
+	}
+
+	public function registerNavigationEntry() {
+		$container = $this->getContainer();
+		$container->query(INavigationManager::class)->add(function() use ($container) {
+			$urlGenerator = $container->query(IURLGenerator::class);
+			return [
+				'id' => 'lucahome',
+				'order' => 10,
+				'href' => $urlGenerator->linkToRoute('lucahome.page.index'),
+				'icon' => $urlGenerator->imagePath('lucahome', 'app.svg'),
+				'name' => 'Luca Home',
+			];
 		});
 	}
 }

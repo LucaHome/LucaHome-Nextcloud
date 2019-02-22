@@ -2,8 +2,6 @@
 
 namespace OCA\LucaHome\Adapter;
 
-use \OCP\ILogger;
-
 class PiAdapter implements IPiAdapter {
 
     /** @var int */

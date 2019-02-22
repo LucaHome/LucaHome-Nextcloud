@@ -2,10 +2,10 @@
 
 namespace OCA\LucaHome\Controller;
 
-use \OCA\LucaHome\Entities\Area;
-use \OCA\LucaHome\Services\AreaService;
-use \OCP\AppFramework\Controller;
-use \OCP\IRequest;
+use OCA\LucaHome\Entities\Area;
+use OCA\LucaHome\Services\AreaService;
+use OCP\AppFramework\Controller;
+use OCP\IRequest;
 
 class AreaController extends Controller {
 

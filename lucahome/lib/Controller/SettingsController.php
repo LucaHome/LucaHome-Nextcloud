@@ -2,9 +2,9 @@
 
 namespace OCA\LucaHome\Controller;
 
-use \OCA\Tasks\Services\SettingsService;
-use \OCP\AppFramework\Controller;
-use \OCP\IRequest;
+use OCA\LucaHome\Services\SettingsService;
+use OCP\AppFramework\Controller;
+use OCP\IRequest;
 
 class SettingsController extends Controller {
 	

@@ -2,8 +2,8 @@
 
 namespace OCA\LucaHome\Repositories;
 
-use \OCA\LucaHome\Enums\ErrorCode;
-use \OCA\LucaHome\Entities\WirelessSocket;
+use OCA\LucaHome\Enums\ErrorCode;
+use OCA\LucaHome\Entities\WirelessSocket;
 
 interface IWirelessSocketRepository {
 
