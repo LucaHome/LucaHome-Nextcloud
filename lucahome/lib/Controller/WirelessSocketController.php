@@ -4,10 +4,10 @@ namespace OCA\LucaHome\Controller;
 
 use OCA\LucaHome\Entities\WirelessSocket;
 use OCA\LucaHome\Services\WirelessSocketService;
-use OCP\AppFramework\ApiController;
+use OCP\AppFramework\Controller;
 use OCP\IRequest;
 
-class WirelessSocketApiController extends ApiController {
+class WirelessSocketController extends Controller {
 
 	/** @var WirelessSocketService */
 	private $service;

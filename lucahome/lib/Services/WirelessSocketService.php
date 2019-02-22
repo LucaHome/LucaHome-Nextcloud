@@ -10,9 +10,6 @@ use OCP\IConfig;
 
 class WirelessSocketService implements IWirelessSocketService {
 
-	/** @var string  */
-    private $userId;
-    
 	/**
 	 * @var IConfig
 	 */
@@ -34,14 +31,12 @@ class WirelessSocketService implements IWirelessSocketService {
 	private $repository;
 
 	/**
-	 * @param string $userId
 	 * @param IConfig $settings
 	 * @param string $appName
 	 * @param PiAdapter $piAdapter
 	 * @param WirelessSocketRepository $repository
 	 */
-	public function __construct(string $userId, IConfig $settings, string $appName, PiAdapter $piAdapter, WirelessSocketRepository $repository) {
-		$this->userId = $userId;
+	public function __construct(IConfig $settings, string $appName, PiAdapter $piAdapter, WirelessSocketRepository $repository) {
 		$this->settings = $settings;
 		$this->appName = $appName;
 		$this->piAdapter = $piAdapter;
@@ -62,7 +57,7 @@ class WirelessSocketService implements IWirelessSocketService {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function add(WirelessSocket $wirelessSocket) {
-        return $this->repository->add($this->userId, $wirelessSocket);
+        return $this->repository->add($wirelessSocket);
     }
     
     /**
@@ -71,9 +66,10 @@ class WirelessSocketService implements IWirelessSocketService {
 	 * @return ErrorCode Success or failure of action
 	 */
     public function update(WirelessSocket $wirelessSocket) {
-		$gpioPin = (int)$this->settings->getUserValue($this->userId, $this->appName,'various_wirelessSocketGpioPin');
+		// $gpioPin = (int)$this->settings->getUserValue($this->userId, $this->appName,'various_wirelessSocketGpioPin');
+		$gpioPin = 17;
         $this->piAdapter->send433MHz($gpioPin, $wirelessSocket->getCode(), $wirelessSocket->getState());
-        return $this->repository->update($this->userId, $wirelessSocket);
+        return $this->repository->update($wirelessSocket);
     }
     
 	/**
@@ -82,6 +78,6 @@ class WirelessSocketService implements IWirelessSocketService {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function delete(int $id) {
-        return $this->repository->delete($this->userId, $id);
+        return $this->repository->delete($id);
     }
 }

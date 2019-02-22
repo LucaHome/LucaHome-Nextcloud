@@ -39,11 +39,10 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 
 	/**
 	 * Add a WirelessSocket
-	 * @param string userId
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function add(string $userId, WirelessSocket $wirelessSocket) {
+	public function add(WirelessSocket $wirelessSocket) {
         $errorCode = validate($wirelessSocket);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
@@ -76,7 +75,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 		if ($insertId !== false) {
 			$this->eventDispatcher->dispatch(
 				'\OCA\LucaHome::onWirelessSocketCreate',
-				new GenericEvent(null, ['id' => $insertId, 'userId' => $userid])
+				new GenericEvent(null, ['id' => $insertId])
             );
             
             $cursor->closeCursor();
@@ -88,11 +87,10 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 
 	/**
 	 * Update a WirelessSocket
-	 * @param string userId
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function update(string $userId, WirelessSocket $wirelessSocket) {
+	public function update(WirelessSocket $wirelessSocket) {
         $errorCode = validate($wirelessSocket);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
@@ -119,7 +117,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         
 		$this->eventDispatcher->dispatch(
 			'\OCA\LucaHome::onWirelessSocketUpdate',
-			new GenericEvent(null, ['id' => $id, 'userId' => $userid])
+			new GenericEvent(null, ['id' => $id])
 		);
         
         return ErrorCode::NoError;
@@ -127,11 +125,10 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	
 	/**
 	 * @brief Delete WirelessSocket with specific id
-	 * @param string userId UserId
 	 * @param int id WirelessSocket ID to delete
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function delete(string $userId, int $id) {
+	public function delete(int $id) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('id')
@@ -151,7 +148,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 
 		$this->eventDispatcher->dispatch(
 			'\OCA\LucaHome::onWirelessSocketDelete',
-			new GenericEvent(null, ['id' => $id, 'userId' => $userId])
+			new GenericEvent(null, ['id' => $id])
 		);
 
 		return ErrorCode::NoError;

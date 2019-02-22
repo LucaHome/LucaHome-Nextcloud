@@ -14,7 +14,9 @@
 
 return [
     'resources' => [
+        'area' => ['url' => '/area'],
         'area_api' => ['url' => '/api/v1/area'],
+        'wireless_socket' => ['url' => '/wireless_socket'],
         'wireless_socket_api' => ['url' => '/api/v1/wireless_socket']
     ],
     'routes' => [

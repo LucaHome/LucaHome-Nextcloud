@@ -4,10 +4,10 @@ namespace OCA\LucaHome\Controller;
 
 use OCA\LucaHome\Entities\Area;
 use OCA\LucaHome\Services\AreaService;
-use OCP\AppFramework\ApiController;
+use OCP\AppFramework\Controller;
 use OCP\IRequest;
 
-class AreaApiController extends ApiController {
+class AreaController extends Controller {
 
 	/** @var AreaService */
 	private $service;

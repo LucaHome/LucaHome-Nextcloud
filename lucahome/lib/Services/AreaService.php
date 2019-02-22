@@ -8,22 +8,15 @@ use OCA\LucaHome\Repositories\AreaRepository;
 
 class AreaService implements IAreaService {
 
-	/** 
-	 * @var string  
-	 * */
-    private $userId;
-
 	/**
 	 * @var AreaRepository 
 	 * */
 	private $repository;
 
 	/**
-	 * @param string $userId
 	 * @param AreaRepository $repository
 	 */
-	public function __construct(string $userId, AreaRepository $repository) {
-		$this->userId = $userId;
+	public function __construct(AreaRepository $repository) {
 		$this->repository = $repository;
     }
     
@@ -41,7 +34,7 @@ class AreaService implements IAreaService {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function add(Area $area) {
-        return $this->repository->add($this->userId, $area);
+        return $this->repository->add($area);
     }
     
     /**
@@ -50,7 +43,7 @@ class AreaService implements IAreaService {
 	 * @return ErrorCode Success or failure of action
 	 */
     public function update(Area $area) {
-        return $this->repository->update($this->userId, $area);
+        return $this->repository->update($area);
     }
     
 	/**
@@ -59,6 +52,6 @@ class AreaService implements IAreaService {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function delete(int $id) {
-        return $this->repository->delete($this->userId, $id);
+        return $this->repository->delete($id);
     }
 }

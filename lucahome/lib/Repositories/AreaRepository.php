@@ -39,11 +39,10 @@ class AreaRepository implements IAreaRepository {
 
 	/**
 	 * Add an Area
-	 * @param string userId
 	 * @param Area area
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function add(string $userId, Area $area) {
+	public function add(Area $area) {
         $errorCode = validate($area);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
@@ -68,7 +67,7 @@ class AreaRepository implements IAreaRepository {
 		if ($insertId !== false) {
 			$this->eventDispatcher->dispatch(
 				'\OCA\LucaHome::onAreaCreate',
-				new GenericEvent(null, ['id' => $insertId, 'userId' => $userid])
+				new GenericEvent(null, ['id' => $insertId])
             );
             
             $cursor->closeCursor();
@@ -80,11 +79,10 @@ class AreaRepository implements IAreaRepository {
 
 	/**
 	 * Update an Area
-	 * @param string userId
 	 * @param Area area
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function update(string $userId, Area $area) {
+	public function update(Area $area) {
         $errorCode = validate($area);
         if($errorCode !== ErrorCode::NoError){
             return $errorCode;
@@ -107,7 +105,7 @@ class AreaRepository implements IAreaRepository {
         
 		$this->eventDispatcher->dispatch(
 			'\OCA\LucaHome::onAreaUpdate',
-			new GenericEvent(null, ['id' => $id, 'userId' => $userid])
+			new GenericEvent(null, ['id' => $id])
 		);
         
         return ErrorCode::NoError;
@@ -115,11 +113,10 @@ class AreaRepository implements IAreaRepository {
 	
 	/**
 	 * @brief Delete Area with specific id
-	 * @param string userId UserId
 	 * @param int id Area ID to delete
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function delete(string $userId, int $id) {
+	public function delete(int $id) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('id')
@@ -139,7 +136,7 @@ class AreaRepository implements IAreaRepository {
 
 		$this->eventDispatcher->dispatch(
 			'\OCA\LucaHome::onAreaDelete',
-			new GenericEvent(null, ['id' => $id, 'userId' => $userId])
+			new GenericEvent(null, ['id' => $id])
 		);
 
 		return ErrorCode::NoError;

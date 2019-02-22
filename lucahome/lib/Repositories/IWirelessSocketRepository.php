@@ -13,23 +13,20 @@ interface IWirelessSocketRepository {
 	public function get();
 
 	/**
-	 * @param string userId
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function add(string $userId, WirelessSocket $wirelessSocket);
+	public function add(WirelessSocket $wirelessSocket);
     
     /**
-	 * @param string userId
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function update(string $userId, WirelessSocket $wirelessSocket);
+    public function update(WirelessSocket $wirelessSocket);
     
 	/**
-	 * @param string userId UserId
 	 * @param int id WirelessSocket ID to delete
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function delete(string $userId, int $id);
+	public function delete(int $id);
 }

@@ -13,23 +13,20 @@ interface IAreaRepository {
 	public function get();
 
 	/**
-	 * @param string userId
 	 * @param Area area
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function add(string $userId, Area $area);
+	public function add(Area $area);
     
     /**
-	 * @param string userId
 	 * @param Area area
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function update(string $userId, Area $area);
+    public function update(Area $area);
     
 	/**
-	 * @param string userId UserId
 	 * @param int id Area ID to delete
 	 * @return ErrorCode Success or failure of action
 	 */
-	public function delete(string $userId, int $id);
+	public function delete(int $id);
 }
