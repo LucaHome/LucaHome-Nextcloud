@@ -14,7 +14,7 @@
 
 namespace OCA\LucaHome;
 
-use \OCA\Tasks\AppInfo\Application;
+use \OCA\LucaHome\AppInfo\Application;
 
 $application = new Application();
 
