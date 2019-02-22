@@ -2,19 +2,14 @@
 
 namespace OCA\LucaHome\Adapter;
 
-use OCP\ILogger;
+use \OCP\ILogger;
 
 class PiAdapter implements IPiAdapter {
 
     /** @var int */
     private $receiverPort = 2302;
 
-	/** @var ILogger */
-	private $logger;
-
-	public function __construct(ILogger $logger) {
-		$this->logger = $logger;
-    }
+	public function __construct() {}
     
 	/**
 	 * @brief sends command to cpp server
