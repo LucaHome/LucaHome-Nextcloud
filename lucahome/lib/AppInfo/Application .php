@@ -14,32 +14,130 @@
 
 namespace OCA\LucaHome\AppInfo;
 
-use OCP\AppFramework\App;
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+use \OCP\AppFramework\App;
+use \OCP\AppFramework\IAppContainer;
+
+use \OCA\LucaHome\Adapter\PiAdapter;
+
+use \OCA\LucaHome\Controller\AreaController;
+use \OCA\LucaHome\Controller\PageController;
+use \OCA\LucaHome\Controller\SettingsController;
+use \OCA\LucaHome\Controller\WirelessSocketController;
+
+use \OCA\LucaHome\Services\AreaService;
+use \OCA\LucaHome\Services\SettingsService;
+use \OCA\LucaHome\Services\WirelessSocketService;
+
+use \OCA\LucaHome\Repositories\AreaRepository;
+use \OCA\LucaHome\Repositories\WirelessSocketRepository;
 
 class Application extends App {
 
-	/**
-	 * @param array $params
-	 */
-	public function __construct(array $params=[]) {
-		parent::__construct('lucahome', $params);
-    }
-    
-	/**
-	 * Register navigation
-	 */
-	public function registerNavigation() {
-		$appName = $this->getContainer()->getAppName();
-		$server = $this->getContainer()->getServer();
-		$urlGenerator = $server->getURLGenerator();
-		$server->getNavigationManager()->add(function() use ($appName, $server, $urlGenerator) {
-			return [
-				'id' => $appName,
-				'order' => 100,
-				'href' => $urlGenerator->linkToRoute('lucahome.page.index'),
-				'icon' => $urlGenerator->imagePath($appName, 'lucahome.svg'),
-				'name' => $server->getL10N($appName)->t('LucaHome'),
-			];
+	public function __construct (array $urlParams=array()) {
+		parent::__construct('lucahome', $urlParams);
+
+		$container = $this->getContainer();
+
+		/**
+		 * Controller
+		 */
+		$container->registerService('AreaController', function(IAppContainer $c) {
+			return new AreaController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('AreaService')
+			);
+		});
+
+		$container->registerService('PageController', function(IAppContainer $c) {
+			return new PageController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('ServerContainer')->getConfig()
+			);
+		});
+
+		$container->registerService('SettingsController', function(IAppContainer $c) {
+			return new SettingsController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('SettingsService')
+			);
+		});
+
+		$container->registerService('WirelessSocketController', function(IAppContainer $c) {
+			return new WirelessSocketController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('WirelessSocketService')
+			);
+		});
+
+		/**
+		 * Services
+		 */
+
+		$container->registerService('AreaService', function(IAppContainer $c) {
+			return new AreaService(
+				$c->query('UserId'),
+				$c->query('AreaRepository')
+			);
+		});
+
+		$container->registerService('SettingsService', function(IAppContainer $c) {
+			return new SettingsService(
+				$c->query('UserId'),
+				$c->query('Settings'),
+				$c->query('AppName')
+			);
+		});
+
+		$container->registerService('WirelessSocketService', function(IAppContainer $c) {
+			return new WirelessSocketService(
+				$c->query('UserId'),
+				$c->query('Settings'),
+				$c->query('AppName'),
+				$c->query('PiAdapter'),
+				$c->query('WirelessSocketRepository')
+			);
+		});
+
+		/**
+		 * Repositories
+		 */
+
+		$container->registerService('AreaRepository', function(IAppContainer $c) {
+			return new AreaRepository(
+				$c->query('ServerContainer')->getDatabaseConnection()
+			);
+		});
+
+		$container->registerService('WirelessSocketRepository', function(IAppContainer $c) {
+			return new WirelessSocketRepository(
+				$c->query('ServerContainer')->getDatabaseConnection()
+			);
+		});
+
+		/**
+		 * Adapter
+		 */
+
+		$container->registerService('PiAdapter', function(IAppContainer $c) {
+			return new PiAdapter();
+		});
+
+		/**
+		 * Core
+		 */
+		$container->registerService('UserId', function(IAppContainer $c) {
+			$user = $c->query('ServerContainer')->getUserSession()->getUser();
+			return ($user) ? $user->getUID() : '';
+		});
+
+		$container->registerService('Settings', function(IAppContainer $c) {
+			return $c->query('ServerContainer')->getConfig();
 		});
 	}
 }
