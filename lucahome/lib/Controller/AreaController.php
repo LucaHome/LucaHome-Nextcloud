@@ -26,6 +26,7 @@ class AreaController extends Controller {
     
 	/**
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 */
 	public function index() {
 		return $this->generateResponse("success", function () {
@@ -35,6 +36,7 @@ class AreaController extends Controller {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
      *
      * @param int $id
      */
@@ -46,6 +48,7 @@ class AreaController extends Controller {
     
 	/**
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 * 
 	 * @param string name
 	 * @param string filter
@@ -63,6 +66,7 @@ class AreaController extends Controller {
     
 	/**
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 * 
      * @param int $id
 	 * @param string name
@@ -81,6 +85,7 @@ class AreaController extends Controller {
     
 	/**
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 * 
      * @param int $id
 	 */

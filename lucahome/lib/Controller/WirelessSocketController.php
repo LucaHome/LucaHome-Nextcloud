@@ -26,6 +26,7 @@ class WirelessSocketController extends Controller {
     
 	/**
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 */
 	public function index() {
 		return $this->generateResponse("success", function () {
@@ -35,6 +36,7 @@ class WirelessSocketController extends Controller {
 
     /**
      * @NoAdminRequired
+     * @NoCSRFRequired
      *
      * @param int $id
      */
@@ -46,6 +48,7 @@ class WirelessSocketController extends Controller {
     
 	/**
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 * 
 	 * @param string name
 	 * @param string code
@@ -71,6 +74,7 @@ class WirelessSocketController extends Controller {
     
 	/**
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 * 
      * @param int $id
 	 * @param string name
@@ -97,6 +101,7 @@ class WirelessSocketController extends Controller {
     
 	/**
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 * 
      * @param int $id
 	 */

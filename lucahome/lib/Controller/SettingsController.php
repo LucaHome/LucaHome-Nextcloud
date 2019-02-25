@@ -27,6 +27,7 @@ class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+     * @NoCSRFRequired
 	 */
 	public function get() {
 		return $this->generateResponse("success", function () {
@@ -36,6 +37,7 @@ class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
+     * @NoCSRFRequired
 	 */
 	public function set($setting, $value) {
 		return $this->generateResponse("success", function () use ($setting, $value) {
