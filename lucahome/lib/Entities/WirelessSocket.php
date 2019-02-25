@@ -12,15 +12,17 @@ use OCP\AppFramework\Db\Entity;
 
 class WirelessSocket extends Entity implements JsonSerializable {
 
-    protected $name;
-    protected $code;
-    protected $area;
-    protected $state;
-    protected $description;
-    protected $icon;
+    public $name;
+    public $code;
+    public $area;
+    public $state;
+    public $description;
+    public $icon;
+    public $deletable;
 
     public function __construct() {
         $this->addType('state', 'integer');
+        $this->addType('deletable', 'integer');
     }
 
     public function jsonSerialize() {
@@ -31,7 +33,8 @@ class WirelessSocket extends Entity implements JsonSerializable {
             'area' => $this->area,
             'state' => $this->state,
             'description' => $this->description,
-            'icon' => $this->icon
+            'icon' => $this->icon,
+            'deletable' => $this->deletable
         ];
     }
 }
