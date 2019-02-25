@@ -20,12 +20,17 @@ The make command will install or update Composer dependencies if a composer.json
 **package.json**:
 ```json
 "scripts": {
-    "dev": "webpack --config webpack.dev.js",
-    "watch": "webpack --progress --watch --config webpack.dev.js",
-    "build": "webpack --progress --hide-modules --config webpack.prod.js",
-    "lint": "eslint --ext .js,.vue src tests",
-    "lint:fix": "eslint --ext .js,.vue src tests --fix",
-    "test": "jest --verbose"
+	"serve": "vue-cli-service serve",
+	"build_vue": "vue-cli-service build",
+	"dev": "webpack --config webpack.dev.js",
+	"watch": "webpack --progress --watch --config webpack.dev.js",
+	"build": "webpack --progress --hide-modules --config webpack.prod.js",
+	"lint": "eslint --ext .js,.vue src",
+	"lint:fix": "eslint --ext .js,.vue src --fix",
+	"stylelint": "stylelint src",
+	"stylelint:fix": "stylelint src --fix",
+	"test": "mocha-webpack --webpack-config webpack.test.js --interactive false --require tests/setup.js \"tests/js/**/*.spec.js\"",
+	"test:watch": "mocha-webpack -w --webpack-config webpack.test.js --interactive false --require tests/setup.js \"tests/js/**/*.spec.js\""
 }
 ```
 
