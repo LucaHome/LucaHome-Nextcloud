@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-import store from './store/store'
+import store from './store'
 
 import VueMaterial from 'vue-material'
 import Vuelidate from 'vuelidate'
