@@ -56,7 +56,8 @@ export default {
         this.$store.dispatch("updateArea", {
           id: this.$store.getters.areaSelected.id,
           name: this.newAreaName,
-          filter: this.newAreaName
+          filter: this.newAreaName,
+          deletable: this.$store.getters.areaSelected.deletable
         });
         this.newAreaName = "";
         this.adding = false;

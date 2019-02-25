@@ -56,9 +56,11 @@ export default {
       var areaSelected = this.$store.getters.areaSelected;
 
       var wirelessSocketsForArea =
-        areaSelected.filter === ""
-          ? wirelessSockets
-          : wirelessSockets.filter(x => x.area === areaSelected.filter);
+        areaSelected !== null
+          ? areaSelected.filter === ""
+            ? wirelessSockets
+            : wirelessSockets.filter(x => x.area === areaSelected.filter)
+          : [];
 
       this.$store.dispatch(
         "selectWirelessSocket",

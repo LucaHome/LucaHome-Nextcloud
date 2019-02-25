@@ -150,7 +150,6 @@ export default {
   methods: {
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
-
       if (field) {
         return {
           "md-invalid": field.$invalid && field.$dirty
@@ -163,7 +162,6 @@ export default {
     },
     save() {
       this.sending = true;
-
       var wirelessSocket = {
         id: this.wirelessSocketSelected.id,
         name: this.form.name,
@@ -171,7 +169,8 @@ export default {
         code: this.form.code,
         state: false,
         description: this.form.description,
-        icon: this.form.icon
+        icon: this.form.icon,
+        deletable: this.$store.getters.wirelessSocketSelected.deletable
       };
       this.$store.dispatch("updateWirelessSocket", wirelessSocket);
 
@@ -184,7 +183,6 @@ export default {
     },
     validate() {
       this.$v.$touch();
-
       if (!this.$v.$invalid) {
         this.save();
       }
