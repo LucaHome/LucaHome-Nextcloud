@@ -6,15 +6,9 @@ import Requests from '../services/requests'
 
 Vue.use(Vuex)
 
-const preSelectedArea = {
-    id: 0,
-    name: "All",
-    filter: ""
-}
-
 const state = {
     areas: [],
-    areaSelected: preSelectedArea
+    areaSelected: null
 }
 
 const getters = {
@@ -30,7 +24,7 @@ const mutations = {
      * @param {Object} payload The collections payload
      */
     setAreas(state, payload) {
-        var areas = [preSelectedArea];
+        var areas = [];
         areas.push(...payload.areas);
         state.areas = areas;
         state.areaSelected = state.areas[0];
@@ -95,12 +89,20 @@ const actions = {
      */
     loadAreas({commit}) {
         return new Promise(function (resolve) {
-            //Requests.get(OC.generateUrl('area'))
             Requests.get('area')
                 .then(response => {
-                    commit('setAreas', {
-                        areas: response.data
-                    });
+                    if(response.data === false){
+                        // eslint-disable-next-line
+                        console.error(JSON.stringify(response));
+                        commit('setAreas', {
+                            areas: []
+                        });
+                    } else {
+                        commit('setAreas', {
+                            areas: response.data
+                        });
+                    }
+                    
                     resolve();
                 });
         });
@@ -127,15 +129,21 @@ const actions = {
      */
     addArea({commit}) {
         var area = {
-            id: Math.max(...this.getters.areas.map(x => x.id)) + 1,
+            id: this.getters.areas.length > 0 ? Math.max(...this.getters.areas.map(x => x.id)) + 1 : 0,
             name: "",
-            filter: ""
+            filter: "",
+            deletable: 1
         };
 
         return new Promise(function (resolve) {
-            //Requests.put(OC.generateUrl('area'), area)
-            Requests.put('area', area)
+            Requests.post('area', area)
                 .then(response => {
+                    if(response.data === false){
+                        // eslint-disable-next-line
+                        console.error(JSON.stringify(response));
+                        return;
+                    }
+
                     if (response.status === "success" && response.data >= 0) {
                         area.id = response.data;
                         commit('addArea', {
@@ -159,9 +167,14 @@ const actions = {
      */
     updateArea({commit}, area) {
         return new Promise(function (resolve) {
-            //Requests.post(OC.generateUrl('area'), area)
-            Requests.post('area', area)
+            Requests.put('area', area)
                 .then(response => {
+                    if(response.data === false){
+                        // eslint-disable-next-line
+                        console.error(JSON.stringify(response));
+                        return;
+                    }
+
                     if (response.status === "success" && response.data === 0) {
                         commit('updateArea', {
                             area: area
@@ -184,9 +197,14 @@ const actions = {
      */
     deleteArea({commit}, area) {
         return new Promise(function (resolve) {
-            //Requests.delete(OC.generateUrl('area'), area.id)
             Requests.delete('area', area.id)
                 .then(response => {
+                    if(response.data === false){
+                        // eslint-disable-next-line
+                        console.error(JSON.stringify(response));
+                        return;
+                    }
+                    
                     if (response.status === "success" && response.data === 0) {
                         commit('deleteArea', {
                             area: area

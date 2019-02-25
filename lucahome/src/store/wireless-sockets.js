@@ -85,16 +85,22 @@ const actions = {
      * @param {Object} commit The store mutations
      * @returns {Promise}
      */
-    loadWirelessSockets({
-        commit
-    }) {
+    loadWirelessSockets({ commit }) {
         return new Promise(function (resolve) {
-            //Requests.get(OC.generateUrl('wireless_socket'))
             Requests.get('wireless_socket')
                 .then(response => {
-                    commit('setWirelessSockets', {
-                        wirelessSockets: response.data
-                    });
+                    if(response.data === false){
+                        // eslint-disable-next-line
+                        console.error(JSON.stringify(response));
+                        commit('setWirelessSockets', {
+                            wirelessSockets: []
+                        });
+                    } else {
+                        commit('setWirelessSockets', {
+                            wirelessSockets: response.data
+                        });
+                    }
+
                     resolve();
                 });
         });
@@ -107,9 +113,7 @@ const actions = {
      * @param {Object} wirelessSocket The selected wireless socket
      * @returns {Promise}
      */
-    selectWirelessSocket({
-        commit
-    }, wirelessSocket) {
+    selectWirelessSocket({ commit }, wirelessSocket) {
         commit('setWirelessSocketSelected', {
             wirelessSocket: wirelessSocket
         });
@@ -122,23 +126,27 @@ const actions = {
      * @param {String} area The area
      * @returns {Promise}
      */
-    addWirelessSocket({
-        commit
-    }, area) {
+    addWirelessSocket({ commit }, area) {
         var wirelessSocket = {
-            id: Math.max(...this.getters.wirelessSockets.map(x => x.id)) + 1,
+            id: this.getters.wirelessSockets.length > 0 ? Math.max(...this.getters.wirelessSockets.map(x => x.id)) + 1 : 0,
             name: "",
-            area: area,
+            area: area === "All" ? "" : area,
             code: "",
-            state: false,
+            state: 0,
             description: "",
-            icon: ""
+            icon: "",
+            deletable: 1
         };
 
         return new Promise(function (resolve) {
-            //Requests.put(OC.generateUrl('wireless_socket'), wirelessSocket)
-            Requests.put('wireless_socket', wirelessSocket)
+            Requests.post('wireless_socket', wirelessSocket)
                 .then(response => {
+                    if(response.data === false){
+                        // eslint-disable-next-line
+                        console.error(JSON.stringify(response));
+                        return;
+                    }
+
                     if (response.status === "success" && response.data >= 0) {
                         wirelessSocket.id = response.data;
                         commit('addWirelessSocket', {
@@ -160,13 +168,16 @@ const actions = {
      * @param {Object} wirelessSocket The selected wireless socket
      * @returns {Promise}
      */
-    updateWirelessSocket({
-        commit
-    }, wirelessSocket) {
+    updateWirelessSocket({ commit }, wirelessSocket) {
         return new Promise(function (resolve) {
-            //Requests.post(OC.generateUrl('wireless_socket'), wirelessSocket)
-            Requests.post('wireless_socket', wirelessSocket)
+            Requests.put('wireless_socket', wirelessSocket)
                 .then(response => {
+                    if(response.data === false){
+                        // eslint-disable-next-line
+                        console.error(JSON.stringify(response));
+                        return;
+                    }
+
                     if (response.status === "success" && response.data === 0) {
                         commit('updateWirelessSocket', {
                             wirelessSocket: wirelessSocket
@@ -187,13 +198,16 @@ const actions = {
      * @param {Object} wirelessSocket The selected wireless socket
      * @returns {Promise}
      */
-    deleteWirelessSocket({
-        commit
-    }, wirelessSocket) {
+    deleteWirelessSocket({ commit }, wirelessSocket) {
         return new Promise(function (resolve) {
-            //Requests.delete(OC.generateUrl('wireless_socket'), wirelessSocket.id)
             Requests.delete('wireless_socket', wirelessSocket.id)
                 .then(response => {
+                    if(response.data === false){
+                        // eslint-disable-next-line
+                        console.error(JSON.stringify(response));
+                        return;
+                    }
+
                     if (response.status === "success" && response.data === 0) {
                         commit('deleteWirelessSocket', {
                             wirelessSocket: wirelessSocket
