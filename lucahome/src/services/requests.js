@@ -5,7 +5,7 @@ import requestMock from './request.mock'
 import { generateUrl } from 'nextcloud-server/dist/router'
 
 const useMockData = false
-const baseUrl = '/apps/lucahome/api/v1/'
+const baseUrl = '/apps/lucahome/'
 
 export default {
 	get(url) {
