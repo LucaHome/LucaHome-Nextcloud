@@ -38,7 +38,7 @@ if (window.location.pathname.split('/')[1] === 'index.php' && oc_config.modRewri
 	router.push({
 		name: 'area',
 		params: {
-			selectedArea: t('lucahome', 'All')
+			selectedArea: t('lucahome', '')
 		}
 	})
 }
