@@ -20,7 +20,7 @@ export default new Router({
 		redirect: {
 			name: 'area',
 			params: {
-				selectedArea: t('lucahome', 'All')
+				selectedArea: t('lucahome', '')
 			}
 		},
 		children: [{
