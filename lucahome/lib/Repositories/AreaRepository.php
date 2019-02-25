@@ -28,7 +28,7 @@ class AreaRepository implements IAreaRepository {
         $qb = $this->db->getQueryBuilder();
         $qb
             ->select('*')
-            ->from('lucahome_area');
+            ->from('lh_area');
         $areas = $qb->execute()->fetchAll();
         return $areas;
     }
@@ -41,7 +41,7 @@ class AreaRepository implements IAreaRepository {
 	public function add(Area $area) {
         $qb = $this->db->getQueryBuilder();
 		$qb
-			->insert('lucahome_area')
+			->insert('lh_area')
 			->values([
 				'name' => $qb->createNamedParameter(trim($area->getName())),
 				'filter' => $qb->createNamedParameter(trim($area->getFilter())),
@@ -68,7 +68,7 @@ class AreaRepository implements IAreaRepository {
         
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->update('lucahome_area')
+			->update('lh_area')
             ->set('name', $qb->createNamedParameter(trim($area->getName())))
             ->set('filter', $qb->createNamedParameter(trim($area->getFilter())))
             ->set('deletable', $qb->createNamedParameter($area->getDeletable()))
@@ -89,7 +89,7 @@ class AreaRepository implements IAreaRepository {
 	public function delete(int $id) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->delete('lucahome_area')
+			->delete('lh_area')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('deletable', 1));
 		
@@ -106,14 +106,6 @@ class AreaRepository implements IAreaRepository {
 	 * @return ErrorCode Area is valid or not
 	 */
     private function validate(Area $area) {
-        if($this->nameInUse($area->getName()) === true) {
-            return ErrorCode::AreaNameAlreadyInUse;
-        }
-
-        if($this->filterInUse($area->getFilter()) === true) {
-            return ErrorCode::AreaFilterAlreadyInUse;
-        }
-
         if(strlen($area->getName()) > 128) {
             return ErrorCode::AreaNameTooLong;
         }
@@ -124,50 +116,4 @@ class AreaRepository implements IAreaRepository {
 
         return ErrorCode::NoError;
     }
-
-	/**
-	 * @brief check if an area name is already in use
-	 * @param string $name Area name possible in use
-	 * @return bool|int the area id if existing, false otherwise
-	 */
-	private function nameInUse($name) {
-		$qb = $this->db->getQueryBuilder();
-		$qb
-			->select('id')
-			->from('lucahome_area')
-			->where($qb->expr()->eq('name', $qb->createNamedParameter($name)));
-
-        $cursor = $qb->execute();
-        $result = $cursor->fetch();
-        $cursor->closeCursor();
-        
-		if ($result) {
-			return $result['id'];
-        } 
-        
-        return false;
-	}
-
-	/**
-	 * @brief check if an area filter is already in use
-	 * @param string $filter Area filter possible in use
-	 * @return bool|int the area id if existing, false otherwise
-	 */
-	private function filterInUse($filter) {
-		$qb = $this->db->getQueryBuilder();
-		$qb
-			->select('id')
-			->from('lucahome_area')
-			->where($qb->expr()->eq('filter', $qb->createNamedParameter($filter)));
-
-        $cursor = $qb->execute();
-        $result = $cursor->fetch();
-        $cursor->closeCursor();
-        
-		if ($result) {
-			return $result['id'];
-        } 
-        
-        return false;
-	}
 }

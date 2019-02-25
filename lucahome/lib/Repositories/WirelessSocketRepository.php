@@ -28,7 +28,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         $qb = $this->db->getQueryBuilder();
         $qb
             ->select('*')
-            ->from('lucahome_wireless_socket');
+            ->from('lh_wireless_socket');
         $areas = $qb->execute()->fetchAll();
 		return $areas;
     }
@@ -41,15 +41,15 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	public function add(WirelessSocket $wirelessSocket) {
         $qb = $this->db->getQueryBuilder();
 		$qb
-			->insert('lucahome_wireless_socket')
+			->insert('lh_wireless_socket')
 			->values([
-				'name' => $qb->createNamedParameter(trim($area->getName())),
-				'code' => $qb->createNamedParameter(trim($area->getCode())),
-				'area' => $qb->createNamedParameter(trim($area->getArea())),
-				'state' => $qb->createNamedParameter($area->getState()),
-				'description' => $qb->createNamedParameter(trim($area->getDescription())),
-				'icon' => $qb->createNamedParameter(trim($area->getIcon())),
-				'deletable' => $qb->createNamedParameter($area->getDeletable())
+				'name' => $qb->createNamedParameter(trim($wirelessSocket->getName())),
+				'code' => $qb->createNamedParameter(trim($wirelessSocket->getCode())),
+				'area' => $qb->createNamedParameter(trim($wirelessSocket->getArea())),
+				'state' => $qb->createNamedParameter($arwirelessSocketea->getState()),
+				'description' => $qb->createNamedParameter(trim($wirelessSocket->getDescription())),
+				'icon' => $qb->createNamedParameter(trim($wirelessSocket->getIcon())),
+				'deletable' => $qb->createNamedParameter($wirelessSocket->getDeletable())
 			]);
 
 		if ($qb->execute()) {
@@ -72,14 +72,14 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->update('lucahome_wireless_socket')
+			->update('lh_wireless_socket')
             ->set('name', $qb->createNamedParameter(trim($wirelessSocket->getName())))
             ->set('code', $qb->createNamedParameter(trim($wirelessSocket->getCode())))
             ->set('area', $qb->createNamedParameter(trim($wirelessSocket->getArea())))
             ->set('state', $qb->createNamedParameter($wirelessSocket->getState()))
             ->set('description', $qb->createNamedParameter(trim($wirelessSocket->getDescription())))
             ->set('icon', $qb->createNamedParameter(trim($wirelessSocket->getIcon())))
-            ->set('deletable', $qb->createNamedParameter($area->getDeletable()))
+            ->set('deletable', $qb->createNamedParameter($wirelessSocket->getDeletable()))
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($wirelessSocket->getId())));
 
 		if ($qb->execute() === 0) {
@@ -97,7 +97,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	public function delete(int $id) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->delete('lucahome_wireless_socket')
+			->delete('lh_wireless_socket')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('deletable', 1));
 
@@ -114,14 +114,6 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @return ErrorCode WirelessSocket is valid or not
 	 */
     private function validate(WirelessSocket $wirelessSocket) {
-        if($this->nameInUse($wirelessSocket->getName()) === true) {
-            return ErrorCode::WirelessSocketNameAlreadyInUse;
-        }
-
-        if($this->codeInUse($wirelessSocket->getCode()) === true) {
-            return ErrorCode::WirelessSocketCodeAlreadyInUse;
-        }
-
         if(strlen($wirelessSocket->getName()) > 4096) {
             return ErrorCode::WirelessSocketNameTooLong;
         }
@@ -144,50 +136,4 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 
         return ErrorCode::NoError;
     }
-
-	/**
-	 * @brief check if an wireless socket name is already in use
-	 * @param string $name WirelessSocket name possible in use
-	 * @return bool true if existing, false otherwise
-	 */
-	private function nameInUse($name) {
-		$qb = $this->db->getQueryBuilder();
-		$qb
-			->select('id')
-			->from('lucahome_wireless_socket')
-			->where($qb->expr()->eq('name', $qb->createNamedParameter($name)));
-
-        $cursor = $qb->execute();
-        $result = $cursor->fetch();
-        $cursor->closeCursor();
-        
-		if ($result) {
-			return true;
-        } 
-        
-        return false;
-	}
-
-	/**
-	 * @brief check if an wireless socket code is already in use
-	 * @param string $code WirelessSocket code possible in use
-	 * @return bool true if existing, false otherwise
-	 */
-	private function codeInUse($code) {
-		$qb = $this->db->getQueryBuilder();
-		$qb
-			->select('id')
-			->from('lucahome_wireless_socket')
-			->where($qb->expr()->eq('code', $qb->createNamedParameter($code)));
-
-        $cursor = $qb->execute();
-        $result = $cursor->fetch();
-        $cursor->closeCursor();
-        
-		if ($result) {
-			return true;
-        } 
-        
-        return false;
-	}
 }
