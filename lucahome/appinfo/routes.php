@@ -25,7 +25,7 @@ return [
         ['name' => 'settings#get', 'url' => '/settings', 'verb' => 'GET'],
 		['name' => 'settings#set', 'url' => '/settings/{setting}/{value}', 'verb' => 'POST'],
 		
-        ['name' => 'area_api#preflighted_cors', 'url' => '/api/v1/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
-        ['name' => 'wireless_socket_api#preflighted_cors', 'url' => '/api/v1/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']]
+        ['name' => 'area_api#preflighted_cors', 'url' => '/api/v1/area/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
+        ['name' => 'wireless_socket_api#preflighted_cors', 'url' => '/api/v1/wireless_socket/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']]
     ]
 ];
