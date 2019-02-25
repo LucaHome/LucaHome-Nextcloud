@@ -25,19 +25,15 @@ class WirelessSocketController extends Controller {
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
 	 */
 	public function index() {
 		return $this->generateResponse("success", function () {
 			return $this->service->get();
-		}, null);
+		}, '');
     }
 
     /**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
      *
      * @param int $id
@@ -45,12 +41,10 @@ class WirelessSocketController extends Controller {
     public function show($id) {
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
-		}, null);
+		}, '');
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
 	 * 
 	 * @param string name
@@ -72,12 +66,10 @@ class WirelessSocketController extends Controller {
 
 		return $this->generateResponse("success", function () {
 			return $this->service->add($wirelessSocket);
-		}, null);
+		}, '');
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
 	 * 
      * @param int $id
@@ -100,12 +92,10 @@ class WirelessSocketController extends Controller {
 
 		return $this->generateResponse("success", function () {
 			return $this->service->update($wirelessSocket);
-		}, null);
+		}, '');
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
 	 * 
      * @param int $id
@@ -113,6 +103,6 @@ class WirelessSocketController extends Controller {
 	public function destroy($id) {
 		return $this->generateResponse("success", function () {
 			return $this->service->delete($id);
-		}, null);
+		}, '');
     }
 }

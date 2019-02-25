@@ -28,10 +28,10 @@ class SettingsController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function get(){
+	public function get() {
 		return $this->generateResponse("success", function () {
 			return $this->settingsService->get();
-		}, null);
+		}, '');
 	}
 
 	/**
@@ -40,6 +40,6 @@ class SettingsController extends Controller {
 	public function set($setting, $value) {
 		return $this->generateResponse("success", function () use ($setting, $value) {
 			return $this->settingsService->set($setting, $value);
-		}, null);
+		}, '');
 	}
 }

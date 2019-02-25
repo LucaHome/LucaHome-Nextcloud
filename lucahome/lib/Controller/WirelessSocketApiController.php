@@ -32,7 +32,7 @@ class WirelessSocketApiController extends ApiController {
 	public function index() {
 		return $this->generateResponse("success", function () {
 			return $this->service->get();
-		}, null);
+		}, '');
     }
 
     /**
@@ -45,7 +45,7 @@ class WirelessSocketApiController extends ApiController {
     public function show($id) {
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
-		}, null);
+		}, '');
     }
     
 	/**
@@ -72,7 +72,7 @@ class WirelessSocketApiController extends ApiController {
 
 		return $this->generateResponse("success", function () {
 			return $this->service->add($wirelessSocket);
-		}, null);
+		}, '');
     }
     
 	/**
@@ -100,7 +100,7 @@ class WirelessSocketApiController extends ApiController {
 
 		return $this->generateResponse("success", function () {
 			return $this->service->update($wirelessSocket);
-		}, null);
+		}, '');
     }
     
 	/**
@@ -113,6 +113,6 @@ class WirelessSocketApiController extends ApiController {
 	public function destroy($id) {
 		return $this->generateResponse("success", function () {
 			return $this->service->delete($id);
-		}, null);
+		}, '');
     }
 }

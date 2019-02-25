@@ -25,19 +25,15 @@ class AreaController extends Controller {
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
 	 */
 	public function index() {
 		return $this->generateResponse("success", function () {
 			return $this->service->get();
-		}, null);
+		}, '');
     }
 
     /**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
      *
      * @param int $id
@@ -45,12 +41,10 @@ class AreaController extends Controller {
     public function show($id) {
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
-		}, null);
+		}, '');
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
 	 * 
 	 * @param string name
@@ -64,12 +58,10 @@ class AreaController extends Controller {
 
 		return $this->generateResponse("success", function () {
 			return $this->service->add($area);
-		}, null);
+		}, '');
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
 	 * 
      * @param int $id
@@ -84,12 +76,10 @@ class AreaController extends Controller {
 		
 		return $this->generateResponse("success", function () {
 			return $this->service->update($area);
-		}, null);
+		}, '');
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
 	 * 
      * @param int $id
@@ -97,6 +87,6 @@ class AreaController extends Controller {
 	public function destroy($id) {
 		return $this->generateResponse("success", function () {
 			return $this->service->delete($id);
-		}, null);
+		}, '');
     }
 }

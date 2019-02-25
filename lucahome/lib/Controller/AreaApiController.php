@@ -32,7 +32,7 @@ class AreaApiController extends ApiController {
 	public function index() {
 		return $this->generateResponse("success", function () {
 			return $this->service->get();
-		}, null);
+		}, '');
     }
 
     /**
@@ -45,7 +45,7 @@ class AreaApiController extends ApiController {
     public function show($id) {
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
-		}, null);
+		}, '');
     }
     
 	/**
@@ -64,7 +64,7 @@ class AreaApiController extends ApiController {
 
 		return $this->generateResponse("success", function () {
 			return $this->service->add($area);
-		}, null);
+		}, '');
     }
     
 	/**
@@ -84,7 +84,7 @@ class AreaApiController extends ApiController {
 		
 		return $this->generateResponse("success", function () {
 			return $this->service->update($area);
-		}, null);
+		}, '');
     }
     
 	/**
@@ -97,6 +97,6 @@ class AreaApiController extends ApiController {
 	public function destroy($id) {
 		return $this->generateResponse("success", function () {
 			return $this->service->delete($id);
-		}, null);
+		}, '');
     }
 }
