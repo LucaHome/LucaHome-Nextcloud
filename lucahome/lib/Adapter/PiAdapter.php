@@ -31,7 +31,7 @@ class PiAdapter implements IPiAdapter {
             return "$errstr ($errno)";
         } else {
             $out = "";
-            fwrite ( $socket, "$data" );
+            fwrite ( $socket, "$message" );
             $out = fread ( $socket, 65536 );
             fclose ( $socket );
             return $out;
