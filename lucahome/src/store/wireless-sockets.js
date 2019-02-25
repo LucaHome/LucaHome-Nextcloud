@@ -130,8 +130,8 @@ const actions = {
         var wirelessSocket = {
             id: this.getters.wirelessSockets.length > 0 ? Math.max(...this.getters.wirelessSockets.map(x => x.id)) + 1 : 0,
             name: "",
-            area: area === "All" ? "" : area,
             code: "",
+            area: area === "All" ? "" : area,
             state: 0,
             description: "",
             icon: "",
