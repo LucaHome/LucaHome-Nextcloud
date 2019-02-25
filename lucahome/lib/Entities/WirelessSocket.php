@@ -6,9 +6,11 @@
 
 namespace OCA\LucaHome\Entities;
 
+use JsonSerializable;
+
 use OCP\AppFramework\Db\Entity;
 
-class WirelessSocket extends Entity {
+class WirelessSocket extends Entity implements JsonSerializable {
 
     protected $name;
     protected $code;
@@ -19,5 +21,17 @@ class WirelessSocket extends Entity {
 
     public function __construct() {
         $this->addType('state', 'integer');
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'code' => $this->code,
+            'area' => $this->area,
+            'state' => $this->state,
+            'description' => $this->description,
+            'icon' => $this->icon
+        ];
     }
 }
