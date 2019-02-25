@@ -51,13 +51,13 @@ export default {
         this.adding = true;
       }
     },
-    updateArea() {
+    updateArea(area) {
       if (this.newAreaName.length > 0) {
         this.$store.dispatch("updateArea", {
-          id: this.$store.getters.areaSelected.id,
+          id: area.id,
           name: this.newAreaName,
           filter: this.newAreaName,
-          deletable: this.$store.getters.areaSelected.deletable
+          deletable: area.deletable
         });
         this.newAreaName = "";
         this.adding = false;

@@ -46,7 +46,7 @@ export default {
       );
     },
     toggleState(wirelessSocket) {
-      wirelessSocket.state = !wirelessSocket.state;
+      wirelessSocket.state = wirelessSocket.state === 1 ? 0 : 1;
       this.$store.dispatch("updateWirelessSocket", wirelessSocket);
     }
   },

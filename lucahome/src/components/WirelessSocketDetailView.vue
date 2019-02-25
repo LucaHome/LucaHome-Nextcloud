@@ -165,8 +165,8 @@ export default {
       var wirelessSocket = {
         id: this.wirelessSocketSelected.id,
         name: this.form.name,
-        area: this.form.area,
         code: this.form.code,
+        area: this.form.area,
         state: false,
         description: this.form.description,
         icon: this.form.icon,
