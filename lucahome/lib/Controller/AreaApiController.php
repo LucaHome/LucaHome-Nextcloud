@@ -42,7 +42,7 @@ class AreaApiController extends ApiController {
      *
      * @param int $id
      */
-    public function show($id) {
+    public function show(int $id) {
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
 		}, '');
@@ -55,14 +55,15 @@ class AreaApiController extends ApiController {
 	 * 
 	 * @param string name
 	 * @param string filter
+	 * @param int deletable
 	 */
-	public function create($name, $filter) {
+	public function create(string $name, string $filter, int $deletable) {
 		$area = new Area();
 		$area->id = -1;
 		$area->name = $name;
 		$area->filter = $filter;
-
-		return $this->generateResponse("success", function () {
+		$area->deletable = $deletable;
+		return $this->generateResponse("success", function () use ($area) {
 			return $this->service->add($area);
 		}, '');
     }
@@ -75,14 +76,15 @@ class AreaApiController extends ApiController {
      * @param int $id
 	 * @param string name
 	 * @param string filter
+	 * @param int deletable
 	 */
-	public function update($id, $name, $filter) {
+	public function update(int $id, string $name, string $filter, int $deletable) {
 		$area = new Area();
 		$area->id = $id;
 		$area->name = $name;
 		$area->filter = $filter;
-		
-		return $this->generateResponse("success", function () {
+		$area->deletable = $deletable;
+		return $this->generateResponse("success", function () use ($area) {
 			return $this->service->update($area);
 		}, '');
     }
@@ -94,8 +96,8 @@ class AreaApiController extends ApiController {
 	 * 
      * @param int $id
 	 */
-	public function destroy($id) {
-		return $this->generateResponse("success", function () {
+	public function destroy(int $id) {
+		return $this->generateResponse("success", function () use ($id) {
 			return $this->service->delete($id);
 		}, '');
     }

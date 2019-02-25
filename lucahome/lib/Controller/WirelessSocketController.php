@@ -40,7 +40,7 @@ class WirelessSocketController extends Controller {
      *
      * @param int $id
      */
-    public function show($id) {
+    public function show(int $id) {
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
 		}, '');
@@ -56,8 +56,9 @@ class WirelessSocketController extends Controller {
 	 * @param int state
 	 * @param string description
 	 * @param string icon
+	 * @param int deletable
 	 */
-	public function create($name, $code, $area, $state, $description, $icon) {
+	public function create(string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable) {
 		$wirelessSocket = new WirelessSocket();
 		$wirelessSocket->id = -1;
 		$wirelessSocket->name = $name;
@@ -66,8 +67,8 @@ class WirelessSocketController extends Controller {
 		$wirelessSocket->state = $state;
 		$wirelessSocket->description = $description;
 		$wirelessSocket->icon = $icon;
-
-		return $this->generateResponse("success", function () {
+		$wirelessSocket->deletable = $deletable;
+		return $this->generateResponse("success", function () use ($wirelessSocket) {
 			return $this->service->add($wirelessSocket);
 		}, '');
     }
@@ -83,8 +84,9 @@ class WirelessSocketController extends Controller {
 	 * @param int state
 	 * @param string description
 	 * @param string icon
+	 * @param int deletable
 	 */
-	public function update($id, $name, $code, $area, $state, $description, $icon) {
+	public function update(int $id, string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable) {
 		$wirelessSocket = new WirelessSocket();
 		$wirelessSocket->id = $id;
 		$wirelessSocket->name = $name;
@@ -93,8 +95,8 @@ class WirelessSocketController extends Controller {
 		$wirelessSocket->state = $state;
 		$wirelessSocket->description = $description;
 		$wirelessSocket->icon = $icon;
-
-		return $this->generateResponse("success", function () {
+		$wirelessSocket->deletable = $deletable;
+		return $this->generateResponse("success", function () use ($wirelessSocket) {
 			return $this->service->update($wirelessSocket);
 		}, '');
     }
@@ -105,8 +107,8 @@ class WirelessSocketController extends Controller {
 	 * 
      * @param int $id
 	 */
-	public function destroy($id) {
-		return $this->generateResponse("success", function () {
+	public function destroy(int $id) {
+		return $this->generateResponse("success", function () use ($id) {
 			return $this->service->delete($id);
 		}, '');
     }
