@@ -10,7 +10,7 @@ body {
 	min-width: 20rem;
 	width: 20rem;
 	max-width: 20rem;
-	height: 100vh;
+	height: 100%;
 	background-color: rgb(66, 66, 66);
 	border: 0.0625rem solid rgba(#000, 0.12);
 }
@@ -20,15 +20,14 @@ body {
 	min-width: 20rem;
 	width: 20rem;
 	max-width: 20rem;
-	height: 100vh;
+	height: 100%;
 	background-color: rgb(66, 66, 66);
 	border: 0.0625rem solid rgba(#000, 0.12);
-	left: 20.5rem;
 }
 
 .detail-view {
 	position: absolute;
-	height: 100vh;
+	height: 100%;
 	width: calc(100vw - 41rem);
 	background-color: rgb(66, 66, 66);
 	left: 41rem;
@@ -46,7 +45,7 @@ body {
 
 .add-button {
 	position: absolute !important;
-	left: 16rem;
+	left: 14.5rem;
 	bottom: 1rem;
 }
 
