@@ -1,47 +1,85 @@
 'use strict'
 
-import Axios from 'axios'
+import axios from 'axios'
 import requestMock from './request.mock'
-import { generateUrl } from 'nextcloud-server/dist/router'
 
 const useMockData = false
-const baseUrl = '/apps/lucahome/'
+const baseUrl = '/nextcloud/index.php/apps/lucahome/'
 
 export default {
 	get(url) {
 		if (useMockData) {
-			return requestMock.getMock(url)
+			return requestMock.getMock(url);
 		}
 
-		return Axios.get(generateUrl(baseUrl + url, ''))
-			.then((response) => Promise.resolve(response))
-			.catch((error) => Promise.reject(error))
-	},
-	put(url, data) {
-		if (useMockData) {
-			return requestMock.putMock(url, data)
-		}
-
-		return Axios.put(generateUrl(baseUrl + url, ''), data)
-			.then((response) => Promise.resolve(response))
-			.catch((error) => Promise.reject(error))
+		return axios(baseUrl + url)
+			.then((response) => {
+				console.info(JSON.stringify(response));
+				return Promise.resolve(response.data);
+			})
+			.catch((error) => {
+				console.warn(JSON.stringify(error));
+				return Promise.reject(error);
+			});
 	},
 	post(url, data) {
 		if (useMockData) {
-			return requestMock.postDeleteMock(url, data)
+			return requestMock.postDeleteMock(url, data);
 		}
 
-		return Axios.post(generateUrl(baseUrl + url, ''), data)
-			.then((response) => Promise.resolve(response))
-			.catch((error) => Promise.reject(error))
+		delete data['id'];
+
+		return axios({
+				method: 'post',
+				url: baseUrl + url,
+				contentType: 'application/json',
+				data: data
+			})
+			.then((response) => {
+				console.info(JSON.stringify(response));
+				return Promise.resolve(response.data);
+			})
+			.catch((error) => {
+				console.warn(JSON.stringify(error));
+				return Promise.reject(error);
+			});
 	},
-	delete(url, data) {
+	put(url, data) {
 		if (useMockData) {
-			return requestMock.postDeleteMock(url, data)
+			return requestMock.putMock(url, data);
 		}
 
-		return Axios.delete(generateUrl(baseUrl + url, ''), data)
-			.then((response) => Promise.resolve(response))
-			.catch((error) => Promise.reject(error))
+		return axios({
+				method: 'put',
+				url: baseUrl + url + '/' + data.id,
+				contentType: 'application/json',
+				data: data
+			})
+			.then((response) => {
+				console.info(JSON.stringify(response));
+				return Promise.resolve(response.data);
+			})
+			.catch((error) => {
+				console.warn(JSON.stringify(error));
+				return Promise.reject(error);
+			});
+	},
+	delete(url, id) {
+		if (useMockData) {
+			return requestMock.postDeleteMock(url, id);
+		}
+
+		return axios({
+				method: 'delete',
+				url: baseUrl + url + '/' + id
+			})
+			.then((response) => {
+				console.info(JSON.stringify(response));
+				return Promise.resolve(response.data);
+			})
+			.catch((error) => {
+				console.warn(JSON.stringify(error));
+				return Promise.reject(error);
+			});
 	}
 }
