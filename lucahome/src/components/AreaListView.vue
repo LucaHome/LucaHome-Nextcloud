@@ -12,7 +12,7 @@
           <md-field v-else>
             <label>Name</label>
             <md-input v-model="newAreaName"></md-input>
-            <md-button class="md-icon-button save-button md-primary" @click="updateArea">
+            <md-button class="md-icon-button save-button md-primary" @click="updateArea(area)">
               <md-icon>save</md-icon>
             </md-button>
           </md-field>
