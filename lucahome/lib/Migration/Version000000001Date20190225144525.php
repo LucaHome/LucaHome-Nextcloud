@@ -14,7 +14,7 @@ use OCP\IDBConnection;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version000000001Date20190215233732 extends SimpleMigrationStep {
+class Version000000001Date20190225144525 extends SimpleMigrationStep {
     private $db;
     
 	public function __construct(IDBConnection $db) {
@@ -39,8 +39,8 @@ class Version000000001Date20190215233732 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
         $schema = $schemaClosure();
         
-		if (!$schema->hasTable('wirelesssockets')) {
-			$table = $schema->createTable('wirelesssockets');
+		if (!$schema->hasTable('lucahome_wireless_socket')) {
+			$table = $schema->createTable('lucahome_wireless_socket');
 			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -77,12 +77,17 @@ class Version000000001Date20190215233732 extends SimpleMigrationStep {
 				'length' => 32,
 				'default' => '',
 			]);
+			$table->addColumn('deletable', 'smallint', [
+				'notnull' => true,
+				'length' => 1,
+				'default' => 1,
+            ]);
 			
 			$table->setPrimaryKey(['id']);
         }
         
-		if (!$schema->hasTable('areas')) {
-			$table = $schema->createTable('areas');
+		if (!$schema->hasTable('lucahome_area')) {
+			$table = $schema->createTable('lucahome_area');
 			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -99,6 +104,11 @@ class Version000000001Date20190215233732 extends SimpleMigrationStep {
 				'length' => 128,
 				'default' => '',
 			]);
+			$table->addColumn('deletable', 'smallint', [
+				'notnull' => true,
+				'length' => 1,
+				'default' => 1,
+            ]);
 
 			$table->setPrimaryKey(['id']);
         }
@@ -112,5 +122,14 @@ class Version000000001Date20190215233732 extends SimpleMigrationStep {
 	 * @param array $options
 	 */
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+		// Add area "All"
+        $qb = $this->db->getQueryBuilder();
+		$qb->insert('lucahome_area')
+			->values([
+				'name' => $qb->createNamedParameter('All'),
+				'filter' => $qb->createNamedParameter(''),
+				'deletable' => $qb->createNamedParameter(0)
+			])
+			->execute();
 	}
 }
