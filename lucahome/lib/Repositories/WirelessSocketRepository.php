@@ -46,7 +46,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 				'name' => $qb->createNamedParameter(trim($wirelessSocket->getName())),
 				'code' => $qb->createNamedParameter(trim($wirelessSocket->getCode())),
 				'area' => $qb->createNamedParameter(trim($wirelessSocket->getArea())),
-				'state' => $qb->createNamedParameter($arwirelessSocketea->getState()),
+				'state' => $qb->createNamedParameter($wirelessSocket->getState()),
 				'description' => $qb->createNamedParameter(trim($wirelessSocket->getDescription())),
 				'icon' => $qb->createNamedParameter(trim($wirelessSocket->getIcon())),
 				'deletable' => $qb->createNamedParameter($wirelessSocket->getDeletable())
