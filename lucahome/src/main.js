@@ -11,6 +11,8 @@ import Vuelidate from 'vuelidate'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default-dark.css'
 
+import 'vue-material/dist/vue-material.min.js'
+
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line
 __webpack_nonce__ = btoa(OC.requestToken)

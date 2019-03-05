@@ -1,12 +1,12 @@
 <template>
   <app-content app-name="lucahome">
     <template slot="navigation">
-      <AreaListView class="area-list-view"/>
+      <AreaListView class="area-list-view" />
     </template>
 
     <template slot="content">
-      <WirelessSocketListView class="wireless-socket-list-view"/>
-      <WirelessSocketDetailView class="detail-view"/>
+      <WirelessSocketListView class="wireless-socket-list-view" />
+      <WirelessSocketDetailView class="detail-view" />
     </template>
   </app-content>
 </template>

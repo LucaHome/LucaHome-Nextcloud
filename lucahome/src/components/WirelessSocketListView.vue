@@ -6,23 +6,21 @@
           :class="{selected: wirelessSocket.id === wirelessSocketSelected.id, selectable: wirelessSocket.id !== wirelessSocketSelected.id}"
         >
           <md-avatar @click="select(wirelessSocket)">
-            <md-icon :class="wirelessSocket.icon"></md-icon>
+            <md-icon :class="wirelessSocket.icon" />
           </md-avatar>
 
           <div class="md-list-item-text" @click="select(wirelessSocket)">
-            <span>{{wirelessSocket.name}}</span>
-            <span>{{wirelessSocket.area}}</span>
-            <p>{{wirelessSocket.code}}</p>
+            <span>{{ wirelessSocket.name }}</span>
+            <span>{{ wirelessSocket.area }}</span>
+            <p>{{ wirelessSocket.code }}</p>
           </div>
 
           <md-button class="md-icon-button md-raised" @click="toggleState(wirelessSocket)">
-            <md-icon
-              :class="{'fas fa-toggle-on':wirelessSocket.state,'fas fa-toggle-off':!wirelessSocket.state}"
-            ></md-icon>
+            <md-icon :class="{'fas fa-toggle-on':wirelessSocket.state,'fas fa-toggle-off':!wirelessSocket.state}" />
           </md-button>
         </md-list-item>
 
-        <md-divider class="md-inset"></md-divider>
+        <md-divider class="md-inset" />
       </div>
     </md-list>
 
@@ -35,21 +33,6 @@
 <script>
 export default {
   name: "WirelessSocketListView",
-  methods: {
-    select(wirelessSocket) {
-      this.$store.dispatch("selectWirelessSocket", wirelessSocket);
-    },
-    addWirelessSocket() {
-      this.$store.dispatch(
-        "addWirelessSocket",
-        this.$store.getters.areaSelected.name
-      );
-    },
-    toggleState(wirelessSocket) {
-      wirelessSocket.state = wirelessSocket.state === 1 ? 0 : 1;
-      this.$store.dispatch("updateWirelessSocket", wirelessSocket);
-    }
-  },
   computed: {
     wirelessSocketsForArea() {
       var wirelessSockets = this.$store.getters.wirelessSockets;
@@ -71,6 +54,21 @@ export default {
     },
     wirelessSocketSelected() {
       return this.$store.getters.wirelessSocketSelected;
+    }
+  },
+  methods: {
+    select(wirelessSocket) {
+      this.$store.dispatch("selectWirelessSocket", wirelessSocket);
+    },
+    addWirelessSocket() {
+      this.$store.dispatch(
+        "addWirelessSocket",
+        this.$store.getters.areaSelected.name
+      );
+    },
+    toggleState(wirelessSocket) {
+      wirelessSocket.state = wirelessSocket.state === 1 ? 0 : 1;
+      this.$store.dispatch("updateWirelessSocket", wirelessSocket);
     }
   }
 };
