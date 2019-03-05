@@ -60,7 +60,7 @@
               <md-field>
                 <label for="icon">Icon</label>
                 <md-input name="icon" id="icon" v-model="form.icon" :disabled="sending"/>
-                <md-icon :class="form.icon"></md-icon>
+                <i :class="form.icon"/>
               </md-field>
               <a
                 href="https://fontawesome.com/icons?d=gallery&m=free"
@@ -80,7 +80,7 @@
           >Save wireless socket</md-button>
         </md-card-actions>
 
-        <md-card-actions>
+        <md-card-actions v-if="wirelessSocketSelected.deletable === 1 || wirelessSocketSelected.deletable === '1'">
           <md-button
             class="md-accent"
             :disabled="sending || hasChanges()"
