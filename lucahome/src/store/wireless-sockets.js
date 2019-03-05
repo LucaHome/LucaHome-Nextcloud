@@ -57,9 +57,9 @@ const mutations = {
      */
     updateWirelessSocket(state, payload) {
         var wirelessSockets = state.wirelessSockets;
-        wirelessSockets.splice(wirelessSockets.indexOf(payload.wirelessSocket), 1);
+        var index = wirelessSockets.map(x => x.id).indexOf(payload.wirelessSocket.id);
+        wirelessSockets[index] = payload.wirelessSocket;
         state.wirelessSockets = wirelessSockets;
-        state.wirelessSockets.push(payload.wirelessSocket);
         state.wirelessSocketSelected = payload.wirelessSocket;
     },
 
