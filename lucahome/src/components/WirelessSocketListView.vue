@@ -6,7 +6,7 @@
           :class="{selected: wirelessSocket.id === wirelessSocketSelected.id, selectable: wirelessSocket.id !== wirelessSocketSelected.id}"
         >
           <md-avatar @click="select(wirelessSocket)">
-            <md-icon :class="wirelessSocket.icon" />
+            <i :class="wirelessSocket.icon" />
           </md-avatar>
 
           <div class="md-list-item-text" @click="select(wirelessSocket)">
@@ -16,7 +16,7 @@
           </div>
 
           <md-button class="md-icon-button md-raised" @click="toggleState(wirelessSocket)">
-            <md-icon :class="{'fas fa-toggle-on':wirelessSocket.state,'fas fa-toggle-off':!wirelessSocket.state}" />
+            <i :class="{'fas fa-toggle-on': wirelessSocket.state == '1', 'fas fa-toggle-off': wirelessSocket.state == '0'}" />
           </md-button>
         </md-list-item>
 
@@ -67,7 +67,7 @@ export default {
       );
     },
     toggleState(wirelessSocket) {
-      wirelessSocket.state = wirelessSocket.state === 1 ? 0 : 1;
+      wirelessSocket.state = wirelessSocket.state === "1" ? "0" : "1";
       this.$store.dispatch("updateWirelessSocket", wirelessSocket);
     }
   }
