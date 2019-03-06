@@ -251,7 +251,7 @@ class Version000000001Date20190306220234 extends SimpleMigrationStep {
 				'area' => $qb->createNamedParameter('SleepingRoom'),
 				'state' => $qb->createNamedParameter(0),
 				'description' => $qb->createNamedParameter(''),
-				'icon' => $qb->createNamedParameter('fab fa-lightbulb'),
+				'icon' => $qb->createNamedParameter('fas fa-lightbulb'),
 				'deletable' => $qb->createNamedParameter(1)
 			])
 			->execute();
