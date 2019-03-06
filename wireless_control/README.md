@@ -1,9 +1,9 @@
 # WirelessControl
 
+* set states for 433MHz connected sockets
+
 ![alt tag](../screenshots/wireless_control_page.jpg)
 ![alt tag](../screenshots/wireless_control_delete_dialog.jpg)
-
-* set states for 433MHz connected sockets
 
 Place this app in **nextcloud/apps/**
 
