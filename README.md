@@ -1,13 +1,13 @@
 # LucaHome-Nextcloud
 
-Project for LucaHome integration into Nextcloud.
+Different projects for LucaHome integration into Nextcloud.
 
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)
 
-[![Build](https://img.shields.io/badge/build-Successful-green.svg)](./lucahome/js)
-[![Version](https://img.shields.io/badge/version-v0.7.0-blue.svg)](./)
+[![Build](https://img.shields.io/badge/build-Successful-green.svg)](./wireless_control/js)
+[![Version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](./)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 [![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
@@ -16,16 +16,15 @@ Project for LucaHome integration into Nextcloud.
 
 ## Features
 
-* set states for 433MHz connected sockets
-* ...
+* WirelessControl: set states for 433MHz connected sockets
 
-![alt tag](/screenshots/page.jpg)
-![alt tag](/screenshots/delete_dialog.jpg)
+![alt tag](/screenshots/wireless_control_page.jpg)
+![alt tag](/screenshots/wireless_control_delete_dialog.jpg)
 
-## Installation
-
-In your Nextcloud, simply navigate to »Apps«, choose the category Tools, find the LucaHome app and enable it.
-Then open the LucaHome app from the app menu.
+* LogMyMeter: coming in future
+* SharedClipboard: coming in future
+* SharedMeal: coming in future
+* more to come ...
 
 ## Maintainers
 
@@ -35,7 +34,7 @@ If you’d like to join, just go through the [issue list](https://github.com/Luc
 
 ## Developer setup info
 
-Just clone this repo into your apps directory (Nextcloud server installation needed). Additionally,  [nodejs and npm](https://nodejs.org/en/download/package-manager/) are needed for installing JavaScript dependencies.
+Just clone the projects of this repo into your apps directory (Nextcloud server installation needed). Additionally, [nodejs and npm](https://nodejs.org/en/download/package-manager/) are needed for installing JavaScript dependencies.
 
 Once node and npm are installed, PHP and JavaScript dependencies can be installed by running
 ```bash

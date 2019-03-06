@@ -1,0 +1,15 @@
+{
+	"name": "Wireless Control",
+	"description": "WirelessControl lets you control 433MHz sockets within Nextcloud while running on a raspberry",
+	"type": "project",
+	"license": "MIT",
+	"authors": [{
+		"name": "Jonas Schubert",
+		"email": "guepardoapps@gmail.com"
+	}],
+	"require": {},
+	"require-dev": {
+		"phpunit/phpunit": "^5.4",
+		"christophwurst/nextcloud": "^14.0"
+	}
+}
