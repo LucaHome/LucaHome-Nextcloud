@@ -14,7 +14,7 @@ use OCP\IDBConnection;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version000000001Date20190225164714 extends SimpleMigrationStep {
+class Version000000001Date20190306220234 extends SimpleMigrationStep {
     private $db;
     
 	public function __construct(IDBConnection $db) {
@@ -39,8 +39,8 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
         $schema = $schemaClosure();
         
-		if (!$schema->hasTable('lh_wireless_socket')) {
-			$table = $schema->createTable('lh_wireless_socket');
+		if (!$schema->hasTable('wireless_control_sockets')) {
+			$table = $schema->createTable('wireless_control_sockets');
 			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -86,8 +86,8 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 			$table->setPrimaryKey(['id']);
         }
         
-		if (!$schema->hasTable('lh_area')) {
-			$table = $schema->createTable('lh_area');
+		if (!$schema->hasTable('wireless_control_areas')) {
+			$table = $schema->createTable('wireless_control_areas');
 			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
@@ -124,7 +124,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 		// Add area "All"
         $qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_area')
+		$qb->insert('wireless_control_areas')
 			->values([
 				'name' => $qb->createNamedParameter('All'),
 				'filter' => $qb->createNamedParameter(''),
@@ -134,7 +134,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 
 		// Add area "LivingRoom"
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_area')
+		$qb->insert('wireless_control_areas')
 			->values([
 				'name' => $qb->createNamedParameter('LivingRoom'),
 				'filter' => $qb->createNamedParameter('LivingRoom'),
@@ -144,7 +144,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 
 		// Add area "SleepingRoom"
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_area')
+		$qb->insert('wireless_control_areas')
 			->values([
 				'name' => $qb->createNamedParameter('SleepingRoom'),
 				'filter' => $qb->createNamedParameter('SleepingRoom'),
@@ -154,7 +154,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 
 		// Add area "Kitchen"
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_area')
+		$qb->insert('wireless_control_areas')
 			->values([
 				'name' => $qb->createNamedParameter('Kitchen'),
 				'filter' => $qb->createNamedParameter('Kitchen'),
@@ -164,7 +164,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 
 		// Add area "Bath"
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_area')
+		$qb->insert('wireless_control_areas')
 			->values([
 				'name' => $qb->createNamedParameter('Bath'),
 				'filter' => $qb->createNamedParameter('Bath'),
@@ -174,7 +174,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 
 		// Add wireless socket "PC"
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_wireless_socket')
+		$qb->insert('wireless_control_sockets')
 			->values([
 				'name' => $qb->createNamedParameter('PC'),
 				'code' => $qb->createNamedParameter('11110A'),
@@ -188,7 +188,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 
 		// Add wireless socket "TV"
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_wireless_socket')
+		$qb->insert('wireless_control_sockets')
 			->values([
 				'name' => $qb->createNamedParameter('TV'),
 				'code' => $qb->createNamedParameter('11110B'),
@@ -202,7 +202,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 
 		// Add wireless socket "LightCouch"
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_wireless_socket')
+		$qb->insert('wireless_control_sockets')
 			->values([
 				'name' => $qb->createNamedParameter('LightCouch'),
 				'code' => $qb->createNamedParameter('11110C'),
@@ -216,7 +216,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 
 		// Add wireless socket "OSMC"
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_wireless_socket')
+		$qb->insert('wireless_control_sockets')
 			->values([
 				'name' => $qb->createNamedParameter('OSMC'),
 				'code' => $qb->createNamedParameter('11110D'),
@@ -230,7 +230,7 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 
 		// Add wireless socket "NintendoSwitch"
 		$qb = $this->db->getQueryBuilder();
-		$qb->insert('lh_wireless_socket')
+		$qb->insert('wireless_control_sockets')
 			->values([
 				'name' => $qb->createNamedParameter('NintendoSwitch'),
 				'code' => $qb->createNamedParameter('11011A'),
@@ -238,6 +238,20 @@ class Version000000001Date20190225164714 extends SimpleMigrationStep {
 				'state' => $qb->createNamedParameter(0),
 				'description' => $qb->createNamedParameter(''),
 				'icon' => $qb->createNamedParameter('fab fa-nintendo-switch'),
+				'deletable' => $qb->createNamedParameter(1)
+			])
+			->execute();
+
+		// Add wireless socket "LightBed"
+		$qb = $this->db->getQueryBuilder();
+		$qb->insert('wireless_control_sockets')
+			->values([
+				'name' => $qb->createNamedParameter('LightBed'),
+				'code' => $qb->createNamedParameter('11011D'),
+				'area' => $qb->createNamedParameter('SleepingRoom'),
+				'state' => $qb->createNamedParameter(0),
+				'description' => $qb->createNamedParameter(''),
+				'icon' => $qb->createNamedParameter('fab fa-lightbulb'),
 				'deletable' => $qb->createNamedParameter(1)
 			])
 			->execute();

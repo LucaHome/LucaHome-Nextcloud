@@ -28,7 +28,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         $qb = $this->db->getQueryBuilder();
         $qb
             ->select('*')
-            ->from('lh_wireless_socket');
+            ->from('wireless_control_sockets');
         $areas = $qb->execute()->fetchAll();
 		return $areas;
     }
@@ -41,7 +41,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	public function add(WirelessSocket $wirelessSocket) {
         $qb = $this->db->getQueryBuilder();
 		$qb
-			->insert('lh_wireless_socket')
+			->insert('wireless_control_sockets')
 			->values([
 				'name' => $qb->createNamedParameter(trim($wirelessSocket->getName())),
 				'code' => $qb->createNamedParameter(trim($wirelessSocket->getCode())),
@@ -72,7 +72,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
         
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->update('lh_wireless_socket')
+			->update('wireless_control_sockets')
             ->set('name', $qb->createNamedParameter(trim($wirelessSocket->getName())))
             ->set('code', $qb->createNamedParameter(trim($wirelessSocket->getCode())))
             ->set('area', $qb->createNamedParameter(trim($wirelessSocket->getArea())))
@@ -97,7 +97,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	public function delete(int $id) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->delete('lh_wireless_socket')
+			->delete('wireless_control_sockets')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('deletable', 1));
 
