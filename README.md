@@ -20,6 +20,7 @@ Different projects for LucaHome integration into Nextcloud.
 
 ![alt tag](/screenshots/wireless_control_page.jpg)
 ![alt tag](/screenshots/wireless_control_delete_dialog.jpg)
+![alt tag](/screenshots/area_delete_dialog.jpg)
 
 * LogMyMeter: coming in future
 * SharedClipboard: coming in future

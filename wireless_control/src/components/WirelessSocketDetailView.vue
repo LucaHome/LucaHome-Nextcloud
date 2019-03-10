@@ -84,7 +84,7 @@
           <md-button
             class="md-accent"
             :disabled="sending || hasChanges()"
-            @click="deleteDialogActive = true"
+            @click="deleteWirelessSocketDialogActive = true"
           >Delete wireless socket</md-button>
         </md-card-actions>
       </md-card>
@@ -93,7 +93,7 @@
     </form>
 
     <md-dialog-confirm
-      :md-active.sync="deleteDialogActive"
+      :md-active.sync="deleteWirelessSocketDialogActive"
       md-title="Delete?"
       md-content="Do you want to delete this wireless socket?"
       md-confirm-text="Yes"
@@ -121,7 +121,7 @@ export default {
     },
     saved: false,
     sending: false,
-    deleteDialogActive: false
+    deleteWirelessSocketDialogActive: false
   }),
   validations: {
     form: {

@@ -10,9 +10,10 @@ body {
 	min-width: 20rem;
 	width: 20rem;
 	max-width: 20rem;
-	height: 100%;
+	height: calc(100vh - 3.5rem);
 	background-color: rgb(66, 66, 66);
 	border: 0.0625rem solid rgba(#000, 0.12);
+	z-index: 1001;
 }
 
 .wireless-socket-list-view {
@@ -20,18 +21,20 @@ body {
 	min-width: 20rem;
 	width: 20rem;
 	max-width: 20rem;
-	height: 100%;
+	height: calc(100vh - 3.5rem);
 	background-color: rgb(66, 66, 66);
 	border: 0.0625rem solid rgba(#000, 0.12);
+	margin-left: 20.5rem;
 }
 
 .detail-view {
 	position: absolute;
-	height: 100%;
-	width: calc(100vw - 41rem);
+	height: calc(100vh - 3.5rem);
+	width: calc(100vw - 42.5rem);
 	background-color: rgb(66, 66, 66);
 	left: 20.5rem;
 	top: 0;
+	margin-left: 20.5rem;
 }
 
 .selected {
@@ -52,4 +55,8 @@ body {
 .save-button {
 	cursor: pointer;
 	right: 0rem;
+}
+
+.delete-button {
+	cursor: pointer;
 }
