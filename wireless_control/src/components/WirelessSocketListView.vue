@@ -2,20 +2,20 @@
   <div>
     <md-list class="md-triple-line">
       <div v-for="(wirelessSocket, index) in wirelessSocketsForArea" :key="index">
-        <md-list-item
+        <md-list-item @click="select(wirelessSocket)"
           :class="{selected: wirelessSocket.id === wirelessSocketSelected.id, selectable: wirelessSocket.id !== wirelessSocketSelected.id}"
         >
-          <md-avatar @click="select(wirelessSocket)">
+          <md-avatar>
             <i :class="wirelessSocket.icon" />
           </md-avatar>
 
-          <div class="md-list-item-text" @click="select(wirelessSocket)">
+          <div class="md-list-item-text">
             <span>{{ wirelessSocket.name }}</span>
             <span>{{ wirelessSocket.area }}</span>
             <p>{{ wirelessSocket.code }}</p>
           </div>
 
-          <md-button class="md-icon-button md-raised" @click="toggleState(wirelessSocket)">
+          <md-button v-if="!!wirelessSocket.code" class="md-icon-button md-raised" @click="toggleState(wirelessSocket)">
             <i :class="{'fas fa-toggle-on': wirelessSocket.state == '1', 'fas fa-toggle-off': wirelessSocket.state == '0'}" />
           </md-button>
         </md-list-item>
