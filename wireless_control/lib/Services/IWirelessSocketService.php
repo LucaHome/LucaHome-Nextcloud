@@ -15,6 +15,12 @@ interface IWirelessSocketService {
 	public function get();
 
 	/**
+	 * @param int id WirelessSocket ID to get
+	 * @return WirelessSocket WirelessSocket
+	 */
+	public function getById(int $id);
+
+	/**
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action
 	 */

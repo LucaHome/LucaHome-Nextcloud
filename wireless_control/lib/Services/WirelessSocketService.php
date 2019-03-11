@@ -7,6 +7,7 @@ use OCA\WirelessControl\Enums\ErrorCode;
 use OCA\WirelessControl\Entities\WirelessSocket;
 use OCA\WirelessControl\Repositories\WirelessSocketRepository;
 use OCP\IConfig;
+use OCP\ILogger;
 
 class WirelessSocketService implements IWirelessSocketService {
 
@@ -28,19 +29,26 @@ class WirelessSocketService implements IWirelessSocketService {
 	/** 
 	 * @var WirelessSocketRepository 
 	 * */
-	private $repository;
+	private $wirelessSocketRepository;
 
+	/** 
+	 * @var ILogger 
+	 * */
+	private $logger;
+	
 	/**
 	 * @param IConfig $settings
 	 * @param string $appName
 	 * @param PiAdapter $piAdapter
-	 * @param WirelessSocketRepository $repository
+	 * @param WirelessSocketRepository $wirelessSocketRepository
+	 * @param ILogger $logger
 	 */
-	public function __construct(IConfig $settings, string $appName, PiAdapter $piAdapter, WirelessSocketRepository $repository) {
+	public function __construct(IConfig $settings, string $appName, PiAdapter $piAdapter, WirelessSocketRepository $wirelessSocketRepository, ILogger $logger) {
 		$this->settings = $settings;
 		$this->appName = $appName;
 		$this->piAdapter = $piAdapter;
-		$this->repository = $repository;
+		$this->wirelessSocketRepository = $wirelessSocketRepository;
+		$this->logger = $logger;
     }
     
 	/**
@@ -48,7 +56,18 @@ class WirelessSocketService implements IWirelessSocketService {
 	 * @return array WirelessSocket
 	 */
 	public function get() {
-        return $this->repository->get();
+		$this->logger->info('WirelessSocketService: Get', ['app' => $this->appName]);
+        return $this->wirelessSocketRepository->get();
+    }
+    
+	/**
+	 * @brief returns single wirelessSocket by id
+	 * @param int id WirelessSocket ID to get
+	 * @return WirelessSocket WirelessSocket
+	 */
+	public function getById(int $id) {
+		$this->logger->info('WirelessSocketService: GetById: '.$id, ['app' => $this->appName]);
+        return $this->wirelessSocketRepository->getById($id);
     }
 
 	/**
@@ -57,7 +76,8 @@ class WirelessSocketService implements IWirelessSocketService {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function add(WirelessSocket $wirelessSocket) {
-        return $this->repository->add($wirelessSocket);
+		$this->logger->info('WirelessSocketService: Add: '.$wirelessSocket, ['app' => $this->appName]);
+        return $this->wirelessSocketRepository->add($wirelessSocket);
     }
     
     /**
@@ -66,10 +86,11 @@ class WirelessSocketService implements IWirelessSocketService {
 	 * @return ErrorCode Success or failure of action
 	 */
     public function update(WirelessSocket $wirelessSocket) {
+		$this->logger->info('WirelessSocketService: Update: '.$wirelessSocket, ['app' => $this->appName]);
 		// $gpioPin = (int)$this->settings->getUserValue($this->userId, $this->appName,'various_wirelessSocketGpioPin');
 		$gpioPin = 17;
 		$this->piAdapter->send433MHz($gpioPin, $wirelessSocket->getCode(), $wirelessSocket->getState());
-		return $this->repository->update($wirelessSocket);
+		return $this->wirelessSocketRepository->update($wirelessSocket);
     }
     
 	/**
@@ -78,6 +99,7 @@ class WirelessSocketService implements IWirelessSocketService {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function delete(int $id) {
-        return $this->repository->delete($id);
+		$this->logger->info('WirelessSocketService: Delete: '.$id, ['app' => $this->appName]);
+        return $this->wirelessSocketRepository->delete($id);
     }
 }

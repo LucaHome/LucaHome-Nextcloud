@@ -5,19 +5,42 @@ namespace OCA\WirelessControl\Services;
 use OCA\WirelessControl\Enums\ErrorCode;
 use OCA\WirelessControl\Entities\Area;
 use OCA\WirelessControl\Repositories\AreaRepository;
+use OCA\WirelessControl\Repositories\WirelessSocketRepository;
+use OCP\ILogger;
 
 class AreaService implements IAreaService {
+    
+	/**
+	 * @var string
+	 */
+    private $appName;
 
 	/**
 	 * @var AreaRepository 
 	 * */
-	private $repository;
+	private $areaRepository;
+
+	/** 
+	 * @var WirelessSocketRepository 
+	 * */
+	private $wirelessSocketRepository;
+
+	/** 
+	 * @var ILogger 
+	 * */
+	private $logger;
 
 	/**
-	 * @param AreaRepository $repository
+	 * @param string $appName
+	 * @param AreaRepository $areaRepository
+	 * @param WirelessSocketRepository $wirelessSocketRepository
+	 * @param ILogger $logger
 	 */
-	public function __construct(AreaRepository $repository) {
-		$this->repository = $repository;
+	public function __construct(string $appName, AreaRepository $areaRepository, WirelessSocketRepository $wirelessSocketRepository, ILogger $logger) {
+		$this->appName = $appName;
+		$this->areaRepository = $areaRepository;
+		$this->wirelessSocketRepository = $wirelessSocketRepository;
+		$this->logger = $logger;
     }
     
 	/**
@@ -25,7 +48,18 @@ class AreaService implements IAreaService {
 	 * @return array Area
 	 */
 	public function get() {
-        return $this->repository->get();
+		$this->logger->info('AreaService: Get', ['app' => $this->appName]);
+        return $this->areaRepository->get();
+    }
+    
+	/**
+	 * @brief returns single area by id
+	 * @param int id Area ID to get
+	 * @return Area Area
+	 */
+	public function getById(int $id) {
+		$this->logger->info('AreaService: GetById: '.$id, ['app' => $this->appName]);
+        return $this->areaRepository->getById($id);
     }
 
 	/**
@@ -34,7 +68,8 @@ class AreaService implements IAreaService {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function add(Area $area) {
-        return $this->repository->add($area);
+		$this->logger->info('AreaService: Add: '.$area, ['app' => $this->appName]);
+        return $this->areaRepository->add($area);
     }
     
     /**
@@ -43,7 +78,8 @@ class AreaService implements IAreaService {
 	 * @return ErrorCode Success or failure of action
 	 */
     public function update(Area $area) {
-        return $this->repository->update($area);
+		$this->logger->info('AreaService: Update: '.$area, ['app' => $this->appName]);
+        return $this->areaRepository->update($area);
     }
     
 	/**
@@ -52,6 +88,18 @@ class AreaService implements IAreaService {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function delete(int $id) {
-        return $this->repository->delete($id);
+		$this->logger->info('AreaService: Delete: '.$id, ['app' => $this->appName]);
+
+		$areaToBeDeleted = $this->areaRepository->getById($id);
+		if ($areaToBeDeleted === NULL) {
+			return ErrorCode::AreaDoesNotExist;
+		}
+
+		$areaDeleteResult = $this->areaRepository->delete($areaToBeDeleted['id']);
+		if ($areaDeleteResult !== 0) {
+			return $areaDeleteResult;
+		}
+
+		return $this->wirelessSocketRepository->deleteByArea($areaToBeDeleted['name']);
     }
 }
