@@ -41,8 +41,8 @@ class WirelessSocketController extends Controller {
      * @param int $id
      */
     public function show(int $id) {
-		return $this->generateResponse("error", function () {
-			return "Not implemented";
+		return $this->generateResponse("success", function () use ($id) {
+			return $this->service->getById($id);
 		}, '');
     }
     
