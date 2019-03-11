@@ -7,7 +7,7 @@ Different projects for LucaHome integration into Nextcloud.
 [![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)
 
 [![Build](https://img.shields.io/badge/build-Successful-green.svg)](./wireless_control/js)
-[![Version](https://img.shields.io/badge/version-v1.0.0-blue.svg)](./)
+[![Version](https://img.shields.io/badge/version-v1.1.0-blue.svg)](./)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 [![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
@@ -27,11 +27,18 @@ Different projects for LucaHome integration into Nextcloud.
 * SharedMeal: coming in future
 * more to come ...
 
-## Maintainers
+## :busts_in_silhouette: Maintainers
 
 [Jonas Schubert](https://github.com/GuepardoApps)
 
 If you’d like to join, just go through the [issue list](https://github.com/LucaHome/LucaHome-Nextcloud/issues) and fix some.
+
+## :exclamation: Bugs
+Before reporting bugs:
+
+* get the newest version of the apps
+* please consider also installing the [latest development version](https://github.com/LucaHome/LucaHome-Nextclou/archive/master.zip)
+* [check if they have already been reported](https://github.com/LucaHome/LucaHome-Nextcloud/issues)
 
 ## Developer setup info
 
