@@ -22,6 +22,7 @@ abstract class ErrorCode {
     const WirelessSocketDoesNotExist = -108;
     const WirelessSocketFailedToToggle = -109;
     const WirelessSocketIconTooLong = -110;
+    const WirelessSocketDbAddError = -111;
 
     const InvalidUser = -200;
     const InvalidUserNull = -201;
@@ -34,4 +35,5 @@ abstract class ErrorCode {
     const AreaDbCreateError = -304;
     const AreaDbUpdateError = -305;
     const AreaDoesNotExist = -306;
+    const AreaDbAddError = -307;
 }
