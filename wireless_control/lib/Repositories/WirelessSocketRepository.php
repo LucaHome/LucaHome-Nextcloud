@@ -10,14 +10,32 @@ use OCA\WirelessControl\Enums\ErrorCode;
 use OCA\WirelessControl\Entities\WirelessSocket;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\ILogger;
 
 class WirelessSocketRepository implements IWirelessSocketRepository {
+
+	/**
+	 * @var string
+	 */
+    private $appName;
 
     /** @var IDBConnection */
     private $db;
 
-    public function __construct(IDBConnection $db) {
+	/** 
+	 * @var ILogger 
+	 * */
+	private $logger;
+
+	/**
+	 * @param string $appName
+	 * @param IDBConnection $db
+	 * @param ILogger $logger
+	 */
+    public function __construct(string $appName, IDBConnection $db, ILogger $logger) {
+        $this->appName = $appName;
         $this->db = $db;
+        $this->logger = $logger;
     }
 
 	/**
@@ -25,12 +43,31 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @return array WirelessSocket
 	 */
     public function get() {
+		$this->logger->info('WirelessSocketRepository: Get', ['app' => $this->appName]);
+
         $qb = $this->db->getQueryBuilder();
         $qb
             ->select('*')
             ->from('wireless_control_sockets');
-        $areas = $qb->execute()->fetchAll();
-		return $areas;
+        $wirelessSockets = $qb->execute()->fetchAll();
+		return $wirelessSockets;
+    }
+
+	/**
+	 * @brief returns single WirelessSocket by id
+	 * @param int id WirelessSocket ID to get
+	 * @return WirelessSocket WirelessSocket
+	 */
+    public function getById(int $id) {
+		$this->logger->info('WirelessSocketRepository: GetById: '.$id, ['app' => $this->appName]);
+
+        $qb = $this->db->getQueryBuilder();
+        $qb
+            ->select('*')
+            ->from('wireless_control_sockets')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
+        $wirelessSockets = $qb->execute()->fetchAll();
+        return reset($wirelessSockets);
     }
 
 	/**
@@ -39,6 +76,8 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function add(WirelessSocket $wirelessSocket) {
+		$this->logger->info('WirelessSocketRepository: Add: '.$wirelessSocket, ['app' => $this->appName]);
+
         $qb = $this->db->getQueryBuilder();
 		$qb
 			->insert('wireless_control_sockets')
@@ -55,7 +94,8 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 		if ($qb->execute()) {
 			return $qb->getLastInsertId();
 		} else {
-			return false;
+			$this->logger->info('WirelessSocketRepository: Add: Failed: '.ErrorCode::WirelessSocketDbAddError, ['app' => $this->appName]);
+			return ErrorCode::WirelessSocketDbAddError;
 		}
 	}
 
@@ -65,8 +105,11 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function update(WirelessSocket $wirelessSocket) {
+		$this->logger->info('WirelessSocketRepository: Update: '.$wirelessSocket, ['app' => $this->appName]);
+
         $errorCode = $this->validate($wirelessSocket);
         if($errorCode !== ErrorCode::NoError){
+			$this->logger->info('WirelessSocketRepository: Update: Validation: '.$errorCode, ['app' => $this->appName]);
             return $errorCode;
         }
         
@@ -83,6 +126,7 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($wirelessSocket->getId())));
 
 		if ($qb->execute() === 0) {
+			$this->logger->info('WirelessSocketRepository: Update: Failed: '.ErrorCode::WirelessSocketDbUpdateError, ['app' => $this->appName]);
 			return ErrorCode::WirelessSocketDbUpdateError;
 		}
         
@@ -95,15 +139,38 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function delete(int $id) {
+		$this->logger->info('WirelessSocketRepository: Delete: '.$id, ['app' => $this->appName]);
+		$deletable = 1;
+
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->delete('wireless_control_sockets')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('deletable', 1));
+			->andWhere($qb->expr()->eq('deletable', $qb->createNamedParameter($deletable)));
 
 		if ($qb->execute() === 0) {
+			$this->logger->info('WirelessSocketRepository: Delete: Failed: '.ErrorCode::WirelessSocketDoesNotExist, ['app' => $this->appName]);
 			return ErrorCode::WirelessSocketDoesNotExist;
 		}
+
+        return ErrorCode::NoError;
+    }
+	
+	/**
+	 * @brief Delete WirelessSocket with specific area
+	 * @param string area Delete WirelessSockets by this area
+	 * @return ErrorCode Success or failure of action
+	 */
+	public function deleteByArea(string $area) {
+		$this->logger->info('WirelessSocketRepository: DeleteByArea: '.$area, ['app' => $this->appName]);
+		$deletable = 1;
+
+		$qb = $this->db->getQueryBuilder();
+		$qb
+			->delete('wireless_control_sockets')
+			->where($qb->expr()->eq('area', $qb->createNamedParameter($area)))
+			->andWhere($qb->expr()->eq('deletable', $qb->createNamedParameter($deletable)));
+		$qb->execute();
 
         return ErrorCode::NoError;
     }

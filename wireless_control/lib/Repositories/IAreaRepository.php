@@ -13,6 +13,12 @@ interface IAreaRepository {
 	public function get();
 
 	/**
+	 * @param int id Area ID to get
+	 * @return Area Area
+	 */
+	public function getById(int $id);
+
+	/**
 	 * @param Area area
 	 * @return ErrorCode Success or failure of action
 	 */
