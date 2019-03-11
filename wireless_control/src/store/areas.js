@@ -24,10 +24,10 @@ const mutations = {
      * @param {Object} payload The collections payload
      */
     setAreas(state, payload) {
-        var areas = [];
-        areas.push(...payload.areas);
-        state.areas = areas;
-        state.areaSelected = state.areas[0];
+        state.areas = payload.areas;
+        if(!state.areaSelected || state.areas.filter(x => x.id == state.areaSelected.id).length === 0){
+            state.areaSelected = state.areas[0];
+        }
     },
 
     /**

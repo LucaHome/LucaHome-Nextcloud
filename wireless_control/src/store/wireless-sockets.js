@@ -25,7 +25,9 @@ const mutations = {
      */
     setWirelessSockets(state, payload) {
         state.wirelessSockets = payload.wirelessSockets;
-        state.wirelessSocketSelected = state.wirelessSockets.length > 0 ? state.wirelessSockets[0] : null;
+        if(!state.wirelessSocketSelected || state.wirelessSockets.filter(x => x.id == state.wirelessSocketSelected.id).length === 0){
+            state.wirelessSocketSelected = state.wirelessSockets.length > 0 ? state.wirelessSockets[0] : null;
+        }
     },
 
     /**
