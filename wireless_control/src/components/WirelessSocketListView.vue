@@ -33,6 +33,9 @@
 <script>
 export default {
   name: "WirelessSocketListView",
+  data: () => ({
+    interval: null
+  }),
   computed: {
     wirelessSocketsForArea() {
       var wirelessSockets = this.$store.getters.wirelessSockets;
@@ -70,6 +73,12 @@ export default {
       wirelessSocket.state = wirelessSocket.state === "1" ? "0" : "1";
       this.$store.dispatch("updateWirelessSocket", wirelessSocket);
     }
+  },
+  created() {
+    this.interval = setInterval(() => this.$store.dispatch("loadWirelessSockets"), 15 * 1000);
+  },
+  beforeDestroy: function() {
+    clearInterval(this.interval);
   }
 };
 </script>

@@ -50,7 +50,8 @@ export default {
     newAreaName: null,
     adding: false,
     deleteAreaDialogActive: false,
-    selectedDeleteArea: null
+    selectedDeleteArea: null,
+    interval: null
   }),
   methods: {
     select(area) {
@@ -87,6 +88,12 @@ export default {
     areaSelected() {
       return this.$store.getters.areaSelected;
     }
+  },
+  created() {
+    this.interval = setInterval(() => this.$store.dispatch("loadAreas"), 15 * 1000);
+  },
+  beforeDestroy: function() {
+    clearInterval(this.interval);
   }
 };
 </script>
