@@ -53,6 +53,20 @@ export default {
     selectedDeleteArea: null,
     interval: null
   }),
+  computed: {
+    areas() {
+      return this.$store.getters.areas;
+    },
+    areaSelected() {
+      return this.$store.getters.areaSelected;
+    }
+  },
+  beforeDestroy: function() {
+    clearInterval(this.interval);
+  },
+  created() {
+    this.interval = setInterval(() => this.$store.dispatch("loadAreas"), 15 * 1000);
+  },
   methods: {
     select(area) {
       if (!this.adding) {
@@ -80,20 +94,6 @@ export default {
     onDeleteYes() {
       this.$store.dispatch("deleteArea", this.selectedDeleteArea);
     }
-  },
-  computed: {
-    areas() {
-      return this.$store.getters.areas;
-    },
-    areaSelected() {
-      return this.$store.getters.areaSelected;
-    }
-  },
-  created() {
-    this.interval = setInterval(() => this.$store.dispatch("loadAreas"), 15 * 1000);
-  },
-  beforeDestroy: function() {
-    clearInterval(this.interval);
   }
 };
 </script>

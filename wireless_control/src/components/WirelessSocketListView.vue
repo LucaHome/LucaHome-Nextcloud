@@ -55,10 +55,7 @@ export default {
             : wirelessSockets.filter(x => x.area === areaSelected.filter)
           : [];
 
-      this.$store.dispatch(
-        "selectWirelessSocket",
-        wirelessSocketsForArea.length === 0 ? null : wirelessSocketsForArea[0]
-      );
+      this.$store.dispatch("selectWirelessSocket",wirelessSocketsForArea.length === 0 ? null : wirelessSocketsForArea[0]);
 
       return wirelessSocketsForArea;
     },
@@ -70,20 +67,14 @@ export default {
     clearInterval(this.interval);
   },
   created() {
-    this.interval = setInterval(
-      () => this.$store.dispatch("loadWirelessSockets"),
-      15 * 1000
-    );
+    this.interval = setInterval(() => this.$store.dispatch("loadWirelessSockets"),15 * 1000);
   },
   methods: {
     select(wirelessSocket) {
       this.$store.dispatch("selectWirelessSocket", wirelessSocket);
     },
     addWirelessSocket() {
-      this.$store.dispatch(
-        "addWirelessSocket",
-        this.$store.getters.areaSelected.name
-      );
+      this.$store.dispatch("addWirelessSocket",this.$store.getters.areaSelected.name);
     },
     toggleState(wirelessSocket) {
       wirelessSocket.state = wirelessSocket.state === "1" ? "0" : "1";
