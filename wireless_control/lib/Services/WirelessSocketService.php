@@ -5,6 +5,7 @@ namespace OCA\WirelessControl\Services;
 use OCA\WirelessControl\Adapter\PiAdapter;
 use OCA\WirelessControl\Enums\ErrorCode;
 use OCA\WirelessControl\Entities\WirelessSocket;
+use OCA\WirelessControl\Repositories\PeriodicTaskRepository;
 use OCA\WirelessControl\Repositories\WirelessSocketRepository;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -32,6 +33,11 @@ class WirelessSocketService implements IWirelessSocketService {
 	private $wirelessSocketRepository;
 
 	/** 
+	 * @var PeriodicTaskRepository 
+	 * */
+	private $periodicTaskRepository;
+
+	/** 
 	 * @var ILogger 
 	 * */
 	private $logger;
@@ -41,13 +47,15 @@ class WirelessSocketService implements IWirelessSocketService {
 	 * @param string $appName
 	 * @param PiAdapter $piAdapter
 	 * @param WirelessSocketRepository $wirelessSocketRepository
+	 * @param PeriodicTaskRepository $periodicTaskRepository
 	 * @param ILogger $logger
 	 */
-	public function __construct(IConfig $settings, string $appName, PiAdapter $piAdapter, WirelessSocketRepository $wirelessSocketRepository, ILogger $logger) {
+	public function __construct(IConfig $settings, string $appName, PiAdapter $piAdapter, WirelessSocketRepository $wirelessSocketRepository, PeriodicTaskRepository $periodicTaskRepository, ILogger $logger) {
 		$this->settings = $settings;
 		$this->appName = $appName;
 		$this->piAdapter = $piAdapter;
 		$this->wirelessSocketRepository = $wirelessSocketRepository;
+		$this->periodicTaskRepository = $periodicTaskRepository;
 		$this->logger = $logger;
     }
     
@@ -100,6 +108,17 @@ class WirelessSocketService implements IWirelessSocketService {
 	 */
 	public function delete(int $id) {
 		$this->logger->info('WirelessSocketService: Delete: '.$id, ['app' => $this->appName]);
-        return $this->wirelessSocketRepository->delete($id);
+
+		$wirelessSocketToBeDeleted = $this->wirelessSocketRepository->getById($id);
+		if ($wirelessSocketToBeDeleted === NULL) {
+			return ErrorCode::WirelessSocketDoesNotExist;
+		}
+
+		$wirelessSocketDeleteResult = $this->wirelessSocketRepository->delete($wirelessSocketToBeDeleted['id']);
+		if ($wirelessSocketDeleteResult !== 0) {
+			return $wirelessSocketDeleteResult;
+		}
+
+		return $this->periodicTaskRepository->deleteByWirelessSocketId($wirelessSocketToBeDeleted['id']);
     }
 }

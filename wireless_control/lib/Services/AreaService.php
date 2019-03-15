@@ -5,6 +5,7 @@ namespace OCA\WirelessControl\Services;
 use OCA\WirelessControl\Enums\ErrorCode;
 use OCA\WirelessControl\Entities\Area;
 use OCA\WirelessControl\Repositories\AreaRepository;
+use OCA\WirelessControl\Repositories\PeriodicTaskRepository;
 use OCA\WirelessControl\Repositories\WirelessSocketRepository;
 use OCP\ILogger;
 
@@ -26,6 +27,11 @@ class AreaService implements IAreaService {
 	private $wirelessSocketRepository;
 
 	/** 
+	 * @var PeriodicTaskRepository 
+	 * */
+	private $periodicTaskRepository;
+
+	/** 
 	 * @var ILogger 
 	 * */
 	private $logger;
@@ -34,12 +40,14 @@ class AreaService implements IAreaService {
 	 * @param string $appName
 	 * @param AreaRepository $areaRepository
 	 * @param WirelessSocketRepository $wirelessSocketRepository
+	 * @param PeriodicTaskRepository $periodicTaskRepository
 	 * @param ILogger $logger
 	 */
-	public function __construct(string $appName, AreaRepository $areaRepository, WirelessSocketRepository $wirelessSocketRepository, ILogger $logger) {
+	public function __construct(string $appName, AreaRepository $areaRepository, WirelessSocketRepository $wirelessSocketRepository, PeriodicTaskRepository $periodicTaskRepository, ILogger $logger) {
 		$this->appName = $appName;
 		$this->areaRepository = $areaRepository;
 		$this->wirelessSocketRepository = $wirelessSocketRepository;
+		$this->periodicTaskRepository = $periodicTaskRepository;
 		$this->logger = $logger;
     }
     
@@ -100,6 +108,16 @@ class AreaService implements IAreaService {
 			return $areaDeleteResult;
 		}
 
-		return $this->wirelessSocketRepository->deleteByArea($areaToBeDeleted['name']);
+		$wirelessSocketsToBeDeleted = $this->wirelessSocketRepository->getByArea($areaToBeDeleted['name']);
+		$wirelessSocketsDeleteResult =  $this->wirelessSocketRepository->deleteByArea($areaToBeDeleted['name']);
+		if ($wirelessSocketsDeleteResult !== 0) {
+			return $wirelessSocketsDeleteResult;
+		}
+
+		for ($index = 0; $index < sizeof($wirelessSocketsToBeDeleted); $index++) {
+			$this->periodicTaskRepository->deleteByWirelessSocketId($wirelessSocketsToBeDeleted[$index]['id']);
+		} 
+		
+		return ErrorCode::NoError;
     }
 }

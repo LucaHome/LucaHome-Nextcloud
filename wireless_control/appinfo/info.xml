@@ -5,7 +5,7 @@
     <name>Wireless Control</name>
     <summary>Wireless Control lets you control 433MHz sockets within Nextcloud while running on a raspberry</summary>
     <description><![CDATA[Wireless Control lets you control 433MHz sockets within Nextcloud while running on a raspberry]]></description>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <licence>MIT</licence>
     <author mail="guepardoapps@gmail.com" homepage="https://guepardoapps.github.io">Jonas Schubert</author>
     <namespace>WirelessControl</namespace>
@@ -16,4 +16,7 @@
     <dependencies>
         <nextcloud min-version="14" max-version="16"/>
     </dependencies>
+    <background-jobs>
+        <job>OCA\WirelessControl\Cron\PeriodicTask</job>
+</background-jobs>
 </info>

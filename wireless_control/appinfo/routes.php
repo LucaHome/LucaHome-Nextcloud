@@ -18,7 +18,9 @@ return [
         'area' => ['url' => '/area'],
         'area_api' => ['url' => '/api/v1/area'],
         'wireless_socket' => ['url' => '/wireless_socket'],
-        'wireless_socket_api' => ['url' => '/api/v1/wireless_socket']
+        'wireless_socket_api' => ['url' => '/api/v1/wireless_socket'],
+        'periodic_task' => ['url' => '/periodic_task'],
+        'periodic_task_api' => ['url' => '/api/v1/periodic_task']
     ],
     'routes' => [
 		['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
@@ -28,6 +30,7 @@ return [
 		
         ['name' => 'ping_api#preflighted_cors', 'url' => '/api/v1/ping/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
         ['name' => 'area_api#preflighted_cors', 'url' => '/api/v1/area/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
-        ['name' => 'wireless_socket_api#preflighted_cors', 'url' => '/api/v1/wireless_socket/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']]
+        ['name' => 'wireless_socket_api#preflighted_cors', 'url' => '/api/v1/wireless_socket/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']],
+        ['name' => 'periodic_task_api#preflighted_cors', 'url' => '/api/v1/periodic_task/{path}', 'verb' => 'OPTIONS', 'requirements' => ['path' => '.+']]
     ]
 ];

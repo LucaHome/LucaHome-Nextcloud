@@ -71,6 +71,23 @@ class WirelessSocketRepository implements IWirelessSocketRepository {
     }
 
 	/**
+	 * @brief returns all wireless sockets for an area
+	 * @param string area Get WirelessSockets by this area
+	 * @return array WirelessSocket for area
+	 */
+    public function getByArea(string $area) {
+		$this->logger->info('WirelessSocketRepository: GetByArea: '.$area, ['app' => $this->appName]);
+
+        $qb = $this->db->getQueryBuilder();
+        $qb
+            ->select('*')
+            ->from('wireless_control_sockets')
+			->where($qb->expr()->eq('area', $qb->createNamedParameter($area)));
+        $wirelessSockets = $qb->execute()->fetchAll();
+		return $wirelessSockets;
+    }
+
+	/**
 	 * Add a WirelessSocket
 	 * @param WirelessSocket wirelessSocket
 	 * @return ErrorCode Success or failure of action

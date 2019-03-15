@@ -17,6 +17,12 @@ interface IWirelessSocketRepository {
 	 * @return WirelessSocket WirelessSocket
 	 */
 	public function getById(int $id);
+    
+	/**
+	 * @param string area Get WirelessSockets by this area
+	 * @return array WirelessSocket for area
+	 */
+	public function getByArea(string $area);
 
 	/**
 	 * @param WirelessSocket wirelessSocket

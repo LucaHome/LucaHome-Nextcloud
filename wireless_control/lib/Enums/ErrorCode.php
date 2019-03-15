@@ -36,4 +36,17 @@ abstract class ErrorCode {
     const AreaDbUpdateError = -305;
     const AreaDoesNotExist = -306;
     const AreaDbAddError = -307;
+
+    const PeriodicTaskNameAlreadyInUse = -400;
+    const PeriodicTaskNameTooLong = -401;
+    const PeriodicTaskInvalidWirelessSocketId = -402;
+    const PeriodicTaskInvalidWirelessSocketState = -403;
+    const PeriodicTaskInvalidWeekday = -404;
+    const PeriodicTaskInvalidHour = -405;
+    const PeriodicTaskInvalidMinute = -406;
+    const PeriodicTaskInvalidPeriodic = -407;
+    const PeriodicTaskInvalidActive = -408;
+    const PeriodicTaskDbAddError = -409;
+    const PeriodicTaskDbUpdateError = -410;
+    const PeriodicTaskDoesNotExist = -411;
 }
