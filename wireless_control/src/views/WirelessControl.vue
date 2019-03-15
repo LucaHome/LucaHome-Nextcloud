@@ -43,6 +43,7 @@ export default {
   beforeMount() {
     this.$store.dispatch("loadAreas");
     this.$store.dispatch("loadWirelessSockets");
+    this.$store.dispatch("loadPeriodicTasks");
   }
 };
 </script>
