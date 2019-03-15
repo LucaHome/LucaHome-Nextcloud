@@ -135,6 +135,7 @@ const actions = {
 
         var periodicTask = {
             id: this.getters.periodicTasks.length > 0 ? Math.max(...this.getters.periodicTasks.map(x => x.id)) + 1 : 0,
+            name: '',
             wirelessSocketId: wirelessSocket.id,
             wirelessSocketState: 1,
             weekday: weekday,
