@@ -7,6 +7,7 @@
     <template slot="content">
       <WirelessSocketListView class="wireless-socket-list-view" />
       <WirelessSocketDetailView class="detail-view" />
+      <PeriodicTaskListView class="periodic-task-list-view" v-if="showPeriodicTasks" />
     </template>
   </app-content>
 </template>
@@ -14,19 +15,27 @@
 <script>
 import { AppContent } from "nextcloud-vue";
 import AreaListView from "../components/AreaListView.vue";
+import PeriodicTaskListView from "../components/PeriodicTaskListView.vue";
 import WirelessSocketDetailView from "../components/WirelessSocketDetailView.vue";
 import WirelessSocketListView from "../components/WirelessSocketListView.vue";
 
 export default {
   name: "WirelessControl",
 
+  data: () => ({
+    showPeriodicTasks: false
+  }),
+
   components: {
     AppContent,
     AreaListView,
+    PeriodicTaskListView,
     WirelessSocketDetailView,
     WirelessSocketListView
   },
 
+  // TODO: Check if we need that
+  /*
   // passed by the router
   props: {
     selectedArea: {
@@ -39,6 +48,7 @@ export default {
       default: undefined
     }
   },
+  */
 
   beforeMount() {
     this.$store.dispatch("loadAreas");

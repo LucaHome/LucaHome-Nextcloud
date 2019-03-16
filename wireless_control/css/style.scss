@@ -37,6 +37,19 @@ body {
 	margin-left: 20.5rem;
 }
 
+.periodic-task-list-view {
+	position: absolute;
+	min-width: 20rem;
+	width: 20rem;
+	max-width: 20rem;
+	height: calc(100vh - 3.5rem);
+	background-color: rgb(66, 66, 66);
+	border: 0.0625rem solid rgba(#000, 0.12);
+	/* TODO 
+	margin-left: 20.5rem;
+	*/
+}
+
 .selected {
 	background-color: dimgrey;
 	cursor: default;

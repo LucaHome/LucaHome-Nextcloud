@@ -125,26 +125,10 @@ const actions = {
      * Adds a periodicTask
      *
      * @param {Object} commit The store mutations
-     * @param {Object} wirelessSocket The wirelessSocket to handle in the periodicTask
+     * @param {Object} periodicTask The selected periodicTask
      * @returns {Promise}
      */
-    addPeriodicTask({commit}, wirelessSocket) {
-        var now = new Date();
-        // The php server side counts from 1 - Monday to 7 - Sunday
-        var weekday = now.getDay() === 0 ? 7 : now.getDay();
-
-        var periodicTask = {
-            id: this.getters.periodicTasks.length > 0 ? Math.max(...this.getters.periodicTasks.map(x => x.id)) + 1 : 0,
-            name: '',
-            wirelessSocketId: wirelessSocket.id,
-            wirelessSocketState: 1,
-            weekday: weekday,
-            hour: now.getHours(),
-            minute: now.getMinutes(),
-            periodic: 1,
-            active: 0
-        };
-
+    addPeriodicTask({commit}, periodicTask) {
         return new Promise(function (resolve) {
             Requests.post('periodicTask', periodicTask)
                 .then(response => {
