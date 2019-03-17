@@ -74,6 +74,13 @@
 
         <md-card-actions>
           <md-button
+            class="md-primary"
+            @click="showPeriodicTasks()"
+          >Periodic Tasks</md-button>
+        </md-card-actions>
+
+        <md-card-actions>
+          <md-button
             type="submit"
             class="md-primary"
             :disabled="sending || !hasChanges()"
@@ -210,6 +217,9 @@ export default {
         this.form.description !== this.wirelessSocketSelected.description ||
         this.form.icon !== this.wirelessSocketSelected.icon
       );
+    },
+    showPeriodicTasks() {
+      this.$emit('showPeriodicTasks');
     }
   },
   watch: {
