@@ -20,4 +20,5 @@ These are Todos for the Website, written in JS using Vue.js, Vue-Material and Ne
             - [ ] edit button opens a dialog to edit the properties
             - [X] delete button asks for deletion of periodic tasks
         - [ ] additional add button ✔ in material action button design (see other add buttons) at the bottom of the sidenav (opens a dialog to edit the properties)
+- [ ] Clean up
 - [ ] ...
