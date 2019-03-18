@@ -1,5 +1,9 @@
 <template>
   <div>
+    <md-button class="md-icon-button md-raised close-button md-primary" @click="closePeriodicTaskListView()">
+      <md-icon>close</md-icon>
+    </md-button>
+
     <md-list class="md-triple-line">
       <div v-for="(periodicTask, index) in periodicTasksForArea" :key="index">
         <md-list-item
@@ -91,7 +95,6 @@ export default {
     select(periodicTask) {
       this.$store.dispatch("selectPeriodicTask", periodicTask);
     },
-
     addPeriodicTask() {
       var now = new Date();
       var periodicTasks = this.$store.getters.periodicTasks;
@@ -112,18 +115,19 @@ export default {
       this.$store.dispatch("selectPeriodicTask", periodicTask);
       this.addEditPeriodicTaskDialogActive = true;
     },
-
     editPeriodicTask(periodicTask) {
       this.$store.dispatch("selectPeriodicTask", periodicTask);
       this.addEditPeriodicTaskDialogActive = true;
     },
-
     deletePeriodicTask(periodicTask) {
       this.$store.dispatch("selectPeriodicTask", periodicTask);
       this.deletePeriodicTaskDialogActive = true;
     },
     onDeleteYes() {
       this.$store.dispatch("deletePeriodicTask", this.$store.getters.periodicTaskSelected);
+    },
+    closePeriodicTaskListView() {
+      this.$emit('closePeriodicTaskListView');
     }
   }
 };
