@@ -99,7 +99,7 @@ const actions = {
                         });
                     } else {
                         commit('setWirelessSockets', {
-                            wirelessSockets: response.data
+                            wirelessSockets: !!response.data ? response.data : []
                         });
                     }
 

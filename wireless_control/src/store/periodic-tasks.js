@@ -99,7 +99,7 @@ const actions = {
                         });
                     } else {
                         commit('setPeriodicTasks', {
-                            periodicTasks: response.data
+                            periodicTasks: !!response.data ? response.data : []
                         });
                     }
                     

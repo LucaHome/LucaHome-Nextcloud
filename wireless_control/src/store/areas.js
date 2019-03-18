@@ -99,7 +99,7 @@ const actions = {
                         });
                     } else {
                         commit('setAreas', {
-                            areas: response.data
+                            areas: !!response.data ? response.data : []
                         });
                     }
                     
