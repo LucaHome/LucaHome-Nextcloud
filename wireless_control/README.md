@@ -5,6 +5,7 @@
 ![alt tag](../screenshots/wireless_control_page.jpg)
 ![alt tag](../screenshots/wireless_control_delete_dialog.jpg)
 ![alt tag](../screenshots/area_delete_dialog.jpg)
+![alt tag](../screenshots/periodic_task_edit_dialog.jpg)
 
 Place this app in **nextcloud/apps/**
 
