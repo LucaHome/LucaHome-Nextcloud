@@ -1,6 +1,6 @@
 <template>
     <form novalidate class="md-layout" style="margin: 1rem;" @submit.prevent="validate">
-      <md-card class="md-layout-item md-size-95 md-small-size-100">
+      <md-card class="md-layout-item md-size-100 md-small-size-100">
         <md-card-header>
           <div class="md-title">Edit Periodic Task</div>
         </md-card-header>
@@ -138,6 +138,7 @@ export default {
     },
     save() {
       this.sending = true;
+
       var periodicTask = {
         id: this.periodicTaskSelected.id,
         name: this.form.name,
@@ -188,14 +189,14 @@ export default {
     },
     hasChanges() {
       return (
-        this.form.name !== this.periodicTask.name ||
-        this.form.wirelessSocketId !== this.periodicTask.wirelessSocketId ||
-        this.form.wirelessSocketState !== this.periodicTask.wirelessSocketState ||
-        this.form.weekday !== this.periodicTask.weekday ||
-        this.form.hour !== this.periodicTask.hour ||
-        this.form.minute !== this.periodicTask.minute ||
-        this.form.periodic !== this.periodicTask.periodic ||
-        this.form.active !== this.periodicTask.active
+        this.form.name !== this.periodicTaskSelected.name ||
+        this.form.wirelessSocketId !== this.periodicTaskSelected.wirelessSocketId ||
+        this.form.wirelessSocketState !== this.periodicTaskSelected.wirelessSocketState ||
+        this.form.weekday !== this.periodicTaskSelected.weekday ||
+        this.form.hour !== this.periodicTaskSelected.hour ||
+        this.form.minute !== this.periodicTaskSelected.minute ||
+        this.form.periodic !== this.periodicTaskSelected.periodic ||
+        this.form.active !== this.periodicTaskSelected.active
       );
     }
   },
