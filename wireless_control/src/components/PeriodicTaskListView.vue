@@ -35,23 +35,9 @@
       <md-icon>add</md-icon>
     </md-button>
 
-    <md-dialog-confirm
-      :md-active.sync="addPeriodicTaskDialogActive"
-      md-title="Add new periodic task"
-      md-content="<div>TODO: Add form here</div>"
-      md-confirm-text="Save"
-      md-cancel-text="Cancel"
-      @md-confirm="onAddSave({}/* TODO */)"
-    />
-
-    <md-dialog-confirm
-      :md-active.sync="editPeriodicTaskDialogActive"
-      md-title="Edit periodic task"
-      md-content="<div>TODO: Add form here</div>"
-      md-confirm-text="Update"
-      md-cancel-text="Cancel"
-      @md-confirm="onEditSave({}/* TODO */)"
-    />
+    <md-dialog :md-active.sync="addEditPeriodicTaskDialogActive">
+      <PeriodicTaskEditDialogView  v-on:closePeriodicTaskDialog="addEditPeriodicTaskDialogActive = false"/>
+    </md-dialog>
 
     <md-dialog-confirm
       :md-active.sync="deletePeriodicTaskDialogActive"
@@ -65,14 +51,18 @@
 </template>
 
 <script>
+import PeriodicTaskEditDialogView from "./PeriodicTaskEditDialogView.vue";
+
 export default {
   name: "PeriodicTaskListView",
   data: () => ({
-    addPeriodicTaskDialogActive: false,
-    editPeriodicTaskDialogActive: false,
+    addEditPeriodicTaskDialogActive: false,
     deletePeriodicTaskDialogActive: false,
     interval: null
   }),
+  components: {
+    PeriodicTaskEditDialogView
+  },
   computed: {
     periodicTasksForArea() {
       var periodicTasks = this.$store.getters.periodicTasks;
@@ -120,18 +110,12 @@ export default {
         active: 0
       };
       this.$store.dispatch("selectPeriodicTask", periodicTask);
-      this.addPeriodicTaskDialogActive = true;
-    },
-    onAddSave(periodicTask) {
-      this.$store.dispatch("addPeriodicTask", periodicTask);
+      this.addEditPeriodicTaskDialogActive = true;
     },
 
     editPeriodicTask(periodicTask) {
       this.$store.dispatch("selectPeriodicTask", periodicTask);
-      this.editPeriodicTaskDialogActive = true;
-    },
-    onEditSave(periodicTask) {
-      this.$store.dispatch("updatePeriodicTask", periodicTask);
+      this.addEditPeriodicTaskDialogActive = true;
     },
 
     deletePeriodicTask(periodicTask) {
