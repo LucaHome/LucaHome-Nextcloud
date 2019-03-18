@@ -6,8 +6,8 @@
 
     <template slot="content">
       <WirelessSocketListView class="wireless-socket-list-view" />
-      <WirelessSocketDetailView class="detail-view" v-on:showPeriodicTasks="showPeriodicTasks = true"/>
-      <PeriodicTaskListView class="periodic-task-list-view" v-if="showPeriodicTasks" />
+      <WirelessSocketDetailView class="detail-view" v-on:showPeriodicTasks="showPeriodicTasks = true" />
+      <PeriodicTaskListView class="periodic-task-list-view" v-if="showPeriodicTasks" v-on:closePeriodicTaskListView="showPeriodicTasks = false" />
     </template>
   </app-content>
 </template>
