@@ -45,7 +45,8 @@ body {
 	height: calc(100vh - 3.5rem);
 	background-color: rgb(66, 66, 66);
 	border: 0.0625rem solid rgba(#000, 0.12);
-	right: 0;
+	right: 0.01rem;
+	z-index: 1002;
 }
 
 .selected {
@@ -59,8 +60,14 @@ body {
 
 .add-button {
 	position: absolute !important;
-	left: 14.5rem;
+	left: 15rem;
 	bottom: 1rem;
+}
+
+.close-button {
+	position: absolute !important;
+	right: 1rem;
+	top: 1rem;
 }
 
 .save-button {
