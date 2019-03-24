@@ -182,12 +182,12 @@ export default {
       } else {
         this.form.name = null;
         this.form.wirelessSocketId = null;
-        this.form.wirelessSocketState = null;
-        this.form.weekday = null;
-        this.form.hour = null;
-        this.form.minute = null;
-        this.form.periodic = null;
-        this.form.active = null;
+        this.form.wirelessSocketState = false;
+        this.form.weekday = 1;
+        this.form.hour = 0;
+        this.form.minute = 0;
+        this.form.periodic = false;
+        this.form.active = false;
       }
     },
     hasChanges() {
@@ -210,12 +210,16 @@ export default {
   },
   created() {
     this.$store.dispatch("setPeriodicTaskInEdit", true);
+    
     if(!!this.$store.getters.periodicTaskSelected)  {
+      this.modeAdd = this.$store.getters.periodicTaskSelected.name ===  '';
       this.setFormData(this.$store.getters.periodicTaskSelected);
     } else {
       var now = new Date();
       var periodicTasks = this.$store.getters.periodicTasks;
       var wirelessSocket = this.$store.getters.wirelessSocketSelected;
+
+      this.modeAdd = true;
       
       var periodicTask = {
         id: periodicTasks.length > 0 ? Math.max(...periodicTasks.map(x => x.id)) + 1 : 0,
