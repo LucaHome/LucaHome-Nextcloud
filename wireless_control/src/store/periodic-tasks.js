@@ -38,7 +38,7 @@ const mutations = {
     setPeriodicTasks(state, payload) {
         state.periodicTasks = payload.periodicTasks;
         if(!state.periodicTaskInEdit && (!state.periodicTaskSelected || state.periodicTasks.filter(x => x.id == state.periodicTaskSelected.id).length === 0)) {
-            state.periodicTaskSelected = state.periodicTasks[0];
+            state.periodicTaskSelected = state.periodicTasks.length > 0 ? state.periodicTasks[0] : null;
         }
     },
 

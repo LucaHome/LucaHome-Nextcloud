@@ -94,3 +94,16 @@ body {
 .md-item-min-width-75{
 	min-width: 75%;
 }
+
+.periodic-task-button-edit{
+	left: 1rem;
+	position: relative !important;
+	top: 1.25rem;
+}
+
+.periodic-task-button-delete{
+	right: -1rem;
+	position: relative;
+	background-color: red;
+	top: 1.25rem;
+}

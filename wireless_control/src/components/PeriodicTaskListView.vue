@@ -7,26 +7,25 @@
     <md-list class="md-triple-line">
       <div v-for="(periodicTask, index) in periodicTasksForArea" :key="index">
         <md-list-item
-          @click="select(periodicTask)"
           :class="{selected: periodicTask.id === periodicTaskSelected.id, selectable: periodicTask.id !== periodicTaskSelected.id}"
         >
-          <md-avatar>
+          <md-avatar @click="select(periodicTask)">
             <md-icon v-if="!!periodicTask.active">timer</md-icon>
             <md-icon v-else>timer_off</md-icon>
           </md-avatar>
 
-          <div class="md-list-item-text">
+          <div class="md-list-item-text" @click="select(periodicTask)">
             <span>{{ periodicTask.name }}</span>
             <span>{{ periodicTask.weekday }}, {{ periodicTask.hour }}:{{ periodicTask.minute }}</span>
             <p>State: {{ periodicTask.wirelessSocketState }}</p>
             <p>Periodic: {{ periodicTask.periodic }}</p>
           </div>
           
-          <md-button class="md-icon-button md-raised add-button md-primary" @click="editPeriodicTask(periodicTask)">
+          <md-button class="md-icon-button md-raised add-button md-primary periodic-task-button-edit" @click="editPeriodicTask(periodicTask)">
             <md-icon>edit</md-icon>
           </md-button>
 
-          <md-button class="md-icon-button md-raised delete-button md-primary" @click="deletePeriodicTask(periodicTask)">
+          <md-button class="md-icon-button md-raised delete-button md-primary periodic-task-button-delete" @click="deletePeriodicTask(periodicTask)">
             <md-icon>delete</md-icon>
           </md-button>
         </md-list-item>
@@ -68,15 +67,19 @@ export default {
   },
   computed: {
     periodicTasksForArea() {
+      var periodicTaskInEdit = this.$store.getters.periodicTaskInEdit;
       var periodicTasks = this.$store.getters.periodicTasks;
+      var periodicTaskSelected = this.$store.getters.periodicTaskSelected;
       var wirelessSocketSelected = this.$store.getters.wirelessSocketSelected;
 
-      var periodicTasksForArea =
+      var periodicTasksForWirelessSocket =
         wirelessSocketSelected !== null
           ? periodicTasks.filter(x => x.wirelessSocketId === wirelessSocketSelected.id)
           : [];
 
-      this.select(periodicTasksForArea.length === 0 ? null : periodicTasksForArea[0]);
+      if(!periodicTaskInEdit && (!periodicTaskSelected || periodicTasksForWirelessSocket.filter(x => x.id == periodicTaskSelected.id).length === 0)) {
+        this.select(periodicTasksForArea.length === 0 ? null : periodicTasksForArea[0]);
+      }
 
       return periodicTasksForArea;
     },
@@ -97,13 +100,13 @@ export default {
         id: periodicTasks.length > 0 ? Math.max(...periodicTasks.map(x => x.id)) + 1 : 0,
         name: '',
         wirelessSocketId: wirelessSocket.id,
-        wirelessSocketState: 1,
+        wirelessSocketState: true,
         // The php server side counts from 1 - Monday to 7 - Sunday
         weekday: now.getDay() === 0 ? 7 : now.getDay(),
         hour: now.getHours(),
         minute: now.getMinutes(),
-        periodic: 1,
-        active: 1
+        periodic: true,
+        active: true
       };
       this.$store.dispatch("selectPeriodicTask", periodicTask);
       this.addEditPeriodicTaskDialogActive = true;
