@@ -8,15 +8,27 @@ Vue.use(Vuex)
 
 const state = {
     areas: [],
-    areaSelected: null
+    areaSelected: null,
+    areaInEdit: false
 }
 
 const getters = {
     areas: state => state.areas,
-    areaSelected: state => state.areaSelected
+    areaSelected: state => state.areaSelected,
+    areaInEdit: state => state.areaInEdit
 }
 
 const mutations = {
+    /**
+     * Stores flag for areaInEdit in the state
+     *
+     * @param {Object} state The store data
+     * @param {Object} payload The collections payload
+     */
+    setAreaInEdit(state, payload) {
+        state.areaInEdit = payload.areaInEdit;
+    },
+
     /**
      * Stores all available areas in the state
      *
@@ -25,7 +37,7 @@ const mutations = {
      */
     setAreas(state, payload) {
         state.areas = payload.areas;
-        if(!state.areaSelected || state.areas.filter(x => x.id == state.areaSelected.id).length === 0){
+        if(!state.areaInEdit && (!state.areaSelected || state.areas.filter(x => x.id == state.areaSelected.id).length === 0)) {
             state.areaSelected = state.areas[0];
         }
     },
@@ -81,6 +93,19 @@ const mutations = {
 }
 
 const actions = {
+    /**
+     * Set areaInEdit
+     *
+     * @param {Object} commit The store mutations
+     * @param {Object} areaInEdit The areaInEdit
+     * @returns {Promise}
+     */
+    setAreaInEdit({ commit }, areaInEdit) {
+        commit('setAreaInEdit', {
+            areaInEdit: areaInEdit
+        });
+    },
+
     /**
      * Requests all areas from the server
      *

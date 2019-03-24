@@ -8,15 +8,27 @@ Vue.use(Vuex)
 
 const state = {
     periodicTasks: [],
-    periodicTaskSelected: null
+    periodicTaskSelected: null,
+    periodicTaskInEdit: false
 }
 
 const getters = {
     periodicTasks: state => state.periodicTasks,
-    periodicTaskSelected: state => state.periodicTaskSelected
+    periodicTaskSelected: state => state.periodicTaskSelected,
+    periodicTaskInEdit: state => state.periodicTaskInEdit
 }
 
 const mutations = {
+    /**
+     * Stores flag for periodicTaskInEdit in the state
+     *
+     * @param {Object} state The store data
+     * @param {Object} payload The collections payload
+     */
+    setPeriodicTaskInEdit(state, payload) {
+        state.periodicTaskInEdit = payload.periodicTaskInEdit;
+    },
+
     /**
      * Stores all available periodicTasks in the state
      *
@@ -25,7 +37,7 @@ const mutations = {
      */
     setPeriodicTasks(state, payload) {
         state.periodicTasks = payload.periodicTasks;
-        if(!state.periodicTaskSelected || state.periodicTasks.filter(x => x.id == state.periodicTaskSelected.id).length === 0){
+        if(!state.periodicTaskInEdit && (!state.periodicTaskSelected || state.periodicTasks.filter(x => x.id == state.periodicTaskSelected.id).length === 0)) {
             state.periodicTaskSelected = state.periodicTasks[0];
         }
     },
@@ -81,6 +93,19 @@ const mutations = {
 }
 
 const actions = {
+    /**
+     * Set periodicTaskInEdit
+     *
+     * @param {Object} commit The store mutations
+     * @param {Object} periodicTaskInEdit The periodicTaskInEdit
+     * @returns {Promise}
+     */
+    setPeriodicTaskInEdit({ commit }, periodicTaskInEdit) {
+        commit('setPeriodicTaskInEdit', {
+            periodicTaskInEdit: periodicTaskInEdit
+        });
+    },
+
     /**
      * Requests all periodicTasks from the server
      *

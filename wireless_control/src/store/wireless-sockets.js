@@ -8,15 +8,27 @@ Vue.use(Vuex)
 
 const state = {
     wirelessSockets: [],
-    wirelessSocketSelected: null
+    wirelessSocketSelected: null,
+    wirelessSocketInEdit: false
 }
 
 const getters = {
     wirelessSockets: state => state.wirelessSockets,
-    wirelessSocketSelected: state => state.wirelessSocketSelected
+    wirelessSocketSelected: state => state.wirelessSocketSelected,
+    wirelessSocketInEdit: state => state.wirelessSocketInEdit
 }
 
 const mutations = {
+    /**
+     * Stores flag for wirelessSocketInEdit in the state
+     *
+     * @param {Object} state The store data
+     * @param {Object} payload The collections payload
+     */
+    setWirelessSocketInEdit(state, payload) {
+        state.wirelessSocketInEdit = payload.wirelessSocketInEdit;
+    },
+
     /**
      * Stores all available wireless sockets in the state
      *
@@ -25,7 +37,7 @@ const mutations = {
      */
     setWirelessSockets(state, payload) {
         state.wirelessSockets = payload.wirelessSockets;
-        if(!state.wirelessSocketSelected || state.wirelessSockets.filter(x => x.id == state.wirelessSocketSelected.id).length === 0){
+        if(!state.wirelessSocketInEdit && (!state.wirelessSocketSelected || state.wirelessSockets.filter(x => x.id == state.wirelessSocketSelected.id).length === 0)) {
             state.wirelessSocketSelected = state.wirelessSockets.length > 0 ? state.wirelessSockets[0] : null;
         }
     },
@@ -81,6 +93,19 @@ const mutations = {
 }
 
 const actions = {
+    /**
+     * Set wirelessSocketInEdit
+     *
+     * @param {Object} commit The store mutations
+     * @param {Object} wirelessSocketInEdit The wirelessSocketInEdit
+     * @returns {Promise}
+     */
+    setWirelessSocketInEdit({ commit }, wirelessSocketInEdit) {
+        commit('setWirelessSocketInEdit', {
+            wirelessSocketInEdit: wirelessSocketInEdit
+        });
+    },
+
     /**
      * Requests all wireless sockets from the server
      *

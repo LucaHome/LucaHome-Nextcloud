@@ -134,6 +134,7 @@ export default {
       }
     },
     close() {
+      this.$store.dispatch("setPeriodicTaskInEdit", false);
       this.$emit('closePeriodicTaskDialog');
     },
     save() {
@@ -156,6 +157,8 @@ export default {
       } else {
         this.$store.dispatch("updatePeriodicTask", periodicTask);
       }
+
+      this.$store.dispatch("setPeriodicTaskInEdit", false);
 
       this.sending = false;
       this.close();
@@ -206,6 +209,7 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch("setPeriodicTaskInEdit", true);
     this.setFormData(this.$store.getters.periodicTaskSelected);
   },
   computed: {
