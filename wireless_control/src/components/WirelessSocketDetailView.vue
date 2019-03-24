@@ -210,13 +210,17 @@ export default {
       }
     },
     hasChanges() {
-      return (
+      const hasChanges = (
         this.form.name !== this.wirelessSocketSelected.name ||
         this.form.code !== this.wirelessSocketSelected.code ||
         this.form.area !== this.wirelessSocketSelected.area ||
         this.form.description !== this.wirelessSocketSelected.description ||
         this.form.icon !== this.wirelessSocketSelected.icon
       );
+
+      this.$store.dispatch("setWirelessSocketInEdit", hasChanges);
+
+      return hasChanges;
     },
     showPeriodicTasks() {
       this.$emit('showPeriodicTasks');
