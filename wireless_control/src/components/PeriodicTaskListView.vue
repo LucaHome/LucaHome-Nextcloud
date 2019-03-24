@@ -5,7 +5,7 @@
     </md-button>
 
     <md-list class="md-triple-line">
-      <div v-for="(periodicTask, index) in periodicTasksForArea" :key="index">
+      <div v-for="(periodicTask, index) in periodicTasksForWirelessSocket" :key="index">
         <md-list-item
           :class="{selected: periodicTask.id === periodicTaskSelected.id, selectable: periodicTask.id !== periodicTaskSelected.id}"
         >
@@ -66,7 +66,7 @@ export default {
     PeriodicTaskEditDialogView
   },
   computed: {
-    periodicTasksForArea() {
+    periodicTasksForWirelessSocket() {
       var periodicTaskInEdit = this.$store.getters.periodicTaskInEdit;
       var periodicTasks = this.$store.getters.periodicTasks;
       var periodicTaskSelected = this.$store.getters.periodicTaskSelected;
@@ -78,10 +78,10 @@ export default {
           : [];
 
       if(!periodicTaskInEdit && (!periodicTaskSelected || periodicTasksForWirelessSocket.filter(x => x.id == periodicTaskSelected.id).length === 0)) {
-        this.select(periodicTasksForArea.length === 0 ? null : periodicTasksForArea[0]);
+        this.select(periodicTasksForWirelessSocket.length === 0 ? null : periodicTasksForWirelessSocket[0]);
       }
 
-      return periodicTasksForArea;
+      return periodicTasksForWirelessSocket;
     },
     periodicTaskSelected() {
       return this.$store.getters.periodicTaskSelected;
