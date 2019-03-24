@@ -6,6 +6,7 @@ These are Todos for the Server side, written in PHP
 
 - [X] Add possibility to create tasks setting wireless socket states automatically
     - [ ] Test It
+        - [ ] Fix background job
 - [ ] ...
 
 ## Website
@@ -23,6 +24,8 @@ These are Todos for the Website, written in JS using Vue.js, Vue-Material and Ne
         - [X additional add button ✔ in material action button design (see other add buttons) at the bottom of the sidenav (opens a dialog to edit the properties)
     - [ ] Test It
     - [ ] Fix Bugs
-        - [ ] Fix Bug: TypeError: "this.periodicTaskSelected is null" in PeriodicTaskEditDialogView.vue:190
+        - [X] Fix Bug: TypeError: "this.periodicTaskSelected is null" in PeriodicTaskEditDialogView.vue:190
+        - [ ] Fix Bug: TypeError: "this.periodicTaskSelected is null" in PeriodicTaskEditDialogView.vue:194
+            - [ ] Timing problem: 2nd time pressing add button is successful (previous selection is in state)
 - [ ] Clean up
 - [ ] ...
