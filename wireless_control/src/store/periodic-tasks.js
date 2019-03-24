@@ -89,7 +89,7 @@ const actions = {
      */
     loadPeriodicTasks({commit}) {
         return new Promise(function (resolve) {
-            Requests.get('periodicTask')
+            Requests.get('periodic_task')
                 .then(response => {
                     if(response.data === false){
                         // eslint-disable-next-line
@@ -130,7 +130,7 @@ const actions = {
      */
     addPeriodicTask({commit}, periodicTask) {
         return new Promise(function (resolve) {
-            Requests.post('periodicTask', periodicTask)
+            Requests.post('periodic_task', periodicTask)
                 .then(response => {
                     if(response.data === false){
                         // eslint-disable-next-line
@@ -161,7 +161,7 @@ const actions = {
      */
     updatePeriodicTask({commit}, periodicTask) {
         return new Promise(function (resolve) {
-            Requests.put('periodicTask', periodicTask)
+            Requests.put('periodic_task', periodicTask)
                 .then(response => {
                     if(response.data === false){
                         // eslint-disable-next-line
@@ -191,7 +191,7 @@ const actions = {
      */
     deletePeriodicTask({commit}, periodicTask) {
         return new Promise(function (resolve) {
-            Requests.delete('periodicTask', periodicTask.id)
+            Requests.delete('periodic_task', periodicTask.id)
                 .then(response => {
                     if(response.data === false){
                         // eslint-disable-next-line
