@@ -1,59 +1,91 @@
-# LucaHome-Nextcloud
-
-Different projects for LucaHome integration into Nextcloud.
+# WirelessControl-Nextcloud
 
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)
 
-[![Build](https://img.shields.io/badge/build-Successful-green.svg)](/wireless_control/js)
-[![Version](https://img.shields.io/badge/version-v1.2.3-blue.svg)](/)
+[![Build](https://img.shields.io/badge/build-Successful-green.svg)](/js)
+[![Version](https://img.shields.io/badge/version-v1.2.3-blue.svg)](/js)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 [![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
 [![PHP](https://img.shields.io/badge/lang-PHP-blue.svg)](http://php.net/)
 [![C++](https://img.shields.io/badge/lang-C++-blue.svg)](https://isocpp.org/)
 
-## Features
+* set states for 433MHz connected sockets
 
-* WirelessControl: set states for 433MHz connected sockets
+## Screenshots
 
 ![alt tag](/screenshots/wireless_control_page.jpg)
 ![alt tag](/screenshots/wireless_control_delete_dialog.jpg)
 ![alt tag](/screenshots/area_delete_dialog.jpg)
 ![alt tag](/screenshots/periodic_task_edit_dialog.jpg)
 
-* LogMyMeter: coming in future
-* SharedClipboard: coming in future
-* SharedMeal: coming in future
-* more to come ...
+Place this app in **nextcloud/apps/**
 
-## :busts_in_silhouette: Maintainers
+## Building the app
 
-[Jonas Schubert](https://github.com/GuepardoApps)
+The app can be built by using the provided Makefile by running:
 
-If you’d like to join, just go through the [issue list](https://github.com/LucaHome/LucaHome-Nextcloud/issues) and fix some.
+    make
 
-## :exclamation: Bugs
-Before reporting bugs:
+This requires the following things to be present:
+* make
+* which
+* tar: for building the archive
+* curl: used if phpunit and composer are not installed to fetch them from the web
+* npm: for building and testing everything JS, only required if a package.json is placed inside the **js/** folder
 
-* get the newest version of the apps
-* please consider also installing the [latest development version](https://github.com/LucaHome/LucaHome-Nextclou/archive/master.zip)
-* [check if they have already been reported](https://github.com/LucaHome/LucaHome-Nextcloud/issues)
+The make command will install or update Composer dependencies if a composer.json is present and also **npm run build** if a package.json is present in the **js/** folder. The npm **build** script should use local paths for build systems and package managers, so people that simply want to build the app won't need to install npm libraries globally, e.g.:
 
-## Developer setup info
-
-Just clone the projects of this repo into your apps directory (Nextcloud server installation needed). Additionally, [nodejs and npm](https://nodejs.org/en/download/package-manager/) are needed for installing JavaScript dependencies.
-
-Once node and npm are installed, PHP and JavaScript dependencies can be installed by running
-```bash
-$ make
+**package.json**:
+```json
+"scripts": {
+	"serve": "vue-cli-service serve",
+	"build_vue": "vue-cli-service build",
+	"dev": "webpack --config webpack.dev.js",
+	"watch": "webpack --progress --watch --config webpack.dev.js",
+	"build": "webpack --progress --hide-modules --config webpack.prod.js",
+	"lint": "eslint --ext .js,.vue src",
+	"lint:fix": "eslint --ext .js,.vue src --fix",
+	"stylelint": "stylelint src",
+	"stylelint:fix": "stylelint src --fix",
+	"test": "mocha-webpack --webpack-config webpack.test.js --interactive false --require tests/setup.js \"tests/js/**/*.spec.js\"",
+	"test:watch": "mocha-webpack -w --webpack-config webpack.test.js --interactive false --require tests/setup.js \"tests/js/**/*.spec.js\""
+}
 ```
-Please execute this command with your ordinary user account and neither root nor sudo.
+
+
+## Publish to App Store
+
+First get an account for the [App Store](http://apps.nextcloud.com/) then run:
+
+    make && make appstore
+
+The archive is located in build/artifacts/appstore and can then be uploaded to the App Store.
+
+## Running tests
+
+You can use the provided Makefile to run all tests by using:
+
+    make test
+
+This will run the PHP unit and integration tests and if a package.json is present in the **js/** folder will execute **npm run test**
+
+Of course you can also install [PHPUnit](http://phpunit.de/getting-started.html) and use the configurations directly:
+
+    phpunit -c phpunit.xml
+
+or:
+
+    phpunit -c phpunit.integration.xml
+
+for integration tests
+
 
 ## License
 
-LucaHome-Nextcloud is distributed under the MIT license. [See LICENSE](LICENSE.md) for details.
+WirelessControl-Nextcloud is distributed under the MIT license. [See LICENSE](LICENSE.md) for details.
 
 ```
 MIT License
