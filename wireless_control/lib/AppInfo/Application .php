@@ -30,7 +30,7 @@ class Application extends App {
 			$urlGenerator = $container->query(IURLGenerator::class);
 			return [
 				'id' => 'wirelesscontrol',
-				'order' => 10,
+				'order' => 6,
 				'href' => $urlGenerator->linkToRoute('wirelesscontrol.page.index'),
 				'icon' => $urlGenerator->imagePath('wirelesscontrol', 'app.svg'),
 				'name' => 'Wireless Control',
