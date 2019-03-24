@@ -61,8 +61,7 @@ export default {
   name: "PeriodicTaskListView",
   data: () => ({
     addEditPeriodicTaskDialogActive: false,
-    deletePeriodicTaskDialogActive: false,
-    interval: null
+    deletePeriodicTaskDialogActive: false
   }),
   components: {
     PeriodicTaskEditDialogView
@@ -85,12 +84,6 @@ export default {
       return this.$store.getters.periodicTaskSelected;
     }
   },
-  beforeDestroy: function() {
-    clearInterval(this.interval);
-  },
-  created() {
-    this.interval = setInterval(() => this.$store.dispatch("loadPeriodicTasks"), 15 * 1000);
-  },
   methods: {
     select(periodicTask) {
       this.$store.dispatch("selectPeriodicTask", periodicTask);
@@ -110,7 +103,7 @@ export default {
         hour: now.getHours(),
         minute: now.getMinutes(),
         periodic: 1,
-        active: 0
+        active: 1
       };
       this.$store.dispatch("selectPeriodicTask", periodicTask);
       this.addEditPeriodicTaskDialogActive = true;

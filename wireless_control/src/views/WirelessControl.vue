@@ -21,11 +21,12 @@ import WirelessSocketListView from "../components/WirelessSocketListView.vue";
 
 export default {
   name: "WirelessControl",
-
   data: () => ({
-    showPeriodicTasks: false
+    showPeriodicTasks: false,
+    areaInterval: null,
+    wirelessSocketInterval: null,
+    periodicTaskInterval: null
   }),
-
   components: {
     AppContent,
     AreaListView,
@@ -33,27 +34,20 @@ export default {
     WirelessSocketDetailView,
     WirelessSocketListView
   },
-
-  // TODO: Check if we need that
-  /*
-  // passed by the router
-  props: {
-    selectedArea: {
-      type: String,
-      default: undefined,
-      required: true
-    },
-    selectedWirelessSocket: {
-      type: String,
-      default: undefined
-    }
-  },
-  */
-
   beforeMount() {
     this.$store.dispatch("loadAreas");
     this.$store.dispatch("loadWirelessSockets");
     this.$store.dispatch("loadPeriodicTasks");
-  }
+  },
+  beforeDestroy: function() {
+    clearInterval(this.areaInterval);
+    clearInterval(this.wirelessSocketInterval);
+    clearInterval(this.periodicTaskInterval);
+  },
+  created() {
+    this.areaInterval = setInterval(() => this.$store.dispatch("loadAreas"), 15 * 1000);
+    this.wirelessSocketInterval = setInterval(() => this.$store.dispatch("loadWirelessSockets"), 15 * 1000);
+    this.periodicTaskInterval = setInterval(() => this.$store.dispatch("loadPeriodicTasks"), 15 * 1000);
+  },
 };
 </script>

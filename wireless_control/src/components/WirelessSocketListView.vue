@@ -40,12 +40,11 @@
 <script>
 export default {
   name: "WirelessSocketListView",
-  data: () => ({
-    interval: null
-  }),
   computed: {
     wirelessSocketsForArea() {
+      var wirelessSocketInEdit = this.$store.getters.wirelessSocketInEdit;
       var wirelessSockets = this.$store.getters.wirelessSockets;
+      var wirelessSocketSelected = this.$store.getters.wirelessSocketSelected;
       var areaSelected = this.$store.getters.areaSelected;
 
       var wirelessSocketsForArea =
@@ -55,19 +54,15 @@ export default {
             : wirelessSockets.filter(x => x.area === areaSelected.filter)
           : [];
 
-      this.$store.dispatch("selectWirelessSocket",wirelessSocketsForArea.length === 0 ? null : wirelessSocketsForArea[0]);
+      if(!wirelessSocketInEdit && (!wirelessSocketSelected || wirelessSocketsForArea.filter(x => x.id == wirelessSocketSelected.id).length === 0)) {
+        this.$store.dispatch("selectWirelessSocket",wirelessSocketsForArea.length === 0 ? null : wirelessSocketsForArea[0]);
+      }
 
       return wirelessSocketsForArea;
     },
     wirelessSocketSelected() {
       return this.$store.getters.wirelessSocketSelected;
     }
-  },
-  beforeDestroy: function() {
-    clearInterval(this.interval);
-  },
-  created() {
-    this.interval = setInterval(() => this.$store.dispatch("loadWirelessSockets"),15 * 1000);
   },
   methods: {
     select(wirelessSocket) {
