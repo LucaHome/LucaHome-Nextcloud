@@ -8,7 +8,7 @@
         <md-card-content>
           <div>
             <div class="md-layout md-gutter">
-              <div class="md-layout-item md-small-size-100">
+              <div class="md-layout-item md-item-min-width-75">
                 <md-field :class="getValidationClass('name')">
                   <label for="name">Name</label>
                   <md-input name="name" id="name" v-model="form.name" :disabled="sending"/>
@@ -17,11 +17,11 @@
                 </md-field>
               </div>
 
-              <div class="md-layout-item md-small-size-100">
+              <div class="md-layout-item md-item-min-width-25">
                   <md-checkbox v-model="form.wirelessSocketState" class="md-primary" :disabled="sending">State</md-checkbox>
               </div>
 
-              <div class="md-layout-item md-small-size-100">
+              <div class="md-layout-item md-item-min-width-33">
                 <md-field :class="getValidationClass('weekday')">
                   <md-select v-model="form.weekday" name="weekday" id="weekday" placeholder="Select a weekday" :disabled="sending">
                     <md-option value="1">Monday</md-option>
@@ -35,7 +35,7 @@
                 </md-field>
               </div>
 
-              <div class="md-layout-item md-small-size-100">
+              <div class="md-layout-item md-item-min-width-33">
                 <md-field :class="getValidationClass('hour')">
                   <label for="hour">Hour</label>
                   <md-input name="hour" id="hour" v-model="form.hour" :disabled="sending"/>
@@ -44,7 +44,7 @@
                 </md-field>
               </div>
 
-              <div class="md-layout-item md-small-size-100">
+              <div class="md-layout-item md-item-min-width-33">
                 <md-field :class="getValidationClass('minute')">
                   <label for="minute">Minute</label>
                   <md-input name="minute" id="minute" v-model="form.minute" :disabled="sending"/>
@@ -53,11 +53,11 @@
                 </md-field>
               </div>
 
-              <div class="md-layout-item md-small-size-100">
+              <div class="md-layout-item md-item-min-width-50">
                   <md-checkbox v-model="form.periodic" class="md-primary" :disabled="sending">Periodic</md-checkbox>
               </div>
 
-              <div class="md-layout-item md-small-size-100">
+              <div class="md-layout-item md-item-min-width-50">
                   <md-checkbox v-model="form.active" class="md-primary" :disabled="sending">Active</md-checkbox>
               </div>
             </div>
