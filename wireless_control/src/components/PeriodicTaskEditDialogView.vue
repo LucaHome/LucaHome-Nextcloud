@@ -191,7 +191,7 @@ export default {
       }
     },
     hasChanges() {
-      return (
+      return !!this.periodicTaskSelected && (
         this.form.name !== this.periodicTaskSelected.name ||
         this.form.wirelessSocketId !== this.periodicTaskSelected.wirelessSocketId ||
         this.form.wirelessSocketState !== this.periodicTaskSelected.wirelessSocketState ||
@@ -210,7 +210,29 @@ export default {
   },
   created() {
     this.$store.dispatch("setPeriodicTaskInEdit", true);
-    this.setFormData(this.$store.getters.periodicTaskSelected);
+    if(!!this.$store.getters.periodicTaskSelected)  {
+      this.setFormData(this.$store.getters.periodicTaskSelected);
+    } else {
+      var now = new Date();
+      var periodicTasks = this.$store.getters.periodicTasks;
+      var wirelessSocket = this.$store.getters.wirelessSocketSelected;
+      
+      var periodicTask = {
+        id: periodicTasks.length > 0 ? Math.max(...periodicTasks.map(x => x.id)) + 1 : 0,
+        name: '',
+        wirelessSocketId: wirelessSocket.id,
+        wirelessSocketState: true,
+        // The php server side counts from 1 - Monday to 7 - Sunday
+        weekday: now.getDay() === 0 ? 7 : now.getDay(),
+        hour: now.getHours(),
+        minute: now.getMinutes(),
+        periodic: true,
+        active: true
+      };
+      
+      this.setFormData(periodicTask);
+      this.$store.dispatch("selectPeriodicTask", periodicTask);
+    }
   },
   computed: {
     periodicTaskSelected() {
