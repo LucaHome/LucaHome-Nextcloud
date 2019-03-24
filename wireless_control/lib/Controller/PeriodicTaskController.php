@@ -25,9 +25,8 @@ class PeriodicTaskController extends Controller {
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 */
 	public function index() {
 		return $this->generateResponse("success", function () {
@@ -36,9 +35,8 @@ class PeriodicTaskController extends Controller {
     }
 
     /**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
+     * @NoCSRFRequired
      *
      * @param int $id
      */
@@ -49,9 +47,8 @@ class PeriodicTaskController extends Controller {
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 * 
 	 * @param string name
 	 * @param int wirelessSocketId
@@ -79,9 +76,8 @@ class PeriodicTaskController extends Controller {
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 * 
      * @param int $id
 	 * @param string name
@@ -110,9 +106,8 @@ class PeriodicTaskController extends Controller {
     }
     
 	/**
-     * @CORS
-     * @NoCSRFRequired
      * @NoAdminRequired
+     * @NoCSRFRequired
 	 * 
      * @param int $id
 	 */
