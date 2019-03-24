@@ -1,10 +1,15 @@
 <?php
 
+/**
+ * Help found here: https://github.com/nextcloud/passman/blob/master/lib/BackgroundJob/ExpireCredentials.php
+ */
+
 namespace OCA\WirelessControl\Cron;
 
+use OC\BackgroundJob\TimedJob;
 use OCA\WirelessControl\Services\PeriodicTaskService;
 use OCA\WirelessControl\Services\WirelessSocketService;
-use OCP\BackgroundJob\TimedJob;
+use OCP\IConfig;
 use OCP\ILogger;
 
 class PeriodicTask extends TimedJob {
@@ -32,14 +37,16 @@ class PeriodicTask extends TimedJob {
 	 */
     public function __construct(ITimeFactory $time, PeriodicTaskService $periodicTaskService, WirelessSocketService $wirelessSocketService, ILogger $logger) {
         parent::__construct($time);
+
         $this->periodicTaskService = $periodicTaskService;
         $this->wirelessSocketService = $wirelessSocketService;
+        $this->logger = $logger;
 
         // Run every 60 seconds
         parent::setInterval(60);
     }
 
-    public function run($arguments) {
+    protected  function run($arguments) {
         // http://us3.php.net/manual/en/function.date.php
         // https://stackoverflow.com/questions/8529656/how-do-i-convert-a-string-to-a-number-in-php
 
