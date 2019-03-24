@@ -16,9 +16,8 @@
 
           <div class="md-list-item-text" @click="select(periodicTask)">
             <span>{{ periodicTask.name }}</span>
-            <span>{{ periodicTask.weekday }}, {{ periodicTask.hour }}:{{ periodicTask.minute }}</span>
-            <p>State: {{ periodicTask.wirelessSocketState }}</p>
-            <p>Periodic: {{ periodicTask.periodic }}</p>
+            <span>{{ numberToWeekday(periodicTask.weekday) }}, {{ periodicTask.hour }}:{{ periodicTask.minute }}</span>
+            <p>State: {{ periodicTask.wirelessSocketState == 1 ? 'On' : 'Off' }}, Periodic: {{ periodicTask.periodic == 1 ? 'Yes' : 'No' }}</p>
           </div>
           
           <md-button class="md-icon-button md-raised add-button md-primary periodic-task-button-edit" @click="editPeriodicTask(periodicTask)">
@@ -124,6 +123,18 @@ export default {
     },
     closePeriodicTaskListView() {
       this.$emit('closePeriodicTaskListView');
+    },
+    numberToWeekday(numberWeekday) {
+      switch(numberWeekday) {
+        case 1: return "Monday";
+        case 2: return "Tuesday";
+        case 3: return "Wednesday";
+        case 4: return "Thursday";
+        case 5: return "Friday";
+        case 6: return "Saturday";
+        case 7: return "Sunday";
+        default: return "Error";
+      }
     }
   }
 };
