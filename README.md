@@ -1,5 +1,7 @@
 # WirelessControl-Nextcloud
 
+Nextcloud plugin to set states for 433MHz connected sockets.
+
 [![Platform](https://img.shields.io/badge/platform-Raspberry-blue.svg)](https://www.raspberrypi.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)
@@ -11,8 +13,6 @@
 [![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
 [![PHP](https://img.shields.io/badge/lang-PHP-blue.svg)](http://php.net/)
 [![C++](https://img.shields.io/badge/lang-C++-blue.svg)](https://isocpp.org/)
-
-* set states for 433MHz connected sockets
 
 ## Screenshots
 
