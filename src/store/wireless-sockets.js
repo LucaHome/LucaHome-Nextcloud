@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Requests from '../services/requests'
+import Converter from '../utils/converter.utils'
 
 Vue.use(Vuex)
 
@@ -116,6 +117,8 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.get('wireless_socket')
                 .then(response => {
+                    response = Converter.convertWirelessSocketLoadResponse(response);
+
                     if(response.data === false){
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
@@ -168,6 +171,8 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.post('wireless_socket', wirelessSocket)
                 .then(response => {
+                    response = Converter.convertNumberResponse(response);
+
                     if(response.data === false){
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
@@ -199,6 +204,8 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.put('wireless_socket', wirelessSocket)
                 .then(response => {
+                    response = Converter.convertNumberResponse(response);
+
                     if(response.data === false){
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
@@ -229,6 +236,8 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.delete('wireless_socket', wirelessSocket.id)
                 .then(response => {
+                    response = Converter.convertNumberResponse(response);
+
                     if(response.data === false){
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));

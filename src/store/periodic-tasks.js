@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Requests from '../services/requests'
+import Converter from '../utils/converter.utils'
 
 Vue.use(Vuex)
 
@@ -116,6 +117,8 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.get('periodic_task')
                 .then(response => {
+                    response = Converter.convertPeriodicTaskLoadResponse(response);
+
                     if(response.data === false){
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
@@ -157,6 +160,8 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.post('periodic_task', periodicTask)
                 .then(response => {
+                    response = Converter.convertNumberResponse(response);
+
                     if(response.data === false){
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
@@ -188,6 +193,8 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.put('periodic_task', periodicTask)
                 .then(response => {
+                    response = Converter.convertNumberResponse(response);
+
                     if(response.data === false){
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
@@ -218,6 +225,8 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.delete('periodic_task', periodicTask.id)
                 .then(response => {
+                    response = Converter.convertNumberResponse(response);
+
                     if(response.data === false){
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));

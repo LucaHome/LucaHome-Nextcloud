@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Requests from '../services/requests'
+import Converter from '../utils/converter.utils'
 
 Vue.use(Vuex)
 
@@ -37,7 +38,7 @@ const mutations = {
      */
     setAreas(state, payload) {
         state.areas = payload.areas;
-        if(!state.areaInEdit && (!state.areaSelected || state.areas.filter(x => x.id == state.areaSelected.id).length === 0)) {
+        if (!state.areaInEdit && (!state.areaSelected || state.areas.filter(x => x.id == state.areaSelected.id).length === 0)) {
             state.areaSelected = state.areas[0];
         }
     },
@@ -112,11 +113,13 @@ const actions = {
      * @param {Object} commit The store mutations
      * @returns {Promise}
      */
-    loadAreas({commit}) {
+    loadAreas({ commit }) {
         return new Promise(function (resolve) {
             Requests.get('area')
                 .then(response => {
-                    if(response.data === false){
+                    response = Converter.convertAreaLoadResponse(response);
+
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
                         commit('setAreas', {
@@ -127,7 +130,7 @@ const actions = {
                             areas: !!response.data ? response.data : []
                         });
                     }
-                    
+
                     resolve();
                 });
         });
@@ -140,7 +143,7 @@ const actions = {
      * @param {Object} area The selected area
      * @returns {Promise}
      */
-    selectArea({commit}, area) {
+    selectArea({ commit }, area) {
         commit('setAreaSelected', {
             area: area
         });
@@ -152,7 +155,7 @@ const actions = {
      * @param {Object} commit The store mutations
      * @returns {Promise}
      */
-    addArea({commit}) {
+    addArea({ commit }) {
         var area = {
             id: this.getters.areas.length > 0 ? Math.max(...this.getters.areas.map(x => x.id)) + 1 : 0,
             name: "",
@@ -163,7 +166,9 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.post('area', area)
                 .then(response => {
-                    if(response.data === false){
+                    response = Converter.convertNumberResponse(response);
+
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
                         return;
@@ -190,11 +195,13 @@ const actions = {
      * @param {Object} area The selected area
      * @returns {Promise}
      */
-    updateArea({commit}, area) {
+    updateArea({ commit }, area) {
         return new Promise(function (resolve) {
             Requests.put('area', area)
                 .then(response => {
-                    if(response.data === false){
+                    response = Converter.convertNumberResponse(response);
+
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
                         return;
@@ -220,16 +227,18 @@ const actions = {
      * @param {Object} area The selected area
      * @returns {Promise}
      */
-    deleteArea({commit}, area) {
+    deleteArea({ commit }, area) {
         return new Promise(function (resolve) {
             Requests.delete('area', area.id)
                 .then(response => {
-                    if(response.data === false){
+                    response = Converter.convertNumberResponse(response);
+
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
                         return;
                     }
-                    
+
                     if (response.status === "success" && response.data === 0) {
                         commit('deleteArea', {
                             area: area
