@@ -2,7 +2,9 @@
   <div>
     <md-list class="md-single-line">
       <div v-for="(area, index) in areas" :key="index">
-        <md-list-item :class="{selected: area.id === areaSelected.id, selectable: area.id !== areaSelected.id}" >
+        <md-list-item
+          :class="{selected: area.id === areaSelected.id, selectable: area.id !== areaSelected.id}"
+        >
           <div v-if="area.name" class="md-list-item-text" @click="select(area)">
             <span>{{area.name}}</span>
           </div>
@@ -14,8 +16,12 @@
               <md-icon>save</md-icon>
             </md-button>
           </md-field>
-          
-          <md-button v-if="area.deletable === 1 || area.deletable === '1'" class="md-icon-button delete-button md-accent" @click="deleteAreaDialogActive = true; selectedDeleteArea = area">
+
+          <md-button
+            v-if="area.deletable === 1"
+            class="md-icon-button delete-button md-accent"
+            @click="deleteAreaDialogActive = true; selectedDeleteArea = area"
+          >
             <md-icon>delete_forever</md-icon>
           </md-button>
         </md-list-item>

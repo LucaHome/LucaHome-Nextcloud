@@ -1,6 +1,9 @@
 <template>
   <div>
-    <md-button class="md-icon-button md-raised close-button md-primary" @click="closePeriodicTaskListView()">
+    <md-button
+      class="md-icon-button md-raised close-button md-primary"
+      @click="closePeriodicTaskListView()"
+    >
       <md-icon>close</md-icon>
     </md-button>
 
@@ -16,15 +19,21 @@
 
           <div class="md-list-item-text" @click="select(periodicTask)">
             <span>{{ periodicTask.name }}</span>
-            <span>{{ numberToWeekday(periodicTask.weekday) }}, {{ periodicTask.hour }}:{{ periodicTask.minute }}</span>
-            <p>{{ periodicTask.wirelessSocketState == 1 ? 'Activate' : 'Deactivate' }}{{ periodicTask.periodic == 1 ? ', Periodic' : '' }}</p>
+            <span>{{ numberToWeekday(periodicTask.weekday) }}, {{ getTimeString(periodicTask) }}</span>
+            <p>{{ periodicTask.wirelessSocketState === 1 ? 'Activate' : 'Deactivate' }}{{ periodicTask.periodic === 1 ? ', Periodic' : '' }}</p>
           </div>
-          
-          <md-button class="md-icon-button md-raised add-button md-primary periodic-task-button-edit" @click="editPeriodicTask(periodicTask)">
+
+          <md-button
+            class="md-icon-button md-raised add-button md-primary periodic-task-button-edit"
+            @click="editPeriodicTask(periodicTask)"
+          >
             <md-icon>edit</md-icon>
           </md-button>
 
-          <md-button class="md-icon-button md-raised delete-button md-primary periodic-task-button-delete" @click="deletePeriodicTask(periodicTask)">
+          <md-button
+            class="md-icon-button md-raised delete-button md-primary periodic-task-button-delete"
+            @click="deletePeriodicTask(periodicTask)"
+          >
             <md-icon>delete</md-icon>
           </md-button>
         </md-list-item>
@@ -38,7 +47,9 @@
     </md-button>
 
     <md-dialog :md-active.sync="addEditPeriodicTaskDialogActive">
-      <PeriodicTaskEditDialogView  v-on:closePeriodicTaskDialog="addEditPeriodicTaskDialogActive = false"/>
+      <PeriodicTaskEditDialogView
+        v-on:closePeriodicTaskDialog="addEditPeriodicTaskDialogActive = false"
+      />
     </md-dialog>
 
     <md-dialog-confirm
@@ -54,6 +65,7 @@
 
 <script>
 import PeriodicTaskEditDialogView from "./PeriodicTaskEditDialogView.vue";
+import DateTimeString from "../utils/date-time-string.utils";
 
 export default {
   name: "PeriodicTaskListView",
@@ -73,11 +85,23 @@ export default {
 
       var periodicTasksForWirelessSocket =
         wirelessSocketSelected !== null
-          ? periodicTasks.filter(x => x.wirelessSocketId === wirelessSocketSelected.id)
+          ? periodicTasks.filter(
+              x => x.wirelessSocketId === wirelessSocketSelected.id
+            )
           : [];
 
-      if(!periodicTaskInEdit && (!periodicTaskSelected || periodicTasksForWirelessSocket.filter(x => x.id == periodicTaskSelected.id).length === 0)) {
-        this.select(periodicTasksForWirelessSocket.length === 0 ? null : periodicTasksForWirelessSocket[0]);
+      if (
+        !periodicTaskInEdit &&
+        (!periodicTaskSelected ||
+          periodicTasksForWirelessSocket.filter(
+            x => x.id == periodicTaskSelected.id
+          ).length === 0)
+      ) {
+        this.select(
+          periodicTasksForWirelessSocket.length === 0
+            ? null
+            : periodicTasksForWirelessSocket[0]
+        );
       }
 
       return periodicTasksForWirelessSocket;
@@ -94,10 +118,13 @@ export default {
       var now = new Date();
       var periodicTasks = this.$store.getters.periodicTasks;
       var wirelessSocket = this.$store.getters.wirelessSocketSelected;
-      
+
       var periodicTask = {
-        id: periodicTasks.length > 0 ? Math.max(...periodicTasks.map(x => x.id)) + 1 : 0,
-        name: '',
+        id:
+          periodicTasks.length > 0
+            ? Math.max(...periodicTasks.map(x => x.id)) + 1
+            : 0,
+        name: "",
         wirelessSocketId: wirelessSocket.id,
         wirelessSocketState: true,
         // The php server side counts from 1 - Monday to 7 - Sunday
@@ -119,22 +146,19 @@ export default {
       this.deletePeriodicTaskDialogActive = true;
     },
     onDeleteYes() {
-      this.$store.dispatch("deletePeriodicTask", this.$store.getters.periodicTaskSelected);
+      this.$store.dispatch(
+        "deletePeriodicTask",
+        this.$store.getters.periodicTaskSelected
+      );
     },
     closePeriodicTaskListView() {
-      this.$emit('closePeriodicTaskListView');
+      this.$emit("closePeriodicTaskListView");
     },
-    numberToWeekday(numberWeekday) {
-      switch(numberWeekday) {
-        case "1": return "Monday";
-        case "2": return "Tuesday";
-        case "3": return "Wednesday";
-        case "4": return "Thursday";
-        case "5": return "Friday";
-        case "6": return "Saturday";
-        case "7": return "Sunday";
-        default: return "Error";
-      }
+    getTimeString(periodicTask) {
+      return DateTimeString.getTimeString(periodicTask);
+    },
+    numberToWeekday(number) {
+      return DateTimeString.numberToWeekday(number);
     }
   }
 };

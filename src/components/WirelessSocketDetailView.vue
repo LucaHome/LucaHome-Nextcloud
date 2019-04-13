@@ -73,10 +73,7 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending"/>
 
         <md-card-actions>
-          <md-button
-            class="md-primary"
-            @click="showPeriodicTasks()"
-          >Periodic Tasks</md-button>
+          <md-button class="md-primary" @click="showPeriodicTasks()">Periodic Tasks</md-button>
         </md-card-actions>
 
         <md-card-actions>
@@ -87,7 +84,7 @@
           >Save wireless socket</md-button>
         </md-card-actions>
 
-        <md-card-actions v-if="wirelessSocketSelected.deletable === 1 || wirelessSocketSelected.deletable === '1'">
+        <md-card-actions v-if="wirelessSocketSelected.deletable === 1">
           <md-button
             class="md-accent"
             :disabled="sending || hasChanges()"
@@ -210,20 +207,19 @@ export default {
       }
     },
     hasChanges() {
-      const hasChanges = (
+      const hasChanges =
         this.form.name !== this.wirelessSocketSelected.name ||
         this.form.code !== this.wirelessSocketSelected.code ||
         this.form.area !== this.wirelessSocketSelected.area ||
         this.form.description !== this.wirelessSocketSelected.description ||
-        this.form.icon !== this.wirelessSocketSelected.icon
-      );
+        this.form.icon !== this.wirelessSocketSelected.icon;
 
       this.$store.dispatch("setWirelessSocketInEdit", hasChanges);
 
       return hasChanges;
     },
     showPeriodicTasks() {
-      this.$emit('showPeriodicTasks');
+      this.$emit("showPeriodicTasks");
     }
   },
   watch: {

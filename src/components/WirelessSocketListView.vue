@@ -22,7 +22,7 @@
             @click="toggleState(wirelessSocket)"
           >
             <i
-              :class="{'fas fa-toggle-on': wirelessSocket.state == '1', 'fas fa-toggle-off': wirelessSocket.state == '0'}"
+              :class="{'fas fa-toggle-on': wirelessSocket.state === 1, 'fas fa-toggle-off': wirelessSocket.state === 0}"
             />
           </md-button>
         </md-list-item>
@@ -54,8 +54,16 @@ export default {
             : wirelessSockets.filter(x => x.area === areaSelected.filter)
           : [];
 
-      if(!wirelessSocketInEdit && (!wirelessSocketSelected || wirelessSocketsForArea.filter(x => x.id == wirelessSocketSelected.id).length === 0)) {
-        this.$store.dispatch("selectWirelessSocket",wirelessSocketsForArea.length === 0 ? null : wirelessSocketsForArea[0]);
+      if (
+        !wirelessSocketInEdit &&
+        (!wirelessSocketSelected ||
+          wirelessSocketsForArea.filter(x => x.id == wirelessSocketSelected.id)
+            .length === 0)
+      ) {
+        this.$store.dispatch(
+          "selectWirelessSocket",
+          wirelessSocketsForArea.length === 0 ? null : wirelessSocketsForArea[0]
+        );
       }
 
       return wirelessSocketsForArea;
@@ -69,10 +77,13 @@ export default {
       this.$store.dispatch("selectWirelessSocket", wirelessSocket);
     },
     addWirelessSocket() {
-      this.$store.dispatch("addWirelessSocket",this.$store.getters.areaSelected.name);
+      this.$store.dispatch(
+        "addWirelessSocket",
+        this.$store.getters.areaSelected.name
+      );
     },
     toggleState(wirelessSocket) {
-      wirelessSocket.state = wirelessSocket.state === "1" ? "0" : "1";
+      wirelessSocket.state = wirelessSocket.state === 1 ? 0 : 1;
       this.$store.dispatch("updateWirelessSocket", wirelessSocket);
     }
   }
