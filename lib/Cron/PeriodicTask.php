@@ -30,14 +30,11 @@ class PeriodicTask extends TimedJob {
 	private $logger;
 
 	/**
-	 * @param ITimeFactory $time
 	 * @param PeriodicTaskService $periodicTaskService
 	 * @param WirelessSocketService $wirelessSocketService
 	 * @param ILogger $logger
 	 */
-    public function __construct(ITimeFactory $time, PeriodicTaskService $periodicTaskService, WirelessSocketService $wirelessSocketService, ILogger $logger) {
-        parent::__construct($time);
-
+    public function __construct(PeriodicTaskService $periodicTaskService, WirelessSocketService $wirelessSocketService, ILogger $logger) {
         $this->periodicTaskService = $periodicTaskService;
         $this->wirelessSocketService = $wirelessSocketService;
         $this->logger = $logger;
