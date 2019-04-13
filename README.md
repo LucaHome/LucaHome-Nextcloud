@@ -7,7 +7,7 @@ Nextcloud plugin to set states for 433MHz connected sockets.
 [![Donate: PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.me/GuepardoApps)
 
 [![Build](https://img.shields.io/badge/build-Successful-green.svg)](/js)
-[![Version](https://img.shields.io/badge/version-v1.3.0-blue.svg)](/js)
+[![Version](https://img.shields.io/badge/version-v1.3.1-blue.svg)](/js)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 [![Vue](https://img.shields.io/badge/lang-Vue-lightgreen.svg)](https://vuejs.org/)
