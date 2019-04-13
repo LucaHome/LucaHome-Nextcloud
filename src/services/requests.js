@@ -14,7 +14,7 @@ export default {
 
 		return axios(baseUrl + url)
 			.then((response) => {
-				return Promise.resolve(response.data);
+				return Promise.resolve(JSON.stringify(response.data));
 			})
 			.catch((error) => {
 				console.warn(JSON.stringify(error));
@@ -35,7 +35,7 @@ export default {
 				data: data
 			})
 			.then((response) => {
-				return Promise.resolve(response.data);
+				return Promise.resolve(JSON.stringify(response.data));
 			})
 			.catch((error) => {
 				console.warn(JSON.stringify(error));
@@ -54,7 +54,7 @@ export default {
 				data: data
 			})
 			.then((response) => {
-				return Promise.resolve(response.data);
+				return Promise.resolve(JSON.stringify(response.data));
 			})
 			.catch((error) => {
 				console.warn(JSON.stringify(error));
@@ -71,7 +71,7 @@ export default {
 				url: baseUrl + url + '/' + id
 			})
 			.then((response) => {
-				return Promise.resolve(response.data);
+				return Promise.resolve(JSON.stringify(response.data));
 			})
 			.catch((error) => {
 				console.warn(JSON.stringify(error));
