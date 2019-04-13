@@ -22,7 +22,7 @@ These are Todos for the Website, written in JS using Vue.js, Vue-Material and Ne
         - [X] each material card will have a edit ✔ and delete ✔ button
             - [X] edit button opens a dialog to edit the properties
             - [X] delete button asks for deletion of periodic tasks
-        - [X additional add button ✔ in material action button design (see other add buttons) at the bottom of the sidenav (opens a dialog to edit the properties)
+        - [X] additional add button ✔ in material action button design (see other add buttons) at the bottom of the sidenav (opens a dialog to edit the properties)
     - [X] Test It
     - [ ] Fix Bugs
         - [X] Fix Bug: TypeError: "this.periodicTaskSelected is null" in PeriodicTaskEditDialogView.vue:190
