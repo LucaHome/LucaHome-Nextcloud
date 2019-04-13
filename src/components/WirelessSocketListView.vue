@@ -22,7 +22,7 @@
             @click="toggleState(wirelessSocket)"
           >
             <i
-              :class="{'fas fa-toggle-on': wirelessSocket.state === 1, 'fas fa-toggle-off': wirelessSocket.state === 0}"
+              :class="{'fas fa-toggle-on wc-color-secondary': wirelessSocket.state === 1, 'fas fa-toggle-off wc-color-primary': wirelessSocket.state === 0}"
             />
           </md-button>
         </md-list-item>
