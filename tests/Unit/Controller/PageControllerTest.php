@@ -1,12 +1,12 @@
 <?php
 
-namespace OCA\WirelessControl\Tests\Unit\Controller;
+namespace OCA\LucaHome\Tests\Unit\Controller;
 
 use PHPUnit_Framework_TestCase;
 
 use OCP\AppFramework\Http\TemplateResponse;
 
-use OCA\WirelessControl\Controller\PageController;
+use OCA\LucaHome\Controller\PageController;
 
 
 class PageControllerTest extends PHPUnit_Framework_TestCase {
