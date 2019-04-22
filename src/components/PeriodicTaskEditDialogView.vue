@@ -176,12 +176,12 @@ export default {
       if (periodicTask) {
         this.form.name = periodicTask.name;
         this.form.wirelessSocketId = periodicTask.wirelessSocketId;
-        this.form.wirelessSocketState = periodicTask.wirelessSocketState;
+        this.form.wirelessSocketState = periodicTask.wirelessSocketState === 1;
         this.form.weekday = periodicTask.weekday;
         this.form.hour = periodicTask.hour;
         this.form.minute = periodicTask.minute;
-        this.form.periodic = periodicTask.periodic;
-        this.form.active = periodicTask.active;
+        this.form.periodic = periodicTask.periodic === 1;
+        this.form.active = periodicTask.active === 1;
       } else {
         this.form.name = null;
         this.form.wirelessSocketId = null;
@@ -198,9 +198,9 @@ export default {
         !!this.periodicTaskSelected &&
         (this.form.name !== this.periodicTaskSelected.name ||
           this.form.wirelessSocketId !==
-            this.periodicTaskSelected.wirelessSocketId ||
+          this.periodicTaskSelected.wirelessSocketId ||
           this.form.wirelessSocketState !==
-            this.periodicTaskSelected.wirelessSocketState ||
+          this.periodicTaskSelected.wirelessSocketState ||
           this.form.weekday !== this.periodicTaskSelected.weekday ||
           this.form.hour !== this.periodicTaskSelected.hour ||
           this.form.minute !== this.periodicTaskSelected.minute ||
