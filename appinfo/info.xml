@@ -10,13 +10,13 @@
     <author mail="guepardoapps@gmail.com" homepage="https://guepardoapps.github.io">Jonas Schubert</author>
     <namespace>WirelessControl</namespace>
     <category>tools</category>
-    <bugs>https://github.com/LucaHome/LucaHome-Nextcloud/issues</bugs>
-    <repository>https://github.com/LucaHome/LucaHome-Nextcloud.git</repository>
-    <screenshot>https://raw.githubusercontent.com/LucaHome/LucaHome-Nextcloud/master/screenshots/wireless_control_page.jpg</screenshot>
+    <bugs>https://github.com/LucaHome/WirelessControl-Nextcloud/issues</bugs>
+    <repository>https://github.com/LucaHome/WirelessControl-Nextcloud.git</repository>
+    <screenshot>https://raw.githubusercontent.com/LucaHome/WirelessControl-Nextcloud/master/screenshots/wireless_control_page.jpg</screenshot>
     <dependencies>
         <nextcloud min-version="14" max-version="16"/>
     </dependencies>
     <background-jobs>
         <job>OCA\WirelessControl\Cron\PeriodicTask</job>
-</background-jobs>
+    </background-jobs>
 </info>
