@@ -8,7 +8,6 @@ These are Todos for the Server side, written in PHP
     - [X] Test It
     - [ ] Fix Bugs
         - [ ] Fix background job
-- [ ] ...
 
 ## Website
 
@@ -24,11 +23,10 @@ These are Todos for the Website, written in JS using Vue.js, Vue-Material and Ne
             - [X] delete button asks for deletion of periodic tasks
         - [X] additional add button ✔ in material action button design (see other add buttons) at the bottom of the sidenav (opens a dialog to edit the properties)
     - [X] Test It
-    - [ ] Fix Bugs
+    - [X] Fix Bugs
         - [X] Fix Bug: TypeError: "this.periodicTaskSelected is null" in PeriodicTaskEditDialogView.vue:190
         - [X] Fix Bug: TypeError: "this.periodicTaskSelected is null" in PeriodicTaskEditDialogView.vue:194
             - [X] Timing problem: 2nd time pressing add button is successful (previous selection is in state)
-    - [ ] Fix time display in periodic task card (single minute or hour is displayed without prefix '0')
-    - [ ] Type variance in periodicTask from server and newly created leads to display bugs in edit dialog for periodic tasks
+    - [X] Fix time display in periodic task card (single minute or hour is displayed without prefix '0')
+    - [X] Type variance in periodicTask from server and newly created leads to display bugs in edit dialog for periodic tasks
 - [X] Clean up
-- [ ] ...
