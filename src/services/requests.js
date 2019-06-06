@@ -13,13 +13,8 @@ export default {
 		}
 
 		return axios(baseUrl + url)
-			.then((response) => {
-				return Promise.resolve(JSON.stringify(response.data));
-			})
-			.catch((error) => {
-				console.warn(JSON.stringify(error));
-				return Promise.reject(error);
-			});
+			.then((response) => Promise.resolve(JSON.stringify(response.data)))
+			.catch((error) => Promise.reject(error));
 	},
 	post(url, data) {
 		if (useMockData) {
@@ -29,18 +24,13 @@ export default {
 		delete data['id'];
 
 		return axios({
-				method: 'post',
-				url: baseUrl + url,
-				contentType: 'application/json',
-				data: data
-			})
-			.then((response) => {
-				return Promise.resolve(JSON.stringify(response.data));
-			})
-			.catch((error) => {
-				console.warn(JSON.stringify(error));
-				return Promise.reject(error);
-			});
+			method: 'post',
+			url: baseUrl + url,
+			contentType: 'application/json',
+			data: data
+		})
+			.then((response) => Promise.resolve(JSON.stringify(response.data)))
+			.catch((error) => Promise.reject(error));
 	},
 	put(url, data) {
 		if (useMockData) {
@@ -48,18 +38,13 @@ export default {
 		}
 
 		return axios({
-				method: 'put',
-				url: baseUrl + url + '/' + data.id,
-				contentType: 'application/json',
-				data: data
-			})
-			.then((response) => {
-				return Promise.resolve(JSON.stringify(response.data));
-			})
-			.catch((error) => {
-				console.warn(JSON.stringify(error));
-				return Promise.reject(error);
-			});
+			method: 'put',
+			url: baseUrl + url + '/' + data.id,
+			contentType: 'application/json',
+			data: data
+		})
+			.then((response) => Promise.resolve(JSON.stringify(response.data)))
+			.catch((error) => Promise.reject(error));
 	},
 	delete(url, id) {
 		if (useMockData) {
@@ -67,15 +52,10 @@ export default {
 		}
 
 		return axios({
-				method: 'delete',
-				url: baseUrl + url + '/' + id
-			})
-			.then((response) => {
-				return Promise.resolve(JSON.stringify(response.data));
-			})
-			.catch((error) => {
-				console.warn(JSON.stringify(error));
-				return Promise.reject(error);
-			});
+			method: 'delete',
+			url: baseUrl + url + '/' + id
+		})
+			.then((response) => Promise.resolve(JSON.stringify(response.data)))
+			.catch((error) => Promise.reject(error));
 	}
 }

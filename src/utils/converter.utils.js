@@ -1,41 +1,23 @@
 'use strict'
 
 export default {
-    convertAreaLoadResponse(jsonResponse) {
-        return JSON.parse(jsonResponse, (key, value) => {
-            if (key === 'id' || key === 'deletable') {
-                return Number(value);
-            }
+    convertAreaLoadResponse = (jsonResponse) => JSON.parse(jsonResponse,
+        (key, value) => (key === 'id' || key === 'deletable')
+            ? Number(value)
+            : value),
 
-            return value;
-        });
-    },
-    convertNumberResponse(jsonResponse) {
-        return JSON.parse(jsonResponse, (key, value) => {
-            if (key === 'data' && !isNaN(value)) {
-                return Number(value);
-            }
+    convertNumberResponse = (jsonResponse) => JSON.parse(jsonResponse,
+        (key, value) => (key === 'data' && !isNaN(value))
+            ? Number(value)
+            : value),
 
-            return value;
-        });
-    },
-    convertPeriodicTaskLoadResponse(jsonResponse) {
-        return JSON.parse(jsonResponse, (key, value) => {
-            if (key === 'id' || key === 'wirelessSocketId' || key === 'wirelessSocketState' || key === 'weekday'
-                || key === 'hour' || key === 'minute' || key === 'periodic' || key === 'active') {
-                return Number(value);
-            }
+    convertPeriodicTaskLoadResponse = (jsonResponse) => JSON.parse(jsonResponse,
+        (key, value) => (key === 'id' || key === 'wirelessSocketId' || key === 'wirelessSocketState' || key === 'weekday' || key === 'hour' || key === 'minute' || key === 'periodic' || key === 'active')
+            ? Number(value)
+            : value),
 
-            return value;
-        });
-    },
-    convertWirelessSocketLoadResponse(jsonResponse) {
-        return JSON.parse(jsonResponse, (key, value) => {
-            if (key === 'id' || key === 'state' || key === 'deletable') {
-                return Number(value);
-            }
-
-            return value;
-        });
-    }
+    convertWirelessSocketLoadResponse = (jsonResponse) => JSON.parse(jsonResponse,
+        (key, value) => (key === 'id' || key === 'state' || key === 'deletable')
+            ? Number(value)
+            : value)
 }
