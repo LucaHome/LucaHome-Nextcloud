@@ -100,7 +100,7 @@ string handleMessage(string message)
 
 void *server(void *arg)
 {
-	syslog(LOG_INFO, "PiServer started!");
+	syslog(LOG_INFO, "WirelessControl-PiServer started!");
 
 	int socketResult, connection, answer, clientLength;
 	struct sockaddr_in clientAddress, serverAddress;
@@ -150,7 +150,7 @@ void *server(void *arg)
 	}
 
 	close(socketResult);
-	syslog(LOG_INFO, "Exiting PiServer");
+	syslog(LOG_INFO, "Exiting WirelessControl-PiServer");
 	pthread_exit(NULL);
 }
 

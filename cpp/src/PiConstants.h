@@ -6,4 +6,4 @@
 #define MESSAGE_ERROR_EMPTY_STATE "{\"Success\": false, \"Error\": {\"Code\": 105, \"Message\": \"Empty state\"}}"
 #define MESSAGE_ERROR_SENDING_STATE "{\"Success\": false, \"Error\": {\"Code\": 106, \"Message\": \"Sending state failed\"}}"
 
-#define MESSAGE_SUCCESS "{\"Success\": true, \"Error\": {\"Code\": 0, \"Message\": \"\"}}"
+#define MESSAGE_SUCCESS "{\"Success\": true, \"Error\": {\"Code\": 0, \"Message\": \"Successfully set socket\"}}"

@@ -1,4 +1,4 @@
-SOURCE = ./src/PiServer.cpp ./src/PiTools.cpp ./src/PiControl.cpp -lwiringPi -lpthread
+SOURCE = ./src/WirelessControl.cpp ./src/PiTools.cpp ./src/PiControl.cpp -lwiringPi -lpthread
 APP = ./bin/wirelesscontrol
 CC = g++ -std=c++11
 
