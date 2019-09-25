@@ -6,8 +6,10 @@ use Closure;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 
-trait Response {
-	protected function generateResponse (string $status, Closure $callback, string $message) {
+trait Response
+{
+	protected function generateResponse(string $status, Closure $callback, string $message)
+	{
 		$httpStatusCode = Http::STATUS_OK;
 
 		try {
@@ -16,7 +18,7 @@ trait Response {
 				'data' => $callback(),
 				'message' => $message
 			];
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$message = [
 				'status' => 'error',
 				'data' => null,
@@ -24,7 +26,7 @@ trait Response {
 			];
 			$httpStatusCode = Http::STATUS_INTERNAL_SERVER_ERROR;
 		}
-		
+
 		return new JSONResponse($message, $httpStatusCode);
 	}
 }

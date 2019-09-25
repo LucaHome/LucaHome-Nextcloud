@@ -6,9 +6,10 @@
 
 namespace OCA\WirelessControl\Enums;
 
-abstract class ErrorCode {
+abstract class ErrorCode
+{
     const NoError = 0;
-    
+
     const NoDefintion = -1;
 
     const WirelessSocketCodeAlreadyInUse = -100;
@@ -23,6 +24,7 @@ abstract class ErrorCode {
     const WirelessSocketFailedToToggle = -109;
     const WirelessSocketIconTooLong = -110;
     const WirelessSocketDbAddError = -111;
+    const WirelessSocketInvalidGroup = -112;
 
     const InvalidUser = -200;
     const InvalidUserNull = -201;

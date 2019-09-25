@@ -7,11 +7,11 @@ use OCA\WirelessControl\Services\WirelessSocketService;
 use OCP\AppFramework\ApiController;
 use OCP\IRequest;
 
-class WirelessSocketApiController extends ApiController {
-
+class WirelessSocketApiController extends ApiController
+{
 	/** @var WirelessSocketService */
 	private $service;
-	
+
 	use Response;
 
 	/**
@@ -19,39 +19,42 @@ class WirelessSocketApiController extends ApiController {
 	 * @param IRequest $request
 	 * @param WirelessSocketService $service
 	 */
-	public function __construct(string $appName, IRequest $request, WirelessSocketService $service) {
+	public function __construct(string $appName, IRequest $request, WirelessSocketService $service)
+	{
 		parent::__construct($appName, $request);
 		$this->service = $service;
-    }
-    
+	}
+
 	/**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 */
-	public function index() {
+	public function index()
+	{
 		return $this->generateResponse("success", function () {
 			return $this->service->get();
 		}, '');
-    }
+	}
 
-    /**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
-     *
-     * @param int $id
-     */
-    public function show(int $id) {
+	/**
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 *
+	 * @param int $id
+	 */
+	public function show(int $id)
+	{
 		return $this->generateResponse("success", function () use ($id) {
 			return $this->service->getById($id);
 		}, '');
-    }
-    
+	}
+
 	/**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 * 
 	 * @param string name
 	 * @param string code
@@ -60,8 +63,11 @@ class WirelessSocketApiController extends ApiController {
 	 * @param string description
 	 * @param string icon
 	 * @param int deletable
+	 * @param int lastToggled
+	 * @param string group
 	 */
-	public function create(string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable) {
+	public function create(string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable, int $lastToggled, string $group)
+	{
 		$wirelessSocket = new WirelessSocket();
 		$wirelessSocket->id = -1;
 		$wirelessSocket->name = $name;
@@ -71,17 +77,20 @@ class WirelessSocketApiController extends ApiController {
 		$wirelessSocket->description = $description;
 		$wirelessSocket->icon = $icon;
 		$wirelessSocket->deletable = $deletable;
+		$wirelessSocket->lastToggled = $lastToggled;
+		$wirelessSocket->group = $group;
+
 		return $this->generateResponse("success", function () use ($wirelessSocket) {
 			return $this->service->add($wirelessSocket);
 		}, '');
-    }
-    
+	}
+
 	/**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 * 
-     * @param int $id
+	 * @param int $id
 	 * @param string name
 	 * @param string code
 	 * @param string area
@@ -89,8 +98,11 @@ class WirelessSocketApiController extends ApiController {
 	 * @param string description
 	 * @param string icon
 	 * @param int deletable
+	 * @param int lastToggled
+	 * @param string group
 	 */
-	public function update(int $id, string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable) {
+	public function update(int $id, string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable, int $lastToggled, string $group)
+	{
 		$wirelessSocket = new WirelessSocket();
 		$wirelessSocket->id = $id;
 		$wirelessSocket->name = $name;
@@ -100,21 +112,25 @@ class WirelessSocketApiController extends ApiController {
 		$wirelessSocket->description = $description;
 		$wirelessSocket->icon = $icon;
 		$wirelessSocket->deletable = $deletable;
+		$wirelessSocket->lastToggled = $lastToggled;
+		$wirelessSocket->group = $group;
+
 		return $this->generateResponse("success", function () use ($wirelessSocket) {
 			return $this->service->update($wirelessSocket);
 		}, '');
-    }
-    
+	}
+
 	/**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 * 
-     * @param int $id
+	 * @param int $id
 	 */
-	public function destroy(int $id) {
+	public function destroy(int $id)
+	{
 		return $this->generateResponse("success", function () use ($id) {
 			return $this->service->delete($id);
 		}, '');
-    }
+	}
 }

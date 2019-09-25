@@ -4,10 +4,9 @@ namespace OCA\WirelessControl\Services;
 
 use OCA\WirelessControl\Enums\ErrorCode;
 use OCA\WirelessControl\Entities\PeriodicTask;
-use OCA\WirelessControl\Repositories\PeriodicTaskRepository;
 
-interface IPeriodicTaskService {
-
+interface IPeriodicTaskService
+{
 	/**
 	 * @return array PeriodicTask
 	 */
@@ -24,13 +23,13 @@ interface IPeriodicTaskService {
 	 * @return ErrorCode Success or failure of action
 	 */
 	public function add(PeriodicTask $periodicTask);
-    
-    /**
+
+	/**
 	 * @param PeriodicTask periodicTask
 	 * @return ErrorCode Success or failure of action
 	 */
-    public function update(PeriodicTask $periodicTask);
-    
+	public function update(PeriodicTask $periodicTask);
+
 	/**
 	 * @param int id PeriodicTask ID to delete
 	 * @return ErrorCode Success or failure of action

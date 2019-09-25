@@ -10,8 +10,8 @@ use JsonSerializable;
 
 use OCP\AppFramework\Db\Entity;
 
-class PeriodicTask extends Entity implements JsonSerializable {
-    
+class PeriodicTask extends Entity implements JsonSerializable
+{
     public $name;
     public $wirelessSocketId;
     public $wirelessSocketState;
@@ -21,7 +21,8 @@ class PeriodicTask extends Entity implements JsonSerializable {
     public $periodic;
     public $active;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->addType('wirelessSocketId', 'integer');
         $this->addType('wirelessSocketState', 'integer');
         $this->addType('weekday', 'integer');
@@ -31,7 +32,8 @@ class PeriodicTask extends Entity implements JsonSerializable {
         $this->addType('active', 'integer');
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             'id' => $this->id,
             'name' => $this->name,

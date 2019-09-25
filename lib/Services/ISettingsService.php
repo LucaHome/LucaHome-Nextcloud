@@ -2,8 +2,8 @@
 
 namespace OCA\WirelessControl\Services;
 
-interface ISettingsService {
-
+interface ISettingsService
+{
 	/**
 	 * @return array Settings
 	 */

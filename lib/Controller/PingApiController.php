@@ -5,77 +5,83 @@ namespace OCA\WirelessControl\Controller;
 use OCP\AppFramework\ApiController;
 use OCP\IRequest;
 
-class PingApiController extends ApiController {
-
+class PingApiController extends ApiController
+{
 	use Response;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 */
-	public function __construct(string $appName, IRequest $request) {
+	public function __construct(string $appName, IRequest $request)
+	{
 		parent::__construct($appName, $request);
-    }
-    
+	}
+
 	/**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 */
-	public function index() {
+	public function index()
+	{
 		return $this->generateResponse("success", function () {
 			return "Ping successful";
 		}, '');
-    }
+	}
 
-    /**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
-     *
-     * @param int $id
-     */
-    public function show(int $id) {
+	/**
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 *
+	 * @param int $id
+	 */
+	public function show(int $id)
+	{
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
 		}, '');
-    }
-    
+	}
+
 	/**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 * 
 	 */
-	public function create() {
+	public function create()
+	{
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
 		}, '');
-    }
-    
+	}
+
 	/**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 * 
-     * @param int $id
+	 * @param int $id
 	 */
-	public function update(int $id) {
+	public function update(int $id)
+	{
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
 		}, '');
-    }
-    
+	}
+
 	/**
-     * @CORS
-     * @NoCSRFRequired
-     * @NoAdminRequired
+	 * @CORS
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 * 
-     * @param int $id
+	 * @param int $id
 	 */
-	public function destroy(int $id) {
+	public function destroy(int $id)
+	{
 		return $this->generateResponse("error", function () {
 			return "Not implemented";
 		}, '');
-    }
+	}
 }

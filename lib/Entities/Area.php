@@ -10,17 +10,19 @@ use JsonSerializable;
 
 use OCP\AppFramework\Db\Entity;
 
-class Area extends Entity implements JsonSerializable {
-    
+class Area extends Entity implements JsonSerializable
+{
     public $name;
     public $filter;
     public $deletable;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->addType('deletable', 'integer');
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             'id' => $this->id,
             'name' => $this->name,

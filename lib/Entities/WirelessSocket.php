@@ -10,8 +10,8 @@ use JsonSerializable;
 
 use OCP\AppFramework\Db\Entity;
 
-class WirelessSocket extends Entity implements JsonSerializable {
-
+class WirelessSocket extends Entity implements JsonSerializable
+{
     public $name;
     public $code;
     public $area;
@@ -19,13 +19,18 @@ class WirelessSocket extends Entity implements JsonSerializable {
     public $description;
     public $icon;
     public $deletable;
+    public $lastToggled;
+    public $group;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->addType('state', 'integer');
         $this->addType('deletable', 'integer');
+        $this->addType('lastToggled', 'integer');
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -34,7 +39,9 @@ class WirelessSocket extends Entity implements JsonSerializable {
             'state' => $this->state,
             'description' => $this->description,
             'icon' => $this->icon,
-            'deletable' => $this->deletable
+            'deletable' => $this->deletable,
+            'lastToggled' => $this->lastToggled,
+            'group' => $this->group
         ];
     }
 }

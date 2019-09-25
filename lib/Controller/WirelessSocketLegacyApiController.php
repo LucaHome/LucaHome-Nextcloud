@@ -2,14 +2,14 @@
 
 namespace OCA\WirelessControl\Controller;
 
-use OCA\WirelessControl\Entities\WirelessSocket;
-use OCA\WirelessControl\Services\WirelessSocketService;
-use OCP\AppFramework\Controller;
+use OCA\WirelessControl\Entities\WirelessSocketLegacy;
+use OCA\WirelessControl\Services\WirelessSocketLegacyService;
+use OCP\AppFramework\ApiController;
 use OCP\IRequest;
 
-class WirelessSocketController extends Controller
+class WirelessSocketLegacyApiController extends ApiController
 {
-	/** @var WirelessSocketService */
+	/** @var WirelessSocketLegacyService */
 	private $service;
 
 	use Response;
@@ -17,17 +17,18 @@ class WirelessSocketController extends Controller
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param WirelessSocketService $service
+	 * @param WirelessSocketLegacyService $service
 	 */
-	public function __construct(string $appName, IRequest $request, WirelessSocketService $service)
+	public function __construct(string $appName, IRequest $request, WirelessSocketLegacyService $service)
 	{
 		parent::__construct($appName, $request);
 		$this->service = $service;
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @CORS
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 */
 	public function index()
 	{
@@ -37,8 +38,9 @@ class WirelessSocketController extends Controller
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @CORS
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 *
 	 * @param int $id
 	 */
@@ -50,8 +52,9 @@ class WirelessSocketController extends Controller
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @CORS
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 * 
 	 * @param string name
 	 * @param string code
@@ -60,12 +63,10 @@ class WirelessSocketController extends Controller
 	 * @param string description
 	 * @param string icon
 	 * @param int deletable
-	 * @param int lastToggled
-	 * @param string group
 	 */
-	public function create(string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable, int $lastToggled, string $group)
+	public function create(string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable)
 	{
-		$wirelessSocket = new WirelessSocket();
+		$wirelessSocket = new WirelessSocketLegacy();
 		$wirelessSocket->id = -1;
 		$wirelessSocket->name = $name;
 		$wirelessSocket->code = $code;
@@ -74,8 +75,6 @@ class WirelessSocketController extends Controller
 		$wirelessSocket->description = $description;
 		$wirelessSocket->icon = $icon;
 		$wirelessSocket->deletable = $deletable;
-		$wirelessSocket->lastToggled = $lastToggled;
-		$wirelessSocket->group = $group;
 
 		return $this->generateResponse("success", function () use ($wirelessSocket) {
 			return $this->service->add($wirelessSocket);
@@ -83,8 +82,9 @@ class WirelessSocketController extends Controller
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @CORS
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 * 
 	 * @param int $id
 	 * @param string name
@@ -94,12 +94,10 @@ class WirelessSocketController extends Controller
 	 * @param string description
 	 * @param string icon
 	 * @param int deletable
-	 * @param int lastToggled
-	 * @param string group
 	 */
-	public function update(int $id, string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable, int $lastToggled, string $group)
+	public function update(int $id, string $name, string $code, string $area, int $state, string $description, string $icon, int $deletable)
 	{
-		$wirelessSocket = new WirelessSocket();
+		$wirelessSocket = new WirelessSocketLegacy();
 		$wirelessSocket->id = $id;
 		$wirelessSocket->name = $name;
 		$wirelessSocket->code = $code;
@@ -108,8 +106,6 @@ class WirelessSocketController extends Controller
 		$wirelessSocket->description = $description;
 		$wirelessSocket->icon = $icon;
 		$wirelessSocket->deletable = $deletable;
-		$wirelessSocket->lastToggled = $lastToggled;
-		$wirelessSocket->group = $group;
 
 		return $this->generateResponse("success", function () use ($wirelessSocket) {
 			return $this->service->update($wirelessSocket);
@@ -117,8 +113,9 @@ class WirelessSocketController extends Controller
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @CORS
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
 	 * 
 	 * @param int $id
 	 */

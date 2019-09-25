@@ -6,8 +6,8 @@ use OCA\WirelessControl\Services\SettingsService;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
 
-class SettingsController extends Controller {
-	
+class SettingsController extends Controller
+{
 	/**
 	 * @var SettingsService
 	 */
@@ -20,16 +20,18 @@ class SettingsController extends Controller {
 	 * @param IRequest $request an instance of the request
 	 * @param SettingsService $settingsService
 	 */
-	public function __construct(string $appName, IRequest $request, SettingsService $settingsService){
+	public function __construct(string $appName, IRequest $request, SettingsService $settingsService)
+	{
 		parent::__construct($appName, $request);
 		$this->settingsService = $settingsService;
 	}
 
 	/**
 	 * @NoAdminRequired
-     * @NoCSRFRequired
+	 * @NoCSRFRequired
 	 */
-	public function get() {
+	public function get()
+	{
 		return $this->generateResponse("success", function () {
 			return $this->settingsService->get();
 		}, '');
@@ -37,9 +39,10 @@ class SettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-     * @NoCSRFRequired
+	 * @NoCSRFRequired
 	 */
-	public function set($setting, $value) {
+	public function set($setting, $value)
+	{
 		return $this->generateResponse("success", function () use ($setting, $value) {
 			return $this->settingsService->set($setting, $value);
 		}, '');

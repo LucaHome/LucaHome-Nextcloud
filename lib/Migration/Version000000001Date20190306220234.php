@@ -14,39 +14,42 @@ use OCP\IDBConnection;
 /**
  * Auto-generated migration step: Please modify to your needs!
  */
-class Version000000001Date20190306220234 extends SimpleMigrationStep {
-    private $db;
-    
-	public function __construct(IDBConnection $db) {
+class Version000000001Date20190306220234 extends SimpleMigrationStep
+{
+	private $db;
+
+	public function __construct(IDBConnection $db)
+	{
 		$this->db = $db;
-    }
-    
+	}
+
 	/**
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
-	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
-    }
-    
+	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options)
+	{ }
+
 	/**
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
-	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
+	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options)
+	{
 		/** @var ISchemaWrapper $schema */
-        $schema = $schemaClosure();
-        
+		$schema = $schemaClosure();
+
 		if (!$schema->hasTable('wireless_control_sockets')) {
 			$table = $schema->createTable('wireless_control_sockets');
 			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 64,
-            ]);
-            
+			]);
+
 			$table->addColumn('name', 'string', [
 				'notnull' => true,
 				'length' => 128,
@@ -66,7 +69,7 @@ class Version000000001Date20190306220234 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 1,
 				'default' => 0,
-            ]);
+			]);
 			$table->addColumn('description', 'string', [
 				'notnull' => true,
 				'length' => 4096,
@@ -81,19 +84,19 @@ class Version000000001Date20190306220234 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 1,
 				'default' => 1,
-            ]);
-			
+			]);
+
 			$table->setPrimaryKey(['id']);
-        }
-        
+		}
+
 		if (!$schema->hasTable('wireless_control_areas')) {
 			$table = $schema->createTable('wireless_control_areas');
 			$table->addColumn('id', 'bigint', [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 64,
-            ]);
-            
+			]);
+
 			$table->addColumn('name', 'string', [
 				'notnull' => true,
 				'length' => 128,
@@ -108,22 +111,23 @@ class Version000000001Date20190306220234 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 1,
 				'default' => 1,
-            ]);
+			]);
 
 			$table->setPrimaryKey(['id']);
-        }
-        
+		}
+
 		return $schema;
-    }
-    
+	}
+
 	/**
 	 * @param IOutput $output
 	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 */
-	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
+	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options)
+	{
 		// Add area "All"
-        $qb = $this->db->getQueryBuilder();
+		$qb = $this->db->getQueryBuilder();
 		$qb->insert('wireless_control_areas')
 			->values([
 				'name' => $qb->createNamedParameter('All'),

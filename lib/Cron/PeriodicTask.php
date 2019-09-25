@@ -6,35 +6,37 @@
 
 namespace OCA\WirelessControl\Cron;
 
-use OC\BackgroundJob\TimedJob;
 use OCA\WirelessControl\Services\PeriodicTaskService;
 use OCA\WirelessControl\Services\WirelessSocketService;
-use OCP\IConfig;
 use OCP\ILogger;
+use OCP\BackgroundJob\TimedJob;
 
-class PeriodicTask extends TimedJob {
-
-	/** 
+class PeriodicTask extends TimedJob
+{
+    /** 
      * @var PeriodicTaskService 
      * */
     private $periodicTaskService;
 
-	/** 
+    /** 
      * @var WirelessSocketService 
      * */
     private $wirelessSocketService;
 
-	/** 
-	 * @var ILogger 
+    /** 
+     * @var ILogger 
      * */
-	private $logger;
+    private $logger;
 
-	/**
-	 * @param PeriodicTaskService $periodicTaskService
-	 * @param WirelessSocketService $wirelessSocketService
-	 * @param ILogger $logger
-	 */
-    public function __construct(PeriodicTaskService $periodicTaskService, WirelessSocketService $wirelessSocketService, ILogger $logger) {
+    /**
+     * @param PeriodicTaskService $periodicTaskService
+     * @param WirelessSocketService $wirelessSocketService
+     * @param ILogger $logger
+     */
+    public function __construct(ITimeFactory $time, PeriodicTaskService $periodicTaskService, WirelessSocketService $wirelessSocketService, ILogger $logger)
+    {
+        parent::__construct($time);
+
         $this->periodicTaskService = $periodicTaskService;
         $this->wirelessSocketService = $wirelessSocketService;
         $this->logger = $logger;
@@ -43,7 +45,8 @@ class PeriodicTask extends TimedJob {
         parent::setInterval(60);
     }
 
-    protected  function run($arguments) {
+    protected  function run($arguments)
+    {
         // http://us3.php.net/manual/en/function.date.php
         // https://stackoverflow.com/questions/8529656/how-do-i-convert-a-string-to-a-number-in-php
 
@@ -52,32 +55,34 @@ class PeriodicTask extends TimedJob {
         $currentMinute = (int) date('i'); // 00 to 59
 
         $periodicTasks = $this->periodicTaskService->get();
-        
-		for ($index = 0; $index < sizeof($periodicTasks); $index++) {
+
+        for ($index = 0; $index < sizeof($periodicTasks); $index++) {
             $periodicTask = $periodicTasks[$index];
 
-            if($periodicTask->getActive() === 1
+            if (
+                $periodicTask->getActive() === 1
                 && $periodicTask->getWeekday() === $currentWeekday
                 && $periodicTask->getHour() === $currentHour
-                && $periodicTask->getMinute() === $currentMinute) {
-                    $wirelessSocket = $this->wirelessSocketService->getById($periodicTask->getWirelessSocketId());
-                    
-                    if ($wirelessSocket === NULL) {
-                        $this->logger->info('PeriodicTask: run: WirelessSocket does not exist for id '.$wirelessSocketId, ['app' => 'WirelessControl']);
-                        $this->periodicTaskService->delete($periodicTask->getId());
-                    } else {
-                        $wirelessSocket->state = $periodicTask->getWirelessSocketState();
+                && $periodicTask->getMinute() === $currentMinute
+            ) {
+                $wirelessSocket = $this->wirelessSocketService->getById($periodicTask->getWirelessSocketId());
 
-                        $wirelessSocketUpdateResult = $this->wirelessSocketService->update($wirelessSocket);
-                        if($wirelessSocketUpdateResult !== 0) {
-                            $this->logger->info('PeriodicTask: run: WirelessSocket failed to set state for '.$wirelessSocket, ['app' => 'WirelessControl']);
-                        }
+                if ($wirelessSocket === NULL) {
+                    $this->logger->info('PeriodicTask: run: WirelessSocket does not exist for id ' . $wirelessSocket->getId(), ['app' => 'WirelessControl']);
+                    $this->periodicTaskService->delete($periodicTask->getId());
+                } else {
+                    $wirelessSocket->state = $periodicTask->getWirelessSocketState();
 
-                        $periodic = $periodicTask->getPeriodic();
-                        if($periodic === 0) {
-                            $this->periodicTaskService->delete($periodicTask->getId());
-                        }
+                    $wirelessSocketUpdateResult = $this->wirelessSocketService->update($wirelessSocket);
+                    if ($wirelessSocketUpdateResult !== 0) {
+                        $this->logger->info('PeriodicTask: run: WirelessSocket failed to set state for ' . $wirelessSocket, ['app' => 'WirelessControl']);
                     }
+
+                    $periodic = $periodicTask->getPeriodic();
+                    if ($periodic === 0) {
+                        $this->periodicTaskService->delete($periodicTask->getId());
+                    }
+                }
             }
         }
     }
