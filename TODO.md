@@ -4,10 +4,11 @@
 
 These are Todos for the Server side, written in PHP
 
-- [X] Add possibility to create tasks setting wireless socket states automatically
+- [] Add possibility to create tasks setting wireless socket states automatically
     - [X] Test It
     - [ ] Fix Bugs
         - [ ] Fix background job
+- [] Change wiringPi usage from C++ to [PHP](https://github.com/WiringPi/WiringPi-PHP)
 
 ## Website
 
