@@ -14,18 +14,18 @@
 
 <script>
 import { AppContent } from "nextcloud-vue";
-import AreaListView from "../components/AreaListView.vue";
-import PeriodicTaskListView from "../components/PeriodicTaskListView.vue";
-import WirelessSocketDetailView from "../components/WirelessSocketDetailView.vue";
-import WirelessSocketListView from "../components/WirelessSocketListView.vue";
+import AreaListView from "@components/AreaListView.vue";
+import PeriodicTaskListView from "@components/PeriodicTaskListView.vue";
+import WirelessSocketDetailView from "@components/WirelessSocketDetailView.vue";
+import WirelessSocketListView from "@components/WirelessSocketListView.vue";
 
 export default {
   name: "WirelessControl",
   data: () => ({
     showPeriodicTasks: false,
-    areaInterval: null,
-    wirelessSocketInterval: null,
-    periodicTaskInterval: null
+    areaInterval: undefined,
+    wirelessSocketInterval: undefined,
+    periodicTaskInterval: undefined
   }),
   components: {
     AppContent,
@@ -45,9 +45,9 @@ export default {
     clearInterval(this.periodicTaskInterval);
   },
   created() {
-    this.areaInterval = setInterval(() => this.$store.dispatch("loadAreas"), 15 * 1000);
-    this.wirelessSocketInterval = setInterval(() => this.$store.dispatch("loadWirelessSockets"), 15 * 1000);
-    this.periodicTaskInterval = setInterval(() => this.$store.dispatch("loadPeriodicTasks"), 15 * 1000);
+    this.areaInterval = setInterval(() => this.$store.dispatch("loadAreas"), 60 * 1000);
+    this.wirelessSocketInterval = setInterval(() => this.$store.dispatch("loadWirelessSockets"), 60 * 1000);
+    this.periodicTaskInterval = setInterval(() => this.$store.dispatch("loadPeriodicTasks"), 60 * 1000);
   },
 };
 </script>

@@ -1,17 +1,12 @@
 <template>
   <div>
-    <md-button
-      class="md-icon-button md-raised close-button md-primary"
-      @click="closePeriodicTaskListView()"
-    >
+    <md-button  class="md-icon-button md-raised close-button md-primary" @click="closePeriodicTaskListView()">
       <md-icon>close</md-icon>
     </md-button>
 
-    <md-list class="md-triple-line">
+    <md-list class="md-triple-line" style="margin-top: 2rem;">
       <div v-for="(periodicTask, index) in periodicTasksForWirelessSocket" :key="index">
-        <md-list-item
-          :class="{selected: periodicTask.id === periodicTaskSelected.id, selectable: periodicTask.id !== periodicTaskSelected.id}"
-        >
+        <md-list-item :class="periodicTask.id | listItemClass">
           <md-avatar @click="select(periodicTask)">
             <md-icon v-if="!!periodicTask.active">timer</md-icon>
             <md-icon v-else>timer_off</md-icon>
@@ -19,26 +14,20 @@
 
           <div class="md-list-item-text" @click="select(periodicTask)">
             <span>{{ periodicTask.name }}</span>
-            <span>{{ numberToWeekday(periodicTask.weekday) }}, {{ getTimeString(periodicTask) }}</span>
-            <p>{{ periodicTask.wirelessSocketState === 1 ? 'Activate' : 'Deactivate' }}{{ periodicTask.periodic === 1 ? ', Periodic' : '' }}</p>
+            <span>{{ periodicTask | dateTimeText }}</span>
+            <p>{{ periodicTask | stateText }}</p>
           </div>
 
-          <md-button
-            class="md-icon-button md-raised add-button md-primary periodic-task-button-edit"
-            @click="editPeriodicTask(periodicTask)"
-          >
+          <md-button class="md-icon-button md-raised add-button md-primary periodic-task-button-edit" @click="editPeriodicTask(periodicTask)">
             <md-icon>edit</md-icon>
           </md-button>
 
-          <md-button
-            class="md-icon-button md-raised delete-button md-primary periodic-task-button-delete"
-            @click="deletePeriodicTask(periodicTask)"
-          >
+          <md-button class="md-icon-button md-raised delete-button md-primary periodic-task-button-delete" @click="deletePeriodicTask(periodicTask)">
             <md-icon>delete</md-icon>
           </md-button>
         </md-list-item>
 
-        <md-divider class="md-inset"/>
+        <md-divider class="md-inset" />
       </div>
     </md-list>
 
@@ -47,9 +36,7 @@
     </md-button>
 
     <md-dialog :md-active.sync="addEditPeriodicTaskDialogActive">
-      <PeriodicTaskEditDialogView
-        v-on:closePeriodicTaskDialog="addEditPeriodicTaskDialogActive = false"
-      />
+      <PeriodicTaskEditDialogView v-on:closePeriodicTaskDialog="addEditPeriodicTaskDialogActive = false"/>
     </md-dialog>
 
     <md-dialog-confirm
@@ -65,7 +52,6 @@
 
 <script>
 import PeriodicTaskEditDialogView from "./PeriodicTaskEditDialogView.vue";
-import DateTimeString from "../utils/date-time-string.utils";
 
 export default {
   name: "PeriodicTaskListView",
@@ -83,25 +69,10 @@ export default {
       var periodicTaskSelected = this.$store.getters.periodicTaskSelected;
       var wirelessSocketSelected = this.$store.getters.wirelessSocketSelected;
 
-      var periodicTasksForWirelessSocket =
-        wirelessSocketSelected !== null
-          ? periodicTasks.filter(
-              x => x.wirelessSocketId === wirelessSocketSelected.id
-            )
-          : [];
+      var periodicTasksForWirelessSocket = !!wirelessSocketSelected ? periodicTasks.filter(x => x.wirelessSocketId === wirelessSocketSelected.id): [];
 
-      if (
-        !periodicTaskInEdit &&
-        (!periodicTaskSelected ||
-          periodicTasksForWirelessSocket.filter(
-            x => x.id == periodicTaskSelected.id
-          ).length === 0)
-      ) {
-        this.select(
-          periodicTasksForWirelessSocket.length === 0
-            ? null
-            : periodicTasksForWirelessSocket[0]
-        );
+      if (!periodicTaskInEdit && (!periodicTaskSelected || periodicTasksForWirelessSocket.filter(x => x.id == periodicTaskSelected.id).length === 0)) {
+        this.select(periodicTasksForWirelessSocket.length === 0 ? null : periodicTasksForWirelessSocket[0]);
       }
 
       return periodicTasksForWirelessSocket;
@@ -120,10 +91,7 @@ export default {
       var wirelessSocket = this.$store.getters.wirelessSocketSelected;
 
       var periodicTask = {
-        id:
-          periodicTasks.length > 0
-            ? Math.max(...periodicTasks.map(x => x.id)) + 1
-            : 0,
+        id: periodicTasks.length > 0 ? Math.max(...periodicTasks.map(x => x.id)) + 1 : 0,
         name: "",
         wirelessSocketId: wirelessSocket.id,
         wirelessSocketState: true,
@@ -146,19 +114,21 @@ export default {
       this.deletePeriodicTaskDialogActive = true;
     },
     onDeleteYes() {
-      this.$store.dispatch(
-        "deletePeriodicTask",
-        this.$store.getters.periodicTaskSelected
-      );
+      this.$store.dispatch("deletePeriodicTask", this.$store.getters.periodicTaskSelected);
     },
     closePeriodicTaskListView() {
       this.$emit("closePeriodicTaskListView");
+    }
+  },
+  filters: {
+    dateTimeText: function(periodicTask) {
+      return `${["Error", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"][periodicTask.weekday]}, ${("0" + periodicTask.hour).slice(-2)}:${("0" + periodicTask.minute).slice(-2)}`;
     },
-    getTimeString(periodicTask) {
-      return DateTimeString.getTimeString(periodicTask);
+    listItemClass: function(periodicTask) {
+      return periodicTask.id === this.periodicTaskSelected.id ? "selected" : "selectable";
     },
-    numberToWeekday(number) {
-      return DateTimeString.numberToWeekday(number);
+    stateText: function(periodicTask) {
+      return `${periodicTask.wirelessSocketState === 1 ? "Activate" : "Deactivate"}${periodicTask.periodic === 1 ? ", Periodic" : ""}`;
     }
   }
 };

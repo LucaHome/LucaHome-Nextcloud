@@ -2,8 +2,8 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Requests from '../services/requests'
-import Converter from '../utils/converter.utils'
+import Requests from '@services/requests'
+import { convertAreaLoadResponse, convertNumberResponse } from '@utils/converter.utils'
 
 Vue.use(Vuex)
 
@@ -102,9 +102,7 @@ const actions = {
      * @returns {Promise}
      */
     setAreaInEdit({ commit }, areaInEdit) {
-        commit('setAreaInEdit', {
-            areaInEdit: areaInEdit
-        });
+        commit('setAreaInEdit', { areaInEdit: areaInEdit });
     },
 
     /**
@@ -117,18 +115,14 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.get('area')
                 .then(response => {
-                    response = Converter.convertAreaLoadResponse(response);
+                    response = convertAreaLoadResponse(response);
 
                     if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        commit('setAreas', {
-                            areas: []
-                        });
+                        commit('setAreas', { areas: [] });
                     } else {
-                        commit('setAreas', {
-                            areas: !!response.data ? response.data : []
-                        });
+                        commit('setAreas', { areas: !!response.data ? response.data : [] });
                     }
 
                     resolve();
@@ -144,9 +138,7 @@ const actions = {
      * @returns {Promise}
      */
     selectArea({ commit }, area) {
-        commit('setAreaSelected', {
-            area: area
-        });
+        commit('setAreaSelected', { area: area });
     },
 
     /**
@@ -166,24 +158,22 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.post('area', area)
                 .then(response => {
-                    response = Converter.convertNumberResponse(response);
+                    response = convertNumberResponse(response);
 
                     if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        return;
+                    } else {
+                        if (response.status === "success" && response.data >= 0) {
+                            area.id = response.data;
+                            commit('addArea', { area: area });
+                        } else {
+                            // eslint-disable-next-line
+                            console.error(JSON.stringify(response));
+                        }
                     }
 
-                    if (response.status === "success" && response.data >= 0) {
-                        area.id = response.data;
-                        commit('addArea', {
-                            area: area
-                        });
-                        resolve();
-                    } else {
-                        // eslint-disable-next-line
-                        console.error(JSON.stringify(response));
-                    }
+                    resolve();
                 });
         });
     },
@@ -199,23 +189,21 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.put('area', area)
                 .then(response => {
-                    response = Converter.convertNumberResponse(response);
+                    response = convertNumberResponse(response);
 
                     if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        return;
+                    } else {
+                        if (response.status === "success" && response.data === 0) {
+                            commit('updateArea', { area: area });
+                        } else {
+                            // eslint-disable-next-line
+                            console.error(JSON.stringify(response));
+                        }
                     }
 
-                    if (response.status === "success" && response.data === 0) {
-                        commit('updateArea', {
-                            area: area
-                        });
-                        resolve();
-                    } else {
-                        // eslint-disable-next-line
-                        console.error(JSON.stringify(response));
-                    }
+                    resolve();
                 });
         });
     },
@@ -231,23 +219,21 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.delete('area', area.id)
                 .then(response => {
-                    response = Converter.convertNumberResponse(response);
+                    response = convertNumberResponse(response);
 
                     if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        return;
+                    } else {
+                        if (response.status === "success" && response.data === 0) {
+                            commit('deleteArea', { area: area });
+                        } else {
+                            // eslint-disable-next-line
+                            console.error(JSON.stringify(response));
+                        }
                     }
 
-                    if (response.status === "success" && response.data === 0) {
-                        commit('deleteArea', {
-                            area: area
-                        });
-                        resolve();
-                    } else {
-                        // eslint-disable-next-line
-                        console.error(JSON.stringify(response));
-                    }
+                    resolve();
                 });
         });
     }

@@ -2,8 +2,8 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Requests from '../services/requests'
-import Converter from '../utils/converter.utils'
+import Requests from '@services/requests'
+import { convertNumberResponse, convertWirelessSocketLoadResponse } from '@utils/converter.utils'
 
 Vue.use(Vuex)
 
@@ -38,7 +38,7 @@ const mutations = {
      */
     setWirelessSockets(state, payload) {
         state.wirelessSockets = payload.wirelessSockets;
-        if(!state.wirelessSocketInEdit && (!state.wirelessSocketSelected || state.wirelessSockets.filter(x => x.id == state.wirelessSocketSelected.id).length === 0)) {
+        if (!state.wirelessSocketInEdit && (!state.wirelessSocketSelected || state.wirelessSockets.filter(x => x.id == state.wirelessSocketSelected.id).length === 0)) {
             state.wirelessSocketSelected = state.wirelessSockets.length > 0 ? state.wirelessSockets[0] : null;
         }
     },
@@ -102,9 +102,7 @@ const actions = {
      * @returns {Promise}
      */
     setWirelessSocketInEdit({ commit }, wirelessSocketInEdit) {
-        commit('setWirelessSocketInEdit', {
-            wirelessSocketInEdit: wirelessSocketInEdit
-        });
+        commit('setWirelessSocketInEdit', { wirelessSocketInEdit: wirelessSocketInEdit });
     },
 
     /**
@@ -117,18 +115,14 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.get('wireless_socket')
                 .then(response => {
-                    response = Converter.convertWirelessSocketLoadResponse(response);
+                    response = convertWirelessSocketLoadResponse(response);
 
-                    if(response.data === false){
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        commit('setWirelessSockets', {
-                            wirelessSockets: []
-                        });
+                        commit('setWirelessSockets', { wirelessSockets: [] });
                     } else {
-                        commit('setWirelessSockets', {
-                            wirelessSockets: !!response.data ? response.data : []
-                        });
+                        commit('setWirelessSockets', { wirelessSockets: !!response.data ? response.data : [] });
                     }
 
                     resolve();
@@ -144,9 +138,7 @@ const actions = {
      * @returns {Promise}
      */
     selectWirelessSocket({ commit }, wirelessSocket) {
-        commit('setWirelessSocketSelected', {
-            wirelessSocket: wirelessSocket
-        });
+        commit('setWirelessSocketSelected', { wirelessSocket: wirelessSocket });
     },
 
     /**
@@ -171,24 +163,22 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.post('wireless_socket', wirelessSocket)
                 .then(response => {
-                    response = Converter.convertNumberResponse(response);
+                    response = convertNumberResponse(response);
 
-                    if(response.data === false){
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        return;
-                    }
-
-                    if (response.status === "success" && response.data >= 0) {
-                        wirelessSocket.id = response.data;
-                        commit('addWirelessSocket', {
-                            wirelessSocket: wirelessSocket
-                        });
-                        resolve();
                     } else {
-                        // eslint-disable-next-line
-                        console.error(JSON.stringify(response));
+                        if (response.status === "success" && response.data >= 0) {
+                            wirelessSocket.id = response.data;
+                            commit('addWirelessSocket', { wirelessSocket: wirelessSocket });
+                        } else {
+                            // eslint-disable-next-line
+                            console.error(JSON.stringify(response));
+                        }
                     }
+
+                    resolve();
                 });
         });
     },
@@ -204,23 +194,21 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.put('wireless_socket', wirelessSocket)
                 .then(response => {
-                    response = Converter.convertNumberResponse(response);
+                    response = convertNumberResponse(response);
 
-                    if(response.data === false){
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        return;
-                    }
-
-                    if (response.status === "success" && response.data === 0) {
-                        commit('updateWirelessSocket', {
-                            wirelessSocket: wirelessSocket
-                        });
-                        resolve();
                     } else {
-                        // eslint-disable-next-line
-                        console.error(JSON.stringify(response));
+                        if (response.status === "success" && response.data === 0) {
+                            commit('updateWirelessSocket', { wirelessSocket: wirelessSocket });
+                        } else {
+                            // eslint-disable-next-line
+                            console.error(JSON.stringify(response));
+                        }
                     }
+
+                    resolve();
                 });
         });
     },
@@ -236,23 +224,22 @@ const actions = {
         return new Promise(function (resolve) {
             Requests.delete('wireless_socket', wirelessSocket.id)
                 .then(response => {
-                    response = Converter.convertNumberResponse(response);
+                    response = convertNumberResponse(response);
 
-                    if(response.data === false){
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
                         return;
+                    } else {
+                        if (response.status === "success" && response.data === 0) {
+                            commit('deleteWirelessSocket', { wirelessSocket: wirelessSocket });
+                        } else {
+                            // eslint-disable-next-line
+                            console.error(JSON.stringify(response));
+                        }
                     }
 
-                    if (response.status === "success" && response.data === 0) {
-                        commit('deleteWirelessSocket', {
-                            wirelessSocket: wirelessSocket
-                        });
-                        resolve();
-                    } else {
-                        // eslint-disable-next-line
-                        console.error(JSON.stringify(response));
-                    }
+                    resolve();
                 });
         });
     }

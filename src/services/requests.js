@@ -9,6 +9,8 @@ const baseUrl = '/nextcloud/index.php/apps/wirelesscontrol/'
 export default {
 	get(url) {
 		if (useMockData) {
+			// eslint-disable-next-line
+			console.warn('Using mock data!');
 			return requestMock.getMock(url);
 		}
 
@@ -18,6 +20,8 @@ export default {
 	},
 	post(url, data) {
 		if (useMockData) {
+			// eslint-disable-next-line
+			console.warn('Using mock data!');
 			return requestMock.postDeleteMock(url, data);
 		}
 
@@ -34,6 +38,8 @@ export default {
 	},
 	put(url, data) {
 		if (useMockData) {
+			// eslint-disable-next-line
+			console.warn('Using mock data!');
 			return requestMock.putMock(url, data);
 		}
 
@@ -48,6 +54,8 @@ export default {
 	},
 	delete(url, id) {
 		if (useMockData) {
+			// eslint-disable-next-line
+			console.warn('Using mock data!');
 			return requestMock.postDeleteMock(url, id);
 		}
 

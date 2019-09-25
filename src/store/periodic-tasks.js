@@ -2,8 +2,8 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Requests from '../services/requests'
-import Converter from '../utils/converter.utils'
+import Requests from '@services/requests'
+import { convertNumberResponse, convertPeriodicTaskLoadResponse } from '@utils/converter.utils'
 
 Vue.use(Vuex)
 
@@ -38,7 +38,7 @@ const mutations = {
      */
     setPeriodicTasks(state, payload) {
         state.periodicTasks = payload.periodicTasks;
-        if(!state.periodicTaskInEdit && (!state.periodicTaskSelected || state.periodicTasks.filter(x => x.id == state.periodicTaskSelected.id).length === 0)) {
+        if (!state.periodicTaskInEdit && (!state.periodicTaskSelected || state.periodicTasks.filter(x => x.id == state.periodicTaskSelected.id).length === 0)) {
             state.periodicTaskSelected = state.periodicTasks.length > 0 ? state.periodicTasks[0] : null;
         }
     },
@@ -102,9 +102,7 @@ const actions = {
      * @returns {Promise}
      */
     setPeriodicTaskInEdit({ commit }, periodicTaskInEdit) {
-        commit('setPeriodicTaskInEdit', {
-            periodicTaskInEdit: periodicTaskInEdit
-        });
+        commit('setPeriodicTaskInEdit', { periodicTaskInEdit: periodicTaskInEdit });
     },
 
     /**
@@ -113,24 +111,20 @@ const actions = {
      * @param {Object} commit The store mutations
      * @returns {Promise}
      */
-    loadPeriodicTasks({commit}) {
+    loadPeriodicTasks({ commit }) {
         return new Promise(function (resolve) {
             Requests.get('periodic_task')
                 .then(response => {
-                    response = Converter.convertPeriodicTaskLoadResponse(response);
+                    response = convertPeriodicTaskLoadResponse(response);
 
-                    if(response.data === false){
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        commit('setPeriodicTasks', {
-                            periodicTasks: []
-                        });
+                        commit('setPeriodicTasks', { periodicTasks: [] });
                     } else {
-                        commit('setPeriodicTasks', {
-                            periodicTasks: !!response.data ? response.data : []
-                        });
+                        commit('setPeriodicTasks', { periodicTasks: !!response.data ? response.data : [] });
                     }
-                    
+
                     resolve();
                 });
         });
@@ -143,10 +137,8 @@ const actions = {
      * @param {Object} periodicTask The selected periodicTask
      * @returns {Promise}
      */
-    selectPeriodicTask({commit}, periodicTask) {
-        commit('setPeriodicTaskSelected', {
-            periodicTask: periodicTask
-        });
+    selectPeriodicTask({ commit }, periodicTask) {
+        commit('setPeriodicTaskSelected', { periodicTask: periodicTask });
     },
 
     /**
@@ -156,28 +148,26 @@ const actions = {
      * @param {Object} periodicTask The selected periodicTask
      * @returns {Promise}
      */
-    addPeriodicTask({commit}, periodicTask) {
+    addPeriodicTask({ commit }, periodicTask) {
         return new Promise(function (resolve) {
             Requests.post('periodic_task', periodicTask)
                 .then(response => {
-                    response = Converter.convertNumberResponse(response);
+                    response = convertNumberResponse(response);
 
-                    if(response.data === false){
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        return;
-                    }
-
-                    if (response.status === "success" && response.data >= 0) {
-                        periodicTask.id = response.data;
-                        commit('addPeriodicTask', {
-                            periodicTask: periodicTask
-                        });
-                        resolve();
                     } else {
-                        // eslint-disable-next-line
-                        console.error(JSON.stringify(response));
+                        if (response.status === "success" && response.data >= 0) {
+                            periodicTask.id = response.data;
+                            commit('addPeriodicTask', { periodicTask: periodicTask });
+                        } else {
+                            // eslint-disable-next-line
+                            console.error(JSON.stringify(response));
+                        }
                     }
+
+                    resolve();
                 });
         });
     },
@@ -189,27 +179,25 @@ const actions = {
      * @param {Object} periodicTask The selected periodicTask
      * @returns {Promise}
      */
-    updatePeriodicTask({commit}, periodicTask) {
+    updatePeriodicTask({ commit }, periodicTask) {
         return new Promise(function (resolve) {
             Requests.put('periodic_task', periodicTask)
                 .then(response => {
-                    response = Converter.convertNumberResponse(response);
+                    response = convertNumberResponse(response);
 
-                    if(response.data === false){
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        return;
-                    }
-
-                    if (response.status === "success" && response.data === 0) {
-                        commit('updatePeriodicTask', {
-                            periodicTask: periodicTask
-                        });
-                        resolve();
                     } else {
-                        // eslint-disable-next-line
-                        console.error(JSON.stringify(response));
+                        if (response.status === "success" && response.data === 0) {
+                            commit('updatePeriodicTask', { periodicTask: periodicTask });
+                        } else {
+                            // eslint-disable-next-line
+                            console.error(JSON.stringify(response));
+                        }
                     }
+
+                    resolve();
                 });
         });
     },
@@ -221,27 +209,25 @@ const actions = {
      * @param {Object} periodicTask The selected periodicTask
      * @returns {Promise}
      */
-    deletePeriodicTask({commit}, periodicTask) {
+    deletePeriodicTask({ commit }, periodicTask) {
         return new Promise(function (resolve) {
             Requests.delete('periodic_task', periodicTask.id)
                 .then(response => {
-                    response = Converter.convertNumberResponse(response);
+                    response = convertNumberResponse(response);
 
-                    if(response.data === false){
+                    if (response.data === false) {
                         // eslint-disable-next-line
                         console.error(JSON.stringify(response));
-                        return;
-                    }
-                    
-                    if (response.status === "success" && response.data === 0) {
-                        commit('deletePeriodicTask', {
-                            periodicTask: periodicTask
-                        });
-                        resolve();
                     } else {
-                        // eslint-disable-next-line
-                        console.error(JSON.stringify(response));
+                        if (response.status === "success" && response.data === 0) {
+                            commit('deletePeriodicTask', { periodicTask: periodicTask });
+                        } else {
+                            // eslint-disable-next-line
+                            console.error(JSON.stringify(response));
+                        }
                     }
+
+                    resolve();
                 });
         });
     }

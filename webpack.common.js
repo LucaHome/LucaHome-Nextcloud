@@ -12,7 +12,8 @@ module.exports = {
 		chunkFilename: 'chunks/[name].js'
 	},
 	module: {
-		rules: [{
+		rules: [
+			{
 				test: /\.css$/,
 				use: ['vue-style-loader', 'css-loader']
 			},
@@ -50,9 +51,12 @@ module.exports = {
 	],
 	resolve: {
 		alias: {
-			components: path.resolve(__dirname, 'src/components/'),
-			services: path.resolve(__dirname, 'src/services/'),
-			views: path.resolve(__dirname, 'src/views/')
+			"@components": path.resolve(__dirname, 'src/components/'),
+			"@router": path.resolve(__dirname, 'src/router/'),
+			"@services": path.resolve(__dirname, 'src/services/'),
+			"@store": path.resolve(__dirname, 'src/store/'),
+			"@utils": path.resolve(__dirname, 'src/utils/'),
+			"@views": path.resolve(__dirname, 'src/views/')
 		},
 		extensions: ['*', '.js', '.vue', '.json']
 	}

@@ -11,29 +11,19 @@
             <div class="md-layout-item md-item-min-width-75">
               <md-field :class="getValidationClass('name')">
                 <label for="name">Name</label>
-                <md-input name="name" id="name" v-model="form.name" :disabled="sending"/>
+                <md-input name="name" id="name" v-model="form.name" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.name.required">The name is required</span>
                 <span class="md-error" v-else-if="!$v.form.name.minlength">Invalid name length</span>
               </md-field>
             </div>
 
             <div class="md-layout-item md-item-min-width-25">
-              <md-checkbox
-                v-model="form.wirelessSocketState"
-                class="md-primary"
-                :disabled="sending"
-              >State</md-checkbox>
+              <md-checkbox v-model="form.wirelessSocketState" class="md-primary" :disabled="sending">State</md-checkbox>
             </div>
 
             <div class="md-layout-item md-item-min-width-33">
               <md-field :class="getValidationClass('weekday')">
-                <md-select
-                  v-model="form.weekday"
-                  name="weekday"
-                  id="weekday"
-                  placeholder="Select a weekday"
-                  :disabled="sending"
-                >
+                <md-select v-model="form.weekday"  name="weekday" id="weekday" placeholder="Select a weekday" :disabled="sending">
                   <md-option value="1">Monday</md-option>
                   <md-option value="2">Tuesday</md-option>
                   <md-option value="3">Wednesday</md-option>
@@ -48,7 +38,7 @@
             <div class="md-layout-item md-item-min-width-33">
               <md-field :class="getValidationClass('hour')">
                 <label for="hour">Hour</label>
-                <md-input name="hour" id="hour" v-model="form.hour" :disabled="sending"/>
+                <md-input name="hour" id="hour" v-model="form.hour" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.hour.required">The hour is required</span>
                 <span class="md-error" v-else-if="!$v.form.hour.range">Invalid hour range (0-23)</span>
               </md-field>
@@ -57,7 +47,7 @@
             <div class="md-layout-item md-item-min-width-33">
               <md-field :class="getValidationClass('minute')">
                 <label for="minute">Minute</label>
-                <md-input name="minute" id="minute" v-model="form.minute" :disabled="sending"/>
+                <md-input name="minute" id="minute" v-model="form.minute" :disabled="sending" />
                 <span class="md-error" v-if="!$v.form.minute.required">The minute is required</span>
                 <span class="md-error" v-else-if="!$v.form.minute.range">Invalid minute range (0-59)</span>
               </md-field>
@@ -74,7 +64,7 @@
         </div>
       </md-card-content>
 
-      <md-progress-bar md-mode="indeterminate" v-if="sending"/>
+      <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
       <md-card-actions>
         <md-button type="submit" class="md-primary" :disabled="sending || !hasChanges()">Save</md-button>
@@ -96,13 +86,13 @@ export default {
   mixins: [validationMixin],
   data: () => ({
     form: {
-      name: null,
-      wirelessSocketState: null,
+      name: undefined,
+      wirelessSocketState: undefined,
       weekday: false,
-      hour: null,
-      minute: null,
-      periodic: null,
-      active: null
+      hour: undefined,
+      minute: undefined,
+      periodic: undefined,
+      active: undefined
     },
     modeAdd: true,
     sending: false
@@ -128,17 +118,28 @@ export default {
     }
   },
   methods: {
-    getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
-      if (field) {
-        return {
-          "md-invalid": field.$invalid && field.$dirty
-        };
-      }
-    },
     close() {
       this.$store.dispatch("setPeriodicTaskInEdit", false);
       this.$emit("closePeriodicTaskDialog");
+    },
+    getValidationClass(fieldName) {
+      const field = this.$v.form[fieldName];
+      if (!!field) {
+        return { "md-invalid": field.$invalid && field.$dirty };
+      }
+    },
+    hasChanges() {
+      return (
+        !!this.periodicTaskSelected 
+        && (this.form.name !== this.periodicTaskSelected.name 
+          || this.form.wirelessSocketId !== this.periodicTaskSelected.wirelessSocketId 
+          || this.form.wirelessSocketState !== this.periodicTaskSelected.wirelessSocketState 
+          || this.form.weekday !== this.periodicTaskSelected.weekday 
+          || this.form.hour !== this.periodicTaskSelected.hour 
+          || this.form.minute !== this.periodicTaskSelected.minute 
+          || this.form.periodic !== this.periodicTaskSelected.periodic 
+          || this.form.active !== this.periodicTaskSelected.active)
+      );
     },
     save() {
       this.sending = true;
@@ -166,14 +167,8 @@ export default {
       this.sending = false;
       this.close();
     },
-    validate() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
-        this.save();
-      }
-    },
     setFormData(periodicTask) {
-      if (periodicTask) {
+      if (!!periodicTask) {
         this.form.name = periodicTask.name;
         this.form.wirelessSocketId = periodicTask.wirelessSocketId;
         this.form.wirelessSocketState = periodicTask.wirelessSocketState === 1;
@@ -193,20 +188,11 @@ export default {
         this.form.active = false;
       }
     },
-    hasChanges() {
-      return (
-        !!this.periodicTaskSelected &&
-        (this.form.name !== this.periodicTaskSelected.name ||
-          this.form.wirelessSocketId !==
-          this.periodicTaskSelected.wirelessSocketId ||
-          this.form.wirelessSocketState !==
-          this.periodicTaskSelected.wirelessSocketState ||
-          this.form.weekday !== this.periodicTaskSelected.weekday ||
-          this.form.hour !== this.periodicTaskSelected.hour ||
-          this.form.minute !== this.periodicTaskSelected.minute ||
-          this.form.periodic !== this.periodicTaskSelected.periodic ||
-          this.form.active !== this.periodicTaskSelected.active)
-      );
+    validate() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.save();
+      }
     }
   },
   watch: {
@@ -228,10 +214,7 @@ export default {
       this.modeAdd = true;
 
       var periodicTask = {
-        id:
-          periodicTasks.length > 0
-            ? Math.max(...periodicTasks.map(x => x.id)) + 1
-            : 0,
+        id: periodicTasks.length > 0 ? Math.max(...periodicTasks.map(x => x.id)) + 1 : 0,
         name: "",
         wirelessSocketId: wirelessSocket.id,
         wirelessSocketState: true,

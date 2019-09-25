@@ -1,109 +1,109 @@
-@import '~vue-material/dist/theme/engine';
-@import '~vue-material/dist/theme/all';
+@import "~vue-material/dist/theme/engine";
+@import "~vue-material/dist/theme/all";
 
 body {
-	font-family: Helvetica, sans-serif;
+  font-family: Helvetica, sans-serif;
 }
 
 .area-list-view {
-	position: absolute;
-	min-width: 20rem;
-	width: 20rem;
-	max-width: 20rem;
-	height: calc(100vh - 3.5rem);
-	background-color: rgb(66, 66, 66);
-	border: 0.0625rem solid rgba(#000, 0.12);
-	z-index: 1001;
+  position: absolute;
+  min-width: 20rem;
+  width: 20rem;
+  max-width: 20rem;
+  height: calc(100vh - 3.5rem);
+  background-color: rgb(66, 66, 66);
+  border: 0.0625rem solid rgba(#000, 0.12);
+  z-index: 1001;
 }
 
 .wireless-socket-list-view {
-	position: absolute;
-	min-width: 20rem;
-	width: 20rem;
-	max-width: 20rem;
-	height: calc(100vh - 3.5rem);
-	background-color: rgb(66, 66, 66);
-	border: 0.0625rem solid rgba(#000, 0.12);
-	margin-left: 20.5rem;
+  position: absolute;
+  min-width: 20rem;
+  width: 20rem;
+  max-width: 20rem;
+  height: calc(100vh - 3.5rem);
+  background-color: rgb(66, 66, 66);
+  border: 0.0625rem solid rgba(#000, 0.12);
+  margin-left: 20.5rem;
 }
 
 .detail-view {
-	position: absolute;
-	height: calc(100vh - 3.5rem);
-	width: calc(100vw - 42.5rem);
-	background-color: rgb(66, 66, 66);
-	left: 20.5rem;
-	top: 0;
-	margin-left: 20.5rem;
+  position: absolute;
+  height: calc(100vh - 3.5rem);
+  width: calc(100vw - 42.5rem);
+  background-color: rgb(66, 66, 66);
+  left: 20.5rem;
+  top: 0;
+  margin-left: 20.5rem;
 }
 
 .periodic-task-list-view {
-	position: absolute;
-	min-width: 20rem;
-	width: 20rem;
-	max-width: 20rem;
-	height: calc(100vh - 3.5rem);
-	background-color: rgb(66, 66, 66);
-	border: 0.0625rem solid rgba(#000, 0.12);
-	right: 0.01rem;
-	z-index: 1002;
+  position: absolute;
+  min-width: 20rem;
+  width: 20rem;
+  max-width: 20rem;
+  height: calc(100vh - 3.5rem);
+  background-color: rgb(66, 66, 66);
+  border: 0.0625rem solid rgba(#000, 0.12);
+  right: 0.01rem;
+  z-index: 1002;
 }
 
 .selected {
-	background-color: dimgrey;
-	cursor: default;
+  background-color: dimgrey;
+  cursor: default;
 }
 
 .selectable {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .add-button {
-	position: absolute !important;
-	left: 15rem;
-	bottom: 1rem;
+  position: absolute !important;
+  left: 15rem;
+  bottom: 1rem;
 }
 
 .close-button {
-	position: absolute !important;
-	right: 1rem;
-	top: 1rem;
+  position: absolute !important;
+  right: 17.5rem;
+  top: 1rem;
 }
 
 .save-button {
-	cursor: pointer;
-	right: 0rem;
+  cursor: pointer;
+  right: 0rem;
 }
 
 .delete-button {
-	cursor: pointer;
+  cursor: pointer;
 }
 
-.md-item-min-width-25{
-	min-width: 25%;
+.md-item-min-width-25 {
+  min-width: 25%;
 }
 
-.md-item-min-width-33{
-	min-width: 33%;
+.md-item-min-width-33 {
+  min-width: 33%;
 }
 
-.md-item-min-width-50{
-	min-width: 50%;
+.md-item-min-width-50 {
+  min-width: 50%;
 }
 
-.md-item-min-width-75{
-	min-width: 75%;
+.md-item-min-width-75 {
+  min-width: 75%;
 }
 
-.periodic-task-button-edit{
-	left: 1rem;
-	position: relative !important;
-	top: 1.25rem;
+.periodic-task-button-edit {
+  left: 1rem;
+  position: relative !important;
+  top: 1.25rem;
 }
 
-.periodic-task-button-delete{
-	right: -1rem;
-	position: relative;
-	background-color: red;
-	top: 1.25rem;
+.periodic-task-button-delete {
+  right: -1rem;
+  position: relative;
+  background-color: red;
+  top: 1.25rem;
 }

@@ -2,7 +2,7 @@
 
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Requests from '../services/requests'
+import Requests from '@services/requests'
 
 Vue.use(Vuex)
 
@@ -101,9 +101,7 @@ const actions = {
 			//Requests.get(OC.generateUrl('apps/lucahome/settings'))
 			Requests.get('apps/lucahome/settings')
 				.then(response => {
-					commit('setSettings', {
-						settings: response.data
-					})
+					commit('setSettings', { settings: response.data })
 					resolve()
 				})
 		})

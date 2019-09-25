@@ -2,10 +2,8 @@
   <div>
     <md-list class="md-single-line">
       <div v-for="(area, index) in areas" :key="index">
-        <md-list-item
-          :class="{selected: area.id === areaSelected.id, selectable: area.id !== areaSelected.id}"
-        >
-          <div v-if="area.name" class="md-list-item-text" @click="select(area)">
+        <md-list-item :class="area | listItemClass">
+          <div v-if="!!area.name" class="md-list-item-text" @click="select(area)">
             <span>{{area.name}}</span>
           </div>
 
@@ -17,11 +15,7 @@
             </md-button>
           </md-field>
 
-          <md-button
-            v-if="area.deletable === 1"
-            class="md-icon-button delete-button md-accent"
-            @click="deleteAreaDialogActive = true; selectedDeleteArea = area"
-          >
+          <md-button v-if="area | canBeDeleted" class="md-icon-button delete-button md-accent" @click="requestDelete(area)">
             <md-icon>delete_forever</md-icon>
           </md-button>
         </md-list-item>
@@ -30,11 +24,7 @@
       </div>
     </md-list>
 
-    <md-button
-      class="md-icon-button md-raised add-button md-primary"
-      @click="addArea"
-      :disabled="adding"
-    >
+    <md-button class="md-icon-button md-raised add-button md-primary" @click="addArea" :disabled="adding">
       <md-icon>add</md-icon>
     </md-button>
 
@@ -53,10 +43,10 @@
 export default {
   name: "AreaListView",
   data: () => ({
-    newAreaName: null,
     adding: false,
     deleteAreaDialogActive: false,
-    selectedDeleteArea: null
+    newAreaName: undefined,
+    selectedDeleteArea: undefined
   }),
   computed: {
     areas() {
@@ -67,15 +57,22 @@ export default {
     }
   },
   methods: {
-    select(area) {
-      if (!this.adding) {
-        this.$store.dispatch("selectArea", area);
-      }
-    },
     addArea() {
       if (!this.adding) {
         this.$store.dispatch("addArea");
         this.adding = true;
+      }
+    },
+    onDeleteYes() {
+      this.$store.dispatch("deleteArea", this.selectedDeleteArea);
+    },
+    requestDelete(area) {
+      this.selectedDeleteArea = area;
+      this.deleteAreaDialogActive = true;
+    },
+    select(area) {
+      if (!this.adding) {
+        this.$store.dispatch("selectArea", area);
       }
     },
     updateArea(area) {
@@ -89,9 +86,14 @@ export default {
         this.newAreaName = "";
         this.adding = false;
       }
+    }
+  },
+  filters: {
+    canBeDeleted: function(area) {
+      return area.deletable === 1;
     },
-    onDeleteYes() {
-      this.$store.dispatch("deleteArea", this.selectedDeleteArea);
+    listItemClass: function(area) {
+      return area.id === this.areaSelected.id ? "selected" : "selectable";
     }
   }
 };

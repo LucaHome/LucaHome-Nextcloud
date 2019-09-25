@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import { generateUrl } from 'nextcloud-server/dist/router';
-import WirelessControl from '../views/WirelessControl';
+import WirelessControl from '@views/WirelessControl';
 
 Vue.use(Router)
 

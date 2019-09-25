@@ -12,7 +12,7 @@
               <div class="md-layout-item md-small-size-100">
                 <md-field :class="getValidationClass('name')">
                   <label for="name">Name</label>
-                  <md-input name="name" id="name" v-model="form.name" :disabled="sending"/>
+                  <md-input name="name" id="name" v-model="form.name" :disabled="sending" />
                   <span class="md-error" v-if="!$v.form.name.required">The name is required</span>
                   <span class="md-error" v-else-if="!$v.form.name.minlength">Invalid name length</span>
                 </md-field>
@@ -21,23 +21,17 @@
               <div class="md-layout-item md-small-size-100">
                 <md-field :class="getValidationClass('code')">
                   <label for="code">Code</label>
-                  <md-input name="code" id="code" v-model="form.code" :disabled="sending"/>
+                  <md-input name="code" id="code" v-model="form.code" :disabled="sending" />
                   <span class="md-error" v-if="!$v.form.code.required">The code is required</span>
-                  <span
-                    class="md-error"
-                    v-else-if="!$v.form.code.minlength"
-                  >Invalid code length (too short)</span>
-                  <span
-                    class="md-error"
-                    v-else-if="!$v.form.code.maxlength"
-                  >Invalid code length (too long)</span>
+                  <span class="md-error" v-else-if="!$v.form.code.minlength">Invalid code length (too short)</span>
+                  <span class="md-error" v-else-if="!$v.form.code.maxlength">Invalid code length (too long)</span>
                 </md-field>
               </div>
 
               <div class="md-layout-item md-small-size-100">
                 <md-field :class="getValidationClass('area')">
                   <label for="area">Area</label>
-                  <md-input name="area" id="area" v-model="form.area" :disabled="sending"/>
+                  <md-input name="area" id="area" v-model="form.area" :disabled="sending" />
                   <span class="md-error" v-if="!$v.form.area.required">The area is required</span>
                   <span class="md-error" v-else-if="!$v.form.area.minlength">Invalid area length</span>
                 </md-field>
@@ -47,49 +41,33 @@
             <div class="md-layout-item md-small-size-100">
               <md-field>
                 <label for="description">Description</label>
-                <md-input
-                  name="description"
-                  id="description"
-                  v-model="form.description"
-                  :disabled="sending"
-                />
+                <md-input name="description" id="description" v-model="form.description" :disabled="sending"/>
               </md-field>
             </div>
 
             <div class="md-layout-item md-small-size-100">
               <md-field>
                 <label for="icon">Icon</label>
-                <md-input name="icon" id="icon" v-model="form.icon" :disabled="sending"/>
-                <i :class="form.icon"/>
+                <md-input name="icon" id="icon" v-model="form.icon" :disabled="sending" />
+                <i :class="form.icon" />
               </md-field>
-              <a
-                href="https://fontawesome.com/icons?d=gallery&m=free"
-                target="_"
-              >Get Icons from here</a>
+              <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_">Get Icons from here</a>
             </div>
           </div>
         </md-card-content>
 
-        <md-progress-bar md-mode="indeterminate" v-if="sending"/>
+        <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
           <md-button class="md-primary" @click="showPeriodicTasks()">Periodic Tasks</md-button>
         </md-card-actions>
 
         <md-card-actions>
-          <md-button
-            type="submit"
-            class="md-primary"
-            :disabled="sending || !hasChanges()"
-          >Save wireless socket</md-button>
+          <md-button type="submit" class="md-primary" :disabled="sending || !hasChanges()" >Save wireless socket</md-button>
         </md-card-actions>
 
-        <md-card-actions v-if="wirelessSocketSelected.deletable === 1">
-          <md-button
-            class="md-accent"
-            :disabled="sending || hasChanges()"
-            @click="deleteWirelessSocketDialogActive = true"
-          >Delete wireless socket</md-button>
+        <md-card-actions v-if="wirelessSocketSelected | canBeDeleted">
+          <md-button class="md-accent" :disabled="sending || hasChanges()" @click="deleteWirelessSocketDialogActive = true">Delete wireless socket</md-button>
         </md-card-actions>
       </md-card>
 
@@ -116,12 +94,12 @@ export default {
   mixins: [validationMixin],
   data: () => ({
     form: {
-      name: null,
-      code: null,
-      area: null,
+      name: undefined,
+      code: undefined,
+      area: undefined,
       state: false,
-      description: null,
-      icon: null
+      description: undefined,
+      icon: undefined
     },
     saved: false,
     sending: false,
@@ -152,17 +130,29 @@ export default {
     }
   },
   methods: {
-    getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
-      if (field) {
-        return {
-          "md-invalid": field.$invalid && field.$dirty
-        };
-      }
-    },
     clearForm() {
       this.$v.$reset();
       this.setFormData(this.wirelessSocketSelected);
+    },
+    getValidationClass(fieldName) {
+      const field = this.$v.form[fieldName];
+      if (!!field) {
+        return { "md-invalid": field.$invalid && field.$dirty };
+      }
+    },
+    hasChanges() {
+      const hasChanges = this.form.name !== this.wirelessSocketSelected.name 
+        || this.form.code !== this.wirelessSocketSelected.code 
+        || this.form.area !== this.wirelessSocketSelected.area 
+        || this.form.description !== this.wirelessSocketSelected.description 
+        || this.form.icon !== this.wirelessSocketSelected.icon;
+
+      this.$store.dispatch("setWirelessSocketInEdit", hasChanges);
+
+      return hasChanges;
+    },
+    onDeleteYes() {
+      this.$store.dispatch("deleteWirelessSocket", this.wirelessSocketSelected);
     },
     save() {
       this.sending = true;
@@ -182,17 +172,8 @@ export default {
       this.sending = false;
       this.clearForm();
     },
-    onDeleteYes() {
-      this.$store.dispatch("deleteWirelessSocket", this.wirelessSocketSelected);
-    },
-    validate() {
-      this.$v.$touch();
-      if (!this.$v.$invalid) {
-        this.save();
-      }
-    },
     setFormData(wirelessSocket) {
-      if (wirelessSocket) {
+      if (!!wirelessSocket) {
         this.form.name = wirelessSocket.name;
         this.form.code = wirelessSocket.code;
         this.form.area = wirelessSocket.area;
@@ -206,20 +187,14 @@ export default {
         this.form.icon = null;
       }
     },
-    hasChanges() {
-      const hasChanges =
-        this.form.name !== this.wirelessSocketSelected.name ||
-        this.form.code !== this.wirelessSocketSelected.code ||
-        this.form.area !== this.wirelessSocketSelected.area ||
-        this.form.description !== this.wirelessSocketSelected.description ||
-        this.form.icon !== this.wirelessSocketSelected.icon;
-
-      this.$store.dispatch("setWirelessSocketInEdit", hasChanges);
-
-      return hasChanges;
-    },
     showPeriodicTasks() {
       this.$emit("showPeriodicTasks");
+    },
+    validate() {
+      this.$v.$touch();
+      if (!this.$v.$invalid) {
+        this.save();
+      }
     }
   },
   watch: {
@@ -236,6 +211,11 @@ export default {
     },
     wirelessSocketSelected() {
       return this.$store.getters.wirelessSocketSelected;
+    }
+  },
+  filters: {
+    canBeDeleted: function(wirelessSocket) {
+      return wirelessSocket.deletable === 1;
     }
   }
 };

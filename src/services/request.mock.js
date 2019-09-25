@@ -1,4 +1,5 @@
-var areaList = [{
+var areaList = [
+	{
 		id: 1,
 		filter: 'Sleeping Room',
 		name: 'Sleeping Room'
@@ -20,14 +21,17 @@ var areaList = [{
 	}
 ]
 
-var wirelessSocketList = [{
+var wirelessSocketList = [
+	{
 		id: 0,
 		icon: 'fas fa-lightbulb',
 		name: 'Light Sleeping',
 		area: 'Sleeping Room',
 		code: '11010A',
 		state: false,
-		description: ''
+		description: '',
+		lastToggled: 1569438706,
+		group: 'Couple'
 	},
 	{
 		id: 1,
@@ -36,7 +40,9 @@ var wirelessSocketList = [{
 		area: 'Living Room',
 		code: '11010B',
 		state: false,
-		description: ''
+		description: '',
+		lastToggled: 1569438706,
+		group: ''
 	},
 	{
 		id: 2,
@@ -45,7 +51,9 @@ var wirelessSocketList = [{
 		area: 'Living Room',
 		code: '11010C',
 		state: false,
-		description: ''
+		description: '',
+		lastToggled: 1569438706,
+		group: ''
 	},
 	{
 		id: 3,
@@ -54,7 +62,9 @@ var wirelessSocketList = [{
 		area: 'Living Room',
 		code: '11010D',
 		state: true,
-		description: ''
+		description: '',
+		lastToggled: 1569438706,
+		group: ''
 	},
 	{
 		id: 4,
@@ -63,7 +73,9 @@ var wirelessSocketList = [{
 		area: 'Working Room',
 		code: '11010E',
 		state: false,
-		description: ''
+		description: '',
+		lastToggled: 1569438706,
+		group: 'Restricted'
 	},
 	{
 		id: 5,
@@ -72,7 +84,9 @@ var wirelessSocketList = [{
 		area: 'Kitchen',
 		code: '11011A',
 		state: true,
-		description: ''
+		description: '',
+		lastToggled: 1569438706,
+		group: ''
 	},
 	{
 		id: 6,
@@ -81,7 +95,9 @@ var wirelessSocketList = [{
 		area: 'Living Room',
 		code: '11000A',
 		state: false,
-		description: ''
+		description: '',
+		lastToggled: 1569438706,
+		group: ''
 	}
 ]
 
@@ -129,8 +145,7 @@ var putMock = (url, data) => {
 	}
 }
 
-// eslint-disable-next-line
-var postDeleteMock = (url, data) => {
+var postDeleteMock = (url, _) => {
 	if (url.includes('area')) {
 		return Promise.resolve({
 			message: null,

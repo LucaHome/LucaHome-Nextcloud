@@ -2,32 +2,25 @@
   <div>
     <md-list class="md-triple-line">
       <div v-for="(wirelessSocket, index) in wirelessSocketsForArea" :key="index">
-        <md-list-item
-          @click="select(wirelessSocket)"
-          :class="{selected: wirelessSocket.id === wirelessSocketSelected.id, selectable: wirelessSocket.id !== wirelessSocketSelected.id}"
-        >
+        <md-list-item @click="select(wirelessSocket)" :class="wirelessSocket | listItemClass">
           <md-avatar>
-            <i :class="wirelessSocket.icon"/>
+            <i :class="wirelessSocket.icon" />
           </md-avatar>
 
           <div class="md-list-item-text">
             <span>{{ wirelessSocket.name }}</span>
             <span>{{ wirelessSocket.area }}</span>
             <p>{{ wirelessSocket.code }}</p>
+            <p>{{ wirelessSocket | lastToggledText }}</p>
+            <p>{{ wirelessSocket.group }}</p>
           </div>
 
-          <md-button
-            v-if="!!wirelessSocket.code"
-            class="md-icon-button md-raised"
-            @click="toggleState(wirelessSocket)"
-          >
-            <i
-              :class="{'fas fa-toggle-on wc-color-secondary': wirelessSocket.state === 1, 'fas fa-toggle-off wc-color-primary': wirelessSocket.state === 0}"
-            />
+          <md-button v-if="!!wirelessSocket.code" class="md-icon-button md-raised" @click="toggleState(wirelessSocket)">
+            <i :class="wirelessSocket | stateItemClass" />
           </md-button>
         </md-list-item>
 
-        <md-divider class="md-inset"/>
+        <md-divider class="md-inset" />
       </div>
     </md-list>
 
@@ -48,22 +41,14 @@ export default {
       var areaSelected = this.$store.getters.areaSelected;
 
       var wirelessSocketsForArea =
-        areaSelected !== null
+        !!areaSelected
           ? areaSelected.filter === ""
             ? wirelessSockets
             : wirelessSockets.filter(x => x.area === areaSelected.filter)
           : [];
 
-      if (
-        !wirelessSocketInEdit &&
-        (!wirelessSocketSelected ||
-          wirelessSocketsForArea.filter(x => x.id == wirelessSocketSelected.id)
-            .length === 0)
-      ) {
-        this.$store.dispatch(
-          "selectWirelessSocket",
-          wirelessSocketsForArea.length === 0 ? null : wirelessSocketsForArea[0]
-        );
+      if (!wirelessSocketInEdit && (!wirelessSocketSelected || wirelessSocketsForArea.filter(x => x.id == wirelessSocketSelected.id).length === 0)) {
+        this.$store.dispatch("selectWirelessSocket",  wirelessSocketsForArea.length === 0 ? null : wirelessSocketsForArea[0]);
       }
 
       return wirelessSocketsForArea;
@@ -77,14 +62,24 @@ export default {
       this.$store.dispatch("selectWirelessSocket", wirelessSocket);
     },
     addWirelessSocket() {
-      this.$store.dispatch(
-        "addWirelessSocket",
-        this.$store.getters.areaSelected.name
-      );
+      this.$store.dispatch("addWirelessSocket", this.$store.getters.areaSelected.name);
     },
     toggleState(wirelessSocket) {
       wirelessSocket.state = wirelessSocket.state === 1 ? 0 : 1;
       this.$store.dispatch("updateWirelessSocket", wirelessSocket);
+    }
+  },
+  filters: {
+    lastToggledText: function(wirelessSocket) {
+      var date = new Date(0);
+      date.setUTCSeconds(wirelessSocket.lastToggled);
+      return date.toLocaleString();
+    },
+    listItemClass: function(wirelessSocket) {
+      return wirelessSocket.id === this.wirelessSocketSelected.id ? "selected" : "selectable";
+    },
+    stateItemClass: function(wirelessSocket) {
+      return wirelessSocket.state === 1 ? "fas fa-toggle-on wc-color-secondary" : "fas fa-toggle-off wc-color-primary";
     }
   }
 };
