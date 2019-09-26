@@ -16,6 +16,6 @@ export const convertPeriodicTaskLoadResponse = (jsonResponse) => JSON.parse(json
         : value);
 
 export const convertWirelessSocketLoadResponse = (jsonResponse) => JSON.parse(jsonResponse,
-    (key, value) => (key === 'id' || key === 'state' || key === 'deletable')
+    (key, value) => (key === 'id' || key === 'state' || key === 'deletable' || key === 'lastToggled')
         ? Number(value)
         : value);
