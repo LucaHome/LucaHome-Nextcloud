@@ -71,9 +71,7 @@ export default {
   },
   filters: {
     lastToggledText: function(wirelessSocket) {
-      var date = new Date(0);
-      date.setUTCSeconds(wirelessSocket.lastToggled);
-      return date.toLocaleString();
+      return new Date(wirelessSocket.lastToggled).toLocaleString();
     },
     listItemClass: function(wirelessSocket) {
       return wirelessSocket.id === this.wirelessSocketSelected.id ? "selected" : "selectable";
