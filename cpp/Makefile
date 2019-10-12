@@ -11,10 +11,9 @@ $(APP): $(SOURCE)
 clean:
 	rm -fv ./bin/*
 	update-rc.d -f wirelesscontrol remove
-	rm -fv /etc/init.d/wirelesscontrol/
+	rm -fv /etc/init.d/wirelesscontrol
 	rm -fv /bin/wirelesscontrol
 
 install:
-	cp ./bin/wirelesscontrol /bin/wirelesscontrol
-	cp ./init/wirelesscontrol /etc/init.d
+	cp ./bin/wirelesscontrol /etc/init.d
 	update-rc.d wirelesscontrol defaults
