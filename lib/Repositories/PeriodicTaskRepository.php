@@ -49,7 +49,7 @@ class PeriodicTaskRepository implements IPeriodicTaskRepository
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
-			->from('wireless_control_periodic_tasks');
+			->from('wc_ptasks');
 		$periodicTasks = $qb->execute()->fetchAll();
 		return $periodicTasks;
 	}
@@ -66,7 +66,7 @@ class PeriodicTaskRepository implements IPeriodicTaskRepository
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
-			->from('wireless_control_periodic_tasks')
+			->from('wc_ptasks')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 		$periodicTasks = $qb->execute()->fetchAll();
 		return reset($periodicTasks);
@@ -83,7 +83,7 @@ class PeriodicTaskRepository implements IPeriodicTaskRepository
 
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->insert('wireless_control_periodic_tasks')
+			->insert('wc_ptasks')
 			->values([
 				'name' => $qb->createNamedParameter(trim($periodicTask->getName())),
 				'wirelessSocketId' => $qb->createNamedParameter($periodicTask->getWirelessSocketId()),
@@ -120,7 +120,7 @@ class PeriodicTaskRepository implements IPeriodicTaskRepository
 
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->update('wireless_control_periodic_tasks')
+			->update('wc_ptasks')
 			->set('name', $qb->createNamedParameter(trim($periodicTask->getName())))
 			->set('wirelessSocketId', $qb->createNamedParameter($periodicTask->getWirelessSocketId()))
 			->set('wirelessSocketState', $qb->createNamedParameter($periodicTask->getWirelessSocketState()))
@@ -150,7 +150,7 @@ class PeriodicTaskRepository implements IPeriodicTaskRepository
 
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->delete('wireless_control_periodic_tasks')
+			->delete('wc_ptasks')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
 		if ($qb->execute() === 0) {
@@ -172,7 +172,7 @@ class PeriodicTaskRepository implements IPeriodicTaskRepository
 
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->delete('wireless_control_periodic_tasks')
+			->delete('wc_ptasks')
 			->where($qb->expr()->eq('wirelessSocketId', $qb->createNamedParameter($wirelessSocketId)));
 		$qb->execute();
 

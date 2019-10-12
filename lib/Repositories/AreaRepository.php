@@ -49,7 +49,7 @@ class AreaRepository implements IAreaRepository
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
-			->from('wireless_control_areas');
+			->from('wc_areas');
 		$areas = $qb->execute()->fetchAll();
 		return $areas;
 	}
@@ -66,7 +66,7 @@ class AreaRepository implements IAreaRepository
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
-			->from('wireless_control_areas')
+			->from('wc_areas')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 		$areas = $qb->execute()->fetchAll();
 		return reset($areas);
@@ -83,7 +83,7 @@ class AreaRepository implements IAreaRepository
 
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->insert('wireless_control_areas')
+			->insert('wc_areas')
 			->values([
 				'name' => $qb->createNamedParameter(trim($area->getName())),
 				'filter' => $qb->createNamedParameter(trim($area->getFilter())),
@@ -115,7 +115,7 @@ class AreaRepository implements IAreaRepository
 
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->update('wireless_control_areas')
+			->update('wc_areas')
 			->set('name', $qb->createNamedParameter(trim($area->getName())))
 			->set('filter', $qb->createNamedParameter(trim($area->getFilter())))
 			->set('deletable', $qb->createNamedParameter($area->getDeletable()))
@@ -141,7 +141,7 @@ class AreaRepository implements IAreaRepository
 
 		$qb = $this->db->getQueryBuilder();
 		$qb
-			->delete('wireless_control_areas')
+			->delete('wc_areas')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('deletable', $qb->createNamedParameter($deletable)));
 
