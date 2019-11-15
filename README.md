@@ -82,6 +82,11 @@ or:
 
 for integration tests
 
+## Contributors
+
+| [<img alt="JonasSchubert" src="https://avatars0.githubusercontent.com/u/21952813?v=4&s=117" width="117"/>](https://github.com/JonasSchubert) |
+| :---------------------------------------------------------------------------------------------------------------------------------------: |
+| [Jonas Schubert](https://github.com/JonasSchubert) |
 
 ## License
 
